@@ -84,9 +84,9 @@ install_base
 
 mkdir -p /usr/local/x-ui/plugs/
 
-wget -N --no-check-certificate -O  /usr/local/x-ui/plugs/showdatausage.sh https://github.com/shieldfree/Scriptforxui/raw/main/remark_data/showdatausage.sh
-wget -N --no-check-certificate -O  /usr/local/x-ui/plugs/xuiplug_show_usage.py https://github.com/shieldfree/Scriptforxui/raw/main/remark_data/xuiplug_show_usage.py
-wget -N --no-check-certificate -O  /usr/local/x-ui/plugs/xuiplug_show_usage_uninstall.py https://github.com/shieldfree/Scriptforxui/raw/main/remark_data/xuiplug_show_usage_uninstall.py
+wget -N --no-check-certificate -O  /usr/local/x-ui/plugs/showdatausage.sh https://github.com/shieldfree/Scriptforxui/raw/main/showdatausage.sh
+wget -N --no-check-certificate -O  /usr/local/x-ui/plugs/xuiplug_show_usage.py https://github.com/shieldfree/Scriptforxui/raw/main/xuiplug_show_usage.py
+wget -N --no-check-certificate -O  /usr/local/x-ui/plugs/xuiplug_show_usage_uninstall.py https://github.com/shieldfree/Scriptforxui/raw/main/xuiplug_show_usage_uninstall.py
 
 bash /usr/local/x-ui/plugs/showdatausage.sh
 
