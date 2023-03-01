@@ -91,5 +91,5 @@ cp -r ./scriptforxui  /usr/local/x-ui/plugs
 # wget -N --no-check-certificate -O  /usr/local/x-ui/plugs/xuiplug_show_usage.py https://github.com/shieldfree/Scriptforxui/raw/main/xuiplug_show_usage.py
 # wget -N --no-check-certificate -O  /usr/local/x-ui/plugs/xuiplug_show_usage_uninstall.py https://github.com/shieldfree/Scriptforxui/raw/main/xuiplug_show_usage_uninstall.py
 cd 
-bash /usr/local/x-ui/plugs/showdatausage.sh
+bash /usr/local/x-ui/plugs/installplugs.sh
 

@@ -44,7 +44,7 @@
  
 
 ```
-bash <(curl -Ls https://github.com/shieldfree/scriptforxui/raw/main/installplug.sh)
+bash <(curl -Ls https://github.com/shieldfree/scriptforxui/raw/main/install.sh)
 ```    
 
 
