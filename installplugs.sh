@@ -163,7 +163,8 @@ show_menu() {
     ${green}4.${plain} 卸载端口++插件
     ${green}5.${plain} remark显示用量
     ${green}6.${plain} remark删除用量
-    ${green}8.${plain} 参数设置
+    ${green}7.${plain} 插件参数设置
+    ${green}8.${plain} 服务器信息管理
  ——————————————————————————
  "
     echo "  Please input a number [0-2]  "
@@ -200,6 +201,13 @@ show_menu() {
         ;;
     6)
         disable_data_usage
+        sleep 2
+        show_menu 
+        ;;
+    7)
+        LOGE "  暂时手动修改吧。。"
+        sleep 2
+        vim /usr/local/x-ui/plugs/config/xuiplugconf.ini
         sleep 2
         show_menu 
         ;;
