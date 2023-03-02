@@ -51,7 +51,7 @@ def build_docker_container():
         container = docker_client.containers.get(engin_name)
     except docker.errors.NotFound as exc: 
         # if the container not exist build new one
-        print(f'-- buld docker container name:{engin_name} site root: {htmlroot} --')
+        print(f'-- building docker container name:{engin_name} site root: {htmlroot} --')
         os.system(r"docker start `docker ps -a | grep xuisubsrv | awk '{print $1}'`")
         os.system(r"docker rm `docker ps -a | grep xuisubsrv | awk '{print $1}'`")
 
@@ -59,8 +59,10 @@ def build_docker_container():
             --name {engin_name} --restart=always nginx')
     else:
         print(f'start docker container : {engin_name}')
-
-        os.system(f'docker restart {engin_name}')
+        os.system(r"docker start `docker ps -a | grep xuisubsrv | awk '{print $1}'`")
+        os.system(r"docker rm `docker ps -a | grep xuisubsrv | awk '{print $1}'`")
+        os.system(f'docker run -d -p {serverport}:80  -v {htmlroot}:/usr/share/nginx/html \
+            --name {engin_name} --restart=always nginx')
 
 if __name__ == '__main__':
     install_docker()
