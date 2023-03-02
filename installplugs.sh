@@ -223,8 +223,8 @@ show_menu() {
         show_menu 
         ;;
     2)
-        docker stop `docker ps -a | grep xuisubsrv | awk '{print $1}'`"
-        docker rm `docker ps -a | grep xuisubsrv | awk '{print $1}'`"
+        docker stop  `docker ps -a | grep xuisubsrv | awk '{print $1}'`
+        docker rm  `docker ps -a | grep xuisubsrv | awk '{print $1}'`
         disable_subscription_links
         
         sleep 1
