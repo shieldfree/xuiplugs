@@ -82,7 +82,7 @@ install_base() {
 
 install_base
 
-mkdir -p /usr/local/x-ui/plugs/
+# mkdir -p /usr/local/x-ui/plugs/
 rm -rf  ./scriptforxui
 git clone https://github.com/shieldfree/scriptforxui
 cp ./scriptforxui/installplugs.sh  ./installplugs.sh
