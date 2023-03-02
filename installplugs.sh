@@ -209,8 +209,8 @@ show_menu() {
     ${green}8.${plain} 服务器信息管理
  ——————————————————————————
  "
-    echo "  Please input a number [0-2]  "
-    echo && read -p "  请输入选择 [0-2]  :" num
+    echo "  Please input a number [0-8]  "
+    echo && read -p "  请输入选择 [0-8]  :" num
 
     case "${num}" in
     0)
@@ -264,8 +264,8 @@ show_menu() {
         ;;
     *)
         clear
-        LOGE "  请输入正确的数字 [0-2] : "
-        LOGE "  Please input correct number [0-2]  :"
+        LOGE "  请输入正确的数字 [0-8] : "
+        LOGE "  Please input correct number [0-8]  :"
         sleep 1
         show_menu 
         ;;
