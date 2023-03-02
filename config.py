@@ -84,7 +84,7 @@ def show_all_servers():
     print('=' * 80)
     for server_no in server_list:
         domain,username,password = get_server_info(server_no)
-        print(f'{server_no}号服务器:  | 域名:{domain:<20} | 用户名:{username:<10} | 密码:{password:<20}')
+        print(f'Server{server_no:>1}| domain:{domain:<20}| User:{username:<6}| Pw:{password:<10}')
         print('-' * 80)
 
 def add_server(new_no):
