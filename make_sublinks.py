@@ -512,6 +512,7 @@ if __name__ == '__main__':
     make_sub_file(subscription_list,linkdict)
     print('http://'+ servers[0][0] + '/' + subscription_list[0][0])
     make_default_homepage()
+    os.system("docker restart `docker ps -a  | grep xuisubsrv | awk '{print $1}'`")
 
     # # for test
     # get_servers()

@@ -175,7 +175,7 @@ show_menu() {
         exit 0
         ;;
     1)
-        check_install && echo "comming soon.."
+        check_install && python3 /usr/local/x-ui/plugs/subserver.py
         sleep 1
         show_menu 
         ;;
