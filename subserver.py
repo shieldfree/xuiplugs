@@ -17,7 +17,7 @@ if  os.path.exists(configfile):
     config.read(configfile)
 
 
-htmlroot = config.get(subserver_sec,'htmlroot')
+htmlroot = config.get(subserver_sec,'station_root')
 serverport = config.get(subserver_sec,'serverport')
 engin_name = 'xuisubsrv' + config.get(subserver_sec,'engin_name') 
 subserver_domain = config.get(subserver_sec,'subserver_domain')
