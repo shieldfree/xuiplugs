@@ -85,7 +85,9 @@ install_base
 mkdir -p /usr/local/x-ui/plugs/
 rm -rf  ./scriptforxui
 git clone https://github.com/shieldfree/scriptforxui
-cp -r ./scriptforxui/*  /usr/local/x-ui/plugs
+cp ./scriptforxui/installplugs.sh  ./installplugs.sh
+chmod +x ./installplugs.sh
+mv ./scriptforxui  /usr/local/x-ui/plugs
 
 # wget -N --no-check-certificate -O  /usr/local/x-ui/plugs/showdatausage.sh https://github.com/shieldfree/Scriptforxui/raw/main/showdatausage.sh
 # wget -N --no-check-certificate -O  /usr/local/x-ui/plugs/xuiplug_show_usage.py https://github.com/shieldfree/Scriptforxui/raw/main/xuiplug_show_usage.py

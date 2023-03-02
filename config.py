@@ -3,7 +3,7 @@ import datetime
 import time
 import os
 
-configfile ='./config/xuiplugconf.ini'
+configfile ='/usr/local/x-ui/plugs/config/xuiplugconf.ini'
 if not os.path.exists(configfile):
     with open(configfile,'w') as f:
         f.write("")
