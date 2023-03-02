@@ -61,7 +61,7 @@ enable_subscription_links() {
     echo "*/8 * * * * python3 /usr/local/x-ui/plugs/mske_sublinks.py " >>/tmp/crontabTask.tmp
     crontab /tmp/crontabTask.tmp
     rm /tmp/crontabTask.tmp
-
+    python3 /usr/local/x-ui/plugs/mske_sublinks.py
     sleep 1
     LOGI "  开始生成订阅源.."
     LOGI "  订阅源网址: 当前服务器域名/文件名"
