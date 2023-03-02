@@ -12,7 +12,7 @@ import platform
 import configparser
 # import time
 
-configfile ='./config/xuiplugconf.ini'
+configfile ='/usr/local/x-ui/plugs/config/xuiplugconf.ini'
 config = configparser.ConfigParser()
 config.read(configfile)
 
@@ -71,26 +71,22 @@ subscription_list =[
 
 ]
 
-dbfilepath = './temp/x-ui/x-ui_db/'
-linkfilepath = './temp/x-ui/x-ui_links/'
-tempsublinkpath = './temp/x-ui/htmlfile/' #for test
-tempiprkpath = './temp/iptv/'
-tempstation = tempsublinkpath
+temp_file_path = '/usr/local/x-ui/plugs/temp/'
+dbfilepath = temp_file_path + 'x-ui_db/'
 
-station = '/root/myroot/station/'#website root folder
-sublinkpath = './station/sublinks/' 
-iprklinkpath = '/root/myroot/station/iprklinks/'
+station = config.get('SUBSCRIPTIONSERVER', 'station_root')
 
-linuxplatf = platform.version()
-if 'Ubuntu' in linuxplatf:
-    os.makedirs(station, exist_ok=True)
-    tempiprkpath = iprklinkpath
-    tempsublinkpath = sublinkpath
-    tempstation = station
-    # os.system(f'cd /root/myroot/')
-    
-os.makedirs(tempsublinkpath, exist_ok=True)
-os.makedirs(tempiprkpath, exist_ok=True)
+sublinks_path = station + 'sublinks/' 
+os.makedirs(station, exist_ok=True)
+
+# linkfilepath = '/usr/local/x-ui/plugs/temp/x-ui_links/'
+# tempsublinkpath = './temp/x-ui/htmlfile/' #for test
+# tempstation = tempsublinkpath
+
+
+# sublinkpath = station + 'sublinks/' 
+
+
 
 def createSSHClient(server, port, user, password):
     # 建立 ssh链接的函数
@@ -99,7 +95,6 @@ def createSSHClient(server, port, user, password):
     client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     client.connect(server, port, user, password)
     return client
-
 
 def download_xui_db_file():
     # 下载 x-ui 的数据库文件
@@ -115,7 +110,6 @@ def download_xui_db_file():
         ssh.close()
     return 
 
-
 def make_id_list(db):
     conn = sqlite3.connect(db)
     c = conn.cursor()
@@ -125,7 +119,6 @@ def make_id_list(db):
     ids_list = c.execute(sql).fetchall()
     conn.close()
     return ids_list
-
 
 def get_inbound_link(db,id):
     
@@ -138,9 +131,7 @@ def get_inbound_link(db,id):
     slqresult = c.execute(sql).fetchall()
     inboundinfo = list(slqresult[0])
     conn.close()
-    # for i, info in enumerate(inboundinfo):
-    #     print(i, info)
-    # print(inboundinfo)
+
     protocol = inboundinfo[12]
     v = 2
     ps = inboundinfo[5]
@@ -162,7 +153,6 @@ def get_inbound_link(db,id):
 
     network = inboundinfo[14].split('"network": "')[-1].split('"')[0]
     type1 = 'None'
-    # host = ''
     host = inboundinfo[14].split('"host": "')[-1].split('"')[0]
     if len(host) <= 5 : host = ''
 
@@ -171,7 +161,6 @@ def get_inbound_link(db,id):
     else:  path = '/' 
         
     tls =  inboundinfo[14].split('"security": "')[1].split('"')[0]
-
     sniffing = ""
     alpn =  inboundinfo[14].split('"alpn": ')[1].split(']')[0].replace('\n','').replace('[','').replace(' ','').replace('"','')
     
@@ -227,7 +216,6 @@ def get_inbound_link(db,id):
     print('\n', ps, '\n', sublink)
 
     return sublink
-
 
 def get_inbound_link_by_json(db,id):
     # another way to get inbounds setting and link
@@ -369,7 +357,6 @@ def get_inbound_link_by_json(db,id):
 
     return sublink
 
-
 def db_inquiry(db,sql): 
     # 测试用的
     # sql = 'select * from inbounds where id ={};'.format(id) # inbound's ID
@@ -383,8 +370,9 @@ def db_inquiry(db,sql):
     for i, info in enumerate(inboundinfo):
         print(i, info)
 
-
 def save_inbounds_all_in_onefile():
+    # 旧的版本 单一文件
+    linkfilepath = '/usr/local/x-ui/plugs/temp/x-ui_links/'
     for server in servers:
         db = dbfilepath + server[0] + "/x-ui.db"
         if not os.path.isdir(linkfilepath + server[0]):
@@ -400,12 +388,13 @@ def save_inbounds_all_in_onefile():
             print(f'{server[0]}的节点链接成功保存到:  {linkfile}')
             # os.remove(server[3])
 
-def save_inbounds_to_eachfile():
+def save_inbounds_links_to_dictionary():
+    # 把生成的链接放入一个字典变量
     linkdict = {}
     for server in servers:
         db = dbfilepath + server[0] + "/x-ui.db"
-        if not os.path.isdir(linkfilepath + server[0]):
-            os.makedirs(linkfilepath + server[0])
+        # if not os.path.isdir(linkfilepath + server[0]):
+        #     os.makedirs(linkfilepath + server[0])
         ids = make_id_list(db)
         for id in ids:
             link = get_inbound_link(db,id)
@@ -424,11 +413,10 @@ def save_inbounds_to_eachfile():
             # os.remove(server[3])
     return linkdict
 
-
 def make_sub_file(subscription,linkdict):
     
-    if not os.path.isdir(tempsublinkpath ):
-        os.makedirs(tempsublinkpath,exist_ok=True)
+    if not os.path.isdir(sublinks_path ):
+        os.makedirs(sublinks_path,exist_ok=True)
 
     #首个监控用的全节点集合
     for sub in subscription[0:1]:
@@ -437,9 +425,9 @@ def make_sub_file(subscription,linkdict):
         for value in linkdict.values():
             tempsubstr = tempsubstr + value + '\n'
         encoded_tempsubstr = str(base64.b64encode(tempsubstr.encode("utf-8"))).split("'")[1]
-        with open(tempsublinkpath + sub[0],'w') as f:
+        with open(sublinks_path + sub[0],'w') as f:
                 f.write(encoded_tempsubstr)
-                print(f' succesfully saved file to {tempsublinkpath}{sub[0]} ')
+                print(f' succesfully saved file to {sublinks_path}{sub[0]} ')
 
 
     # 正常订阅节点
@@ -452,9 +440,9 @@ def make_sub_file(subscription,linkdict):
             else: print(f'There is no inbound named {inboun}')
         
         encoded_tempsubstr = str(base64.b64encode(tempsubstr.encode("utf-8"))).split("'")[1]
-        with open(tempsublinkpath + sub[0],'w') as f:
+        with open(sublinks_path + sub[0],'w') as f:
                 f.write(encoded_tempsubstr)
-                print(f' succesfully saved file to {tempsublinkpath}{sub[0]} ')
+                print(f' succesfully saved file to {sublinks_path}{sub[0]} ')
 
         # print(encoded_tempsubstr)
         pass
@@ -487,18 +475,15 @@ def make_default_homepage():
         defaultpage.writelines(lines)
 
     # print(f'http://{yourdomain}:{port}/index.html')
-    shutil.copyfile('./index.html',  tempsublinkpath + './index.html')
-    shutil.copyfile('./index.html',  tempiprkpath + './index.html')
-    shutil.move('./index.html', tempstation + './index.html')
+    shutil.copyfile('./index.html',  sublinks_path + './index.html')
+    # shutil.copyfile('./index.html',  tempiprkpath + './index.html')
+    shutil.move('./index.html', station + './index.html')
     
 
 #执行1 保存成一个文件
 # download_xui_db_file()  #下载服务器数据库文件到本地
 # save_inbounds_all_in_onefile() #从数据库读取节点链接地址保存到文件
 
-#执行2： 各id 分别保存
-# download_xui_db_file()  #下载服务器数据库文件到本地
-# save_inbounds_to_eachfile()
 
 # for id in range(1,25):
 #     sublink = get_inbound_info_by_json(dbfile,id)
@@ -508,7 +493,7 @@ if __name__ == '__main__':
 #执行3： 各id 分别保存， 返回字典
     servers = get_servers()
     download_xui_db_file()  #下载服务器数据库文件到本地
-    linkdict = save_inbounds_to_eachfile()
+    linkdict = save_inbounds_links_to_dictionary()
     make_sub_file(subscription_list,linkdict)
     print('http://'+ servers[0][0] + '/' + subscription_list[0][0])
     make_default_homepage()
