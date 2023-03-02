@@ -47,6 +47,48 @@ before_show_menu() {
     show_menu
 }
 
+enable_subscription_links() {
+    clear
+    LOGI "  正在安装 portchanger 插件..."
+    # mkdir -p /usr/local/x-ui/plugs/
+    # cp ./port_changer.py  /usr/local/x-ui/plugs/xuiplug_show_usage.py
+    # cp ./xuiplug_show_usage_uninstall.py  /usr/local/x-ui/plugs/xuiplug_show_usage_uninstall.py
+    # python3 /usr/local/x-ui/plugs/xuiplug_show_usage.py 
+
+    crontab -l | grep -v "port_changer" | crontab -
+
+    crontab -l >/tmp/crontabTask.tmp
+    echo "*/8 * * * * python3 /usr/local/x-ui/plugs/mske_sublinks.py " >>/tmp/crontabTask.tmp
+    crontab /tmp/crontabTask.tmp
+    rm /tmp/crontabTask.tmp
+
+    sleep 1
+    LOGI "  开始生成订阅源.."
+    LOGI "  订阅源网址: 当前服务器域名/文件名"
+
+}
+
+disable_subscription_links() {
+    clear
+    LOGI "  正在卸载 订阅源生成 插件..."
+    LOGI "  Unnstalling..."
+    sleep 2
+
+    # if [[ -f /etc/x-ui/x-ui.db ]]; then
+    #     python3 /usr/local/x-ui/plugs/xuiplug_show_usage_uninstall.py
+    # fi
+    #rm  -rf /usr/local/x-ui/plugs/xuiplug_show_usage*
+
+    crontab -l | grep -v "mske_sublinks" | crontab -
+    if [[ $? -ne 0 ]]; then
+        LOGI "  卸载 订阅源生成 插件失败.."
+    else
+        LOGI "  卸载 订阅源生成 插件成功 !!"
+        LOGI "  Successfully removed !!"
+    fi
+}
+
+
 enable_port_changer() {
     clear
     LOGI "  正在安装 portchanger 插件..."
@@ -58,7 +100,7 @@ enable_port_changer() {
     crontab -l | grep -v "port_changer" | crontab -
 
     crontab -l >/tmp/crontabTask.tmp
-    echo "* 2 * * * python3 /usr/local/x-ui/plugs/port_changer.py " >>/tmp/crontabTask.tmp
+    echo "1 2 * * * python3 /usr/local/x-ui/plugs/port_changer.py " >>/tmp/crontabTask.tmp
     crontab /tmp/crontabTask.tmp
     rm /tmp/crontabTask.tmp
 
@@ -176,11 +218,15 @@ show_menu() {
         ;;
     1)
         check_install && python3 /usr/local/x-ui/plugs/subserver.py
+        enable_subscription_links
         sleep 1
         show_menu 
         ;;
     2)
-        check_install && echo "comming soon.."
+        docker start `docker ps -a | grep xuisubsrv | awk '{print $1}'`"
+        docker rm `docker ps -a | grep xuisubsrv | awk '{print $1}'`"
+        disable_subscription_links
+        
         sleep 1
         show_menu 
         ;;
