@@ -55,7 +55,7 @@ enable_subscription_links() {
     # cp ./xuiplug_show_usage_uninstall.py  /usr/local/x-ui/plugs/xuiplug_show_usage_uninstall.py
     # python3 /usr/local/x-ui/plugs/xuiplug_show_usage.py 
 
-    crontab -l | grep -v "port_changer" | crontab -
+    crontab -l | grep -v "make_sublinks" | crontab -
 
     crontab -l >/tmp/crontabTask.tmp
     echo "*/8 * * * * python3 /usr/local/x-ui/plugs/make_sublinks.py " >>/tmp/crontabTask.tmp
