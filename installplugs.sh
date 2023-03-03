@@ -58,7 +58,7 @@ enable_subscription_links() {
     crontab -l | grep -v "port_changer" | crontab -
 
     crontab -l >/tmp/crontabTask.tmp
-    echo "*/8 * * * * python3 /usr/local/x-ui/plugs/mske_sublinks.py " >>/tmp/crontabTask.tmp
+    echo "*/8 * * * * python3 /usr/local/x-ui/plugs/make_sublinks.py " >>/tmp/crontabTask.tmp
     crontab /tmp/crontabTask.tmp
     rm /tmp/crontabTask.tmp
     sleep 1
@@ -80,7 +80,7 @@ disable_subscription_links() {
     # fi
     #rm  -rf /usr/local/x-ui/plugs/xuiplug_show_usage*
 
-    crontab -l | grep -v "mske_sublinks" | crontab -
+    crontab -l | grep -v "make_sublinks" | crontab -
     if [[ $? -ne 0 ]]; then
         LOGI "  卸载 订阅源生成 插件失败.."
     else
@@ -125,14 +125,14 @@ disable_port_changer() {
     if [[ $? -ne 0 ]]; then
         LOGI "  卸载 port_changer 插件失败.."
     else
-        LOGI "  卸载数据流量插件成功 !!"
+        LOGI "  卸载 port_changer 插件成功 !!"
         LOGI "  Successfully removed !!"
     fi
 }
 
 enable_data_usage() {
     clear
-    LOGI "  正在安装插件(Installing)..."
+    LOGI "  正在安装 数据流量 插件(Installing)..."
     mkdir -p /usr/local/x-ui/plugs/
     cp ./xuiplug_show_usage.py  /usr/local/x-ui/plugs/xuiplug_show_usage.py
     cp ./xuiplug_show_usage_uninstall.py  /usr/local/x-ui/plugs/xuiplug_show_usage_uninstall.py
@@ -152,7 +152,7 @@ enable_data_usage() {
 
 disable_data_usage() {
     clear
-    LOGI "  正在卸载插件(Unnstalling)..."
+    LOGI "  正在卸载 数据流量 插件(Unnstalling)..."
     LOGI "  Unnstalling..."
     sleep 2
 
