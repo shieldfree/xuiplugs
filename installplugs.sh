@@ -49,7 +49,7 @@ before_show_menu() {
 
 enable_subscription_links() {
     clear
-    LOGI "  正在安装 portchanger 插件..."
+    LOGI "  正在 搭建订阅服务器..."
     # mkdir -p /usr/local/x-ui/plugs/
     # cp ./port_changer.py  /usr/local/x-ui/plugs/xuiplug_show_usage.py
     # cp ./xuiplug_show_usage_uninstall.py  /usr/local/x-ui/plugs/xuiplug_show_usage_uninstall.py
@@ -65,7 +65,7 @@ enable_subscription_links() {
 
     python3 /usr/local/x-ui/plugs/make_sublinks.py
     LOGI "  开始生成订阅源.."
-    LOGI "  订阅源网址: 当前服务器域名/文件名"
+    LOGI "  订阅源网址: http://当前服务器域名/sublinks/文件名"
 
 }
 
