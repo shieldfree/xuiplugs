@@ -7,7 +7,7 @@
 
 
 <details>
--  <summary><b> 点击查看效果预览</b></summary> 
+-  <summary><b> 点击查看使用说明</b></summary> 
 
 
 ##
@@ -70,7 +70,7 @@ bash <(curl -Ls https://github.com/shieldfree/scriptforxui/raw/main/scriptforxui
 
 
 #
-## 订阅节点静态站
+## 订阅节点 
 - 2022.11.15： ...
 
 
