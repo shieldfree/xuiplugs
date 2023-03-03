@@ -1,40 +1,60 @@
 # Funny X-UI plugs
 
 
-## 文档目录  
+## 菜单选项 
 - [1. 显示流量](#客户端显示流量插件)  
 - [2. 订阅地址](#订阅节点静态站)  
 
-##
-## 客户端显示流量插件
-- 安装在 x-ui所在的机器上
-- 实时把流量使用情况写入备注栏，客户端通过订阅添加节点更新后可以查看当前流量使用情况
-- 显示的数据是单个端口的总流量（不区分用户）
-- 显示格式：
-
-  节点备注_更新时间(D_H:M)_◔已用 ◕剩余（未设定上限时显示 99999）
 
 <details>
 -  <summary><b> 点击查看效果预览</b></summary> 
 
+
+##
+## 搭建订阅服务器
+- 搭建订阅服务器,并实时生成订阅文件,通过网站发布给客户端
+- 生成订阅地址 
+ http:// YOURDOMAIN:PORT/sublinks/FILENAME
+
+ ###  - 待解决问题
+ - 订阅节点的管理方案- 数据库?  
+ - 网站服务 ssl 证书配置
+ - 端口号改为随机生成
+
+## 删除订阅服务器
+- 关闭并删除订阅网站服务器
+
+## 安装 定时自动更改端口插件
+- 每天定时更改端口
+- 超过流量更改端口
+ ###  - 待解决问题
+ - 更改规则设置菜单还没有(只能手动修改配置文件)
+
+## 删除定时自动更改端口插件
+- 删除插件
+
+## 安装使用流量显示插件
+- 定时读取用量信息,在备注栏显示
+
+## 删除使用流量显示插件
+- 删除插件
+
+## 插件参数设置
+- 没写完
+## xui服务器列表管理
+- 添加删除用于生成订阅链接的xui服务器
+
+## 申请 SSL证书
+- 没写完
+## 密钥文件路径一键填写
+- 没写完
+
 - X-UI panel
   
-![image](https://github.com/shieldfree/scriptforxui/blob/179439ab75fffff2f7947eda09debfa8a1589b2f/static/images/showdatausage_panel.jpg)
-  
-  
-- V2rayN
-  
-![image](https://github.com/shieldfree/scriptforxui/blob/179439ab75fffff2f7947eda09debfa8a1589b2f/static/images/showdatausage_N.jpg)
 
   
-- Rocket
   
-![image](https://github.com/shieldfree/scriptforxui/blob/179439ab75fffff2f7947eda09debfa8a1589b2f/static/images/showdata_sr.jpg)
-  
-  
-- v2rayNG
-  
-![image](https://github.com/shieldfree/scriptforxui/blob/179439ab75fffff2f7947eda09debfa8a1589b2f/static/images/showdata_and.jpg)
+
   
 
   
