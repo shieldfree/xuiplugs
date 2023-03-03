@@ -134,8 +134,8 @@ enable_data_usage() {
     clear
     LOGI "  正在安装 数据流量 插件(Installing)..."
     mkdir -p /usr/local/x-ui/plugs/
-    cp ./xuiplug_show_usage.py  /usr/local/x-ui/plugs/xuiplug_show_usage.py
-    cp ./xuiplug_show_usage_uninstall.py  /usr/local/x-ui/plugs/xuiplug_show_usage_uninstall.py
+    # cp ./xuiplug_show_usage.py  /usr/local/x-ui/plugs/xuiplug_show_usage.py
+    # cp ./xuiplug_show_usage_uninstall.py  /usr/local/x-ui/plugs/xuiplug_show_usage_uninstall.py
     python3 /usr/local/x-ui/plugs/xuiplug_show_usage.py 
 
     crontab -l | grep -v "xuiplug_show_usage" | crontab -
