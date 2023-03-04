@@ -259,7 +259,7 @@ show_menu() {
         show_menu 
         ;;
     8)
-        python3 /usr/local/x-ui/plugs/config.py
+        python3 /usr/local/x-ui/plugs/config_xuilist.py
         sleep 2
         show_menu 
         ;;

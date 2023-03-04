@@ -52,8 +52,8 @@ def db_inquiry(db,id):
 
     id = inboundinfo[0]
     port = inboundinfo[1]
-    up_data = int(inboundinfo[2] / 1000000)
-    down_data = int(inboundinfo[3] / 1000000)
+    up_data = int(inboundinfo[2] / 1024 / 1024)
+    down_data = int(inboundinfo[3] / 1024 / 1024)
     datasum = up_data + down_data
     remark = inboundinfo[5]
     tag = inboundinfo[6]
