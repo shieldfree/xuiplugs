@@ -307,16 +307,16 @@ def sub_server_mng():
     temp_sub_srv_domain =input('输入新的域名(不修改直接回车):')
     if temp_sub_srv_domain != '':
         sub_srv_domain =temp_sub_srv_domain
-        print(f'变更后的域名: {sub_srv_domain}')
+        print(f'\n变更后的域名: {sub_srv_domain}')
 
     print(f'\n变更端口: {serverport}')
     temp_serverport =input('输入新的域名(不修改直接回车):')
     if temp_serverport != '':
         serverport =temp_serverport
-        print(f'变更后的端口: {serverport}')
+        print(f'\n变更后的端口: {serverport}')
 
     print('\n 保存完毕！ 变更后的信息：')
-    print(f'当前服务器域名为: {sub_srv_domain}, 端口为: {serverport}')
+    print(f'\n当前服务器域名为: {sub_srv_domain}, 端口为: {serverport}')
     save_config()
 
 
