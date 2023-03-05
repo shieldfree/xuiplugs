@@ -4,24 +4,24 @@ import time
 import os
 import main
 
-configfile ='/usr/local/x-ui/plugs/config/xuiplugconf.ini'
-if not os.path.exists(configfile):
-    with open(configfile,'w') as f:
+xui_srv_configfile ='/usr/local/x-ui/plugs/config/xuiplugconf.ini'
+if not os.path.exists(xui_srv_configfile):
+    with open(xui_srv_configfile,'w') as f:
         f.write("")
-config = configparser.ConfigParser()
-config.read(configfile)
+xui_srv_config = configparser.ConfigParser()
+xui_srv_config.read(xui_srv_configfile)
 
 currenttime = datetime.datetime.now()
 today_date =  currenttime.today().strftime('%Y-%m-%d')
 
-def load_config(configfile):
-    config.read(configfile)
+def load_config(xui_srv_configfile):
+    xui_srv_config.read(xui_srv_configfile)
 
 def save_config():
     # save the configeration file
-    with open(configfile, 'w') as file:
-        config.write(file)
-    load_config(configfile)
+    with open(xui_srv_configfile, 'w') as file:
+        xui_srv_config.write(file)
+    load_config(xui_srv_configfile)
 
 def gen_new_server_no():
     server_list= get_server_no_list()
@@ -61,10 +61,10 @@ def input_yesno(msg):
 
 def get_server_info(server_no):
     server_sec = 'XUISERVER' + server_no
-    if config.has_section(server_sec):
-        domain = config.get(server_sec,'domain')
-        username = config.get(server_sec,'username')
-        password = config.get(server_sec,'password')
+    if xui_srv_config.has_section(server_sec):
+        domain = xui_srv_config.get(server_sec,'domain')
+        username = xui_srv_config.get(server_sec,'username')
+        password = xui_srv_config.get(server_sec,'password')
         return domain,username,password
     else:
         print(f'无server{server_no} 信息')
@@ -72,7 +72,7 @@ def get_server_info(server_no):
 
 def get_server_no_list():
     #生成 服务器序号 list, 文本
-    section_list = config.sections()
+    section_list = xui_srv_config.sections()
     server_list = []
     for  sec in section_list:
         if 'XUISERVER' in sec:
@@ -117,10 +117,10 @@ def add_server(new_no):
     yesno = input_yesno(msg)
     if yesno =='y' or yesno == '':
         server_sec = 'XUISERVER' + new_no
-        config.add_section(server_sec)
-        config.set(server_sec, 'domain', domain)
-        config.set(server_sec, 'username', username)
-        config.set(server_sec, 'password', password)
+        xui_srv_config.add_section(server_sec)
+        xui_srv_config.set(server_sec, 'domain', domain)
+        xui_srv_config.set(server_sec, 'username', username)
+        xui_srv_config.set(server_sec, 'password', password)
         save_config()
         print('正在保存...')
         time.sleep(1)
@@ -153,9 +153,9 @@ def edit_server_info():
         if temp_password != '':
             password =temp_password
 
-        config.set(server_sec, 'domain', domain) 
-        config.set(server_sec, 'username', username) 
-        config.set(server_sec, 'password', password) 
+        xui_srv_config.set(server_sec, 'domain', domain) 
+        xui_srv_config.set(server_sec, 'username', username) 
+        xui_srv_config.set(server_sec, 'password', password) 
         # config.set(server_sec, 'tag', domain.split('.')[0] + server_no) 
         save_config()
         print('完成修改!')
@@ -171,7 +171,7 @@ def remove_server():
         yesno = input_yesno(msg)
         if yesno =='y':
             server_sec = 'XUISERVER' + server_no
-            config.remove_section(server_sec)
+            xui_srv_config.remove_section(server_sec)
             save_config()
             sorting_servers()
             # show_all_servers
@@ -195,21 +195,21 @@ def sorting_servers():
             if server_no != str(i+1):
                 new_server_sec = 'XUISERVER' + str(i+1)
                 old_server_sec = 'XUISERVER' + server_no
-                config.add_section(new_server_sec)
+                xui_srv_config.add_section(new_server_sec)
                 domain, username, password = get_server_info(server_no)
-                config.set(new_server_sec, 'domain', domain) 
-                config.set(new_server_sec, 'username', username) 
-                config.set(new_server_sec, 'password', password) 
-                config.remove_section(old_server_sec)
+                xui_srv_config.set(new_server_sec, 'domain', domain) 
+                xui_srv_config.set(new_server_sec, 'username', username) 
+                xui_srv_config.set(new_server_sec, 'password', password) 
+                xui_srv_config.remove_section(old_server_sec)
                 # save_config()
             elif server_no == str(i+1):
                 domain, username, password = get_server_info(server_no)
                 server_sec = 'XUISERVER' + server_no
-                config.remove_section(server_sec)
-                config.add_section(server_sec)
-                config.set(server_sec, 'domain', domain)
-                config.set(server_sec, 'username', username)
-                config.set(server_sec, 'password', password)
+                xui_srv_config.remove_section(server_sec)
+                xui_srv_config.add_section(server_sec)
+                xui_srv_config.set(server_sec, 'domain', domain)
+                xui_srv_config.set(server_sec, 'username', username)
+                xui_srv_config.set(server_sec, 'password', password)
         save_config()
         print(' 服务器重新排序 !!')
     # else:

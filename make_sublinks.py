@@ -12,32 +12,31 @@ import platform
 import configparser
 # import time
 
-configfile ='/usr/local/x-ui/plugs/config/xuiplugconf.ini'
-config = configparser.ConfigParser()
-config.read(configfile)
+xui_srv_configfile ='/usr/local/x-ui/plugs/config/xuiplugconf.ini'
+xui_srv_config = configparser.ConfigParser()
+xui_srv_config.read(xui_srv_configfile)
 
 
 
 def get_server_info(server_no):
     server_sec = 'XUISERVER' + server_no
-    if config.has_section(server_sec):
-        domain = config.get(server_sec,'domain')
-        username = config.get(server_sec,'username')
-        password = config.get(server_sec,'password')
+    if xui_srv_config.has_section(server_sec):
+        domain = xui_srv_config.get(server_sec,'domain')
+        username = xui_srv_config.get(server_sec,'username')
+        password = xui_srv_config.get(server_sec,'password')
         return domain,username,password
-    else:
-        print(f'无server{server_no} 信息')
-        return '','',''
+    # else:
+    #     print(f'无server{server_no} 信息')
+    #     return '','',''
 
 def get_server_no_list():
     #生成 服务器序号 list, 文本
-    section_list = config.sections()
+    section_list = xui_srv_config.sections()
     server_list = []
     for  sec in section_list:
         if 'XUISERVER' in sec:
             server_list.append(sec.replace('XUISERVER',''))
     return server_list
-
 
 def get_servers():
     servers = []
@@ -45,9 +44,9 @@ def get_servers():
     for server_no in server_sec_no_list:
         domain,username,password = get_server_info(server_no)
         server_sec = 'XUISERVER' + server_no
-        domain = config.get(server_sec,'domain')
-        username = config.get(server_sec,'username')
-        password = config.get(server_sec,'password')
+        domain = xui_srv_config.get(server_sec,'domain')
+        username = xui_srv_config.get(server_sec,'username')
+        password = xui_srv_config.get(server_sec,'password')
         servers.append([domain,username,password,domain.split('.')[0]])
     return servers
 
@@ -71,10 +70,12 @@ subscription_list =[
 
 ]
 
+subscription_list = []
+
 temp_file_path = '/usr/local/x-ui/plugs/temp/'
 dbfilepath = temp_file_path + 'x-ui_db/'
 
-station = config.get('SUBSCRIPTIONSERVER', 'station_root')
+station = xui_srv_config.get('SUBSCRIPTIONSERVER', 'station_root')
 
 sublinks_path = station + 'sublinks/' 
 os.makedirs(station, exist_ok=True)

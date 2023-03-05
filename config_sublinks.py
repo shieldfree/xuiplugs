@@ -4,13 +4,14 @@ import time
 import os
 import main
 
-configfile ='/usr/local/x-ui/plugs/config/subscription.ini'
-# configfile = './config/subscription.ini' # 本机调试用
-if not os.path.exists(configfile):
-    with open(configfile,'w') as f:
-        f.write("")
+sublink_configfile ='/usr/local/x-ui/plugs/config/subscription.ini'
+# sublink_configfile = './config/subscription.ini' # 本机调试用
+if not os.path.exists(sublink_configfile):
+    print('设置文件丢失,请运行以下命令重新下载安装!')
+    print("bash <(curl -Ls https://github.com/shieldfree/scriptforxui/raw/main/scriptforxui.sh)")
+
 config = configparser.ConfigParser()
-config.read(configfile)
+config.read(sublink_configfile)
 
 currenttime = datetime.datetime.now()
 today_date =  currenttime.today().strftime('%Y-%m-%d')
@@ -18,7 +19,7 @@ today_date =  currenttime.today().strftime('%Y-%m-%d')
 
 def save_config():
     # save the configeration file
-    with open(configfile, 'w') as file:
+    with open(sublink_configfile, 'w') as file:
         config.write(file)
 
 def gen_new_sublink_no():
