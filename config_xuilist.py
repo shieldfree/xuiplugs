@@ -222,6 +222,8 @@ def remove_server():
     server_no_list = get_server_no_list()
     show_all_servers()
     server_no = input('请输入要删除的服务器序号 :')
+    if server_no == '':
+        return
     if int(server_no) in server_no_list:
         msg = f'请确认是否删除 {server_no}号 服务器(y/N)'
         yesno = input_yesno(msg)
