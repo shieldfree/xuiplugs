@@ -37,11 +37,11 @@ bash <(curl -Ls https://github.com/shieldfree/scriptforxui/raw/main/scriptforxui
  1. 进入 <7.订阅节点信息管理> 菜单，添加订阅链接
     - 每个链接的 需要输入一个文件名(数字字母组合的10个字符以上)
     - inbound项目 是给当前订阅链接要添加的节点， 由xui服务器的名称+入站节点的ID组成， 
-    -假设 上面添加的命名为 candy的服务器有入站 1，2，3，4，5 ...
+    - 假设 上面添加的命名为 candy的服务器有入站 1，2，3，4，5 ...
     - 就在inbound 填写  candy1  candy2 candy3 ...  中间空格区分
     - 该订阅链接就可以订阅这三个节点 
  1. 运行 <1. 搭建订阅服务器> 创建静态网站,运行完后屏幕显示订阅链接地址，如果看不到，
-     订阅地址为 http://当前服务器域名:18080/sublinks/文件名，大概下面这个样子
+    - 订阅地址为 http://当前服务器域名:18080/sublinks/文件名，大概下面这个样子
     - http://xxxx.myserver.com:18080/sublinks/test98e9e8ijgf
     - http://xxxx.myserver.com:18080/sublinks/test3-kdiflvid
 
