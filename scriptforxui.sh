@@ -77,9 +77,14 @@ fi
 
 install_base() {
     if [[ x"${release}" == x"centos" ]]; then
-        yum install wget curl tar docker.io -y
+        yum update
+        yum install wget curl tar docker.io python3-pip -y
+        pip install paramiko
+        
     else
-        apt install wget curl tar docker.io -y
+        apt update -y
+        apt install wget curl tar docker.io python3-pip -y
+        pip install paramiko
     fi
 }
 
