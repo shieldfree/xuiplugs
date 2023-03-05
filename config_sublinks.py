@@ -5,7 +5,7 @@ import os
 import main
 
 configfile ='/usr/local/x-ui/plugs/config/subscription.ini'
-configfile = './config/subscription.ini' # 本机调试用
+# configfile = './config/subscription.ini' # 本机调试用
 if not os.path.exists(configfile):
     with open(configfile,'w') as f:
         f.write("")
