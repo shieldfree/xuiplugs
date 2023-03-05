@@ -199,11 +199,11 @@ def edit_server_info():
             print(f'变更后的密码: {password}')
 
         print(f'当前Tag: {tag}')
-        msg = '请输入服务器名称:'
         print('--服务器名称是为便于管理,不能重复,英文字符2-8个!--')
-        # temp_tag =input('输入新的服务器名称:')
-        if temp_tag == '':
-            tag = input_tag(msg)
+        temp_tag =input('输入新的服务器名称:')
+        if temp_tag != '':
+            tag = temp_tag
+            # tag = input_tag(msg)
             print(f'变更后的Tag: {tag}')
 
         xui_srv_config.set(server_sec, 'domain', domain) 
