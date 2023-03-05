@@ -44,7 +44,8 @@ bash <(curl -Ls https://github.com/shieldfree/scriptforxui/raw/main/scriptforxui
     - 订阅地址为 http://当前服务器域名:18080/sublinks/文件名，大概下面这个样子
     - http://xxxx.myserver.com:18080/sublinks/test98e9e8ijgf
     - http://xxxx.myserver.com:18080/sublinks/test3-kdiflvid
-
+ 1. 目前Ubuntu机器上测试过可以运行。centos 还没试过
+ 
 </details>  
 
 ## 菜单选项 
