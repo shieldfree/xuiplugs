@@ -61,6 +61,7 @@ def input_yesno(msg):
 def print_sublink_info(sublink_no, filename,inbounds,remark,use_yesno):
     print(f'sublink{sublink_no:>2} | Filename: {filename:<25}| Use Y/N:{use_yesno} | remark:{remark:<16} |\n\t  | Inbounds:{inbounds:<63} |')
     print('-' * 85)
+
 def get_sublink_info(sublink_no):
     sublink_sec = 'SUBSCRIPTION' + str(sublink_no)
     if sublink_config.has_section(sublink_sec):
@@ -81,6 +82,15 @@ def get_sublink_no_list():
         if 'SUBSCRIPTION' in sec:
             sublink_list.append(int(sec.replace('SUBSCRIPTION','')))
     return sublink_list
+
+def get_subscription_list():
+    sublink = []
+    sublink_no_list = get_sublink_no_list()
+    for sublink_no in sublink_no_list:
+        filename,inbounds,remark,use_yesno = get_sublink_info(sublink_no)
+        if use_yesno =='y':
+            sublink.append([filename,use_yesno,remark,inbounds])
+    return sublink
 
 def show_all_sublinks():
     sublink_no_list = get_sublink_no_list()
