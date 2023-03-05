@@ -90,14 +90,15 @@ if [[ -f /usr/local/x-ui/plugs/config/xuiplugconf.ini ]]; then
     LOGI "  正在备份设置文件。。" 
     cp /usr/local/x-ui/plugs/config/xuiplugconf.ini  /usr/local/x-ui/xuiplugconf.ini
     cp /usr/local/x-ui/plugs/config/subscription.ini  /usr/local/x-ui/subscription.ini
+    rm -rf  /usr/local/x-ui/plugs/*
 fi
 # mkdir -p /usr/local/x-ui/plugs/
 rm -rf  ./scriptforxui
-rm -rf  /usr/local/x-ui/plugs/*
-
 git clone https://github.com/shieldfree/scriptforxui
 cp ./scriptforxui/installplugs.sh  ./installplugs.sh
 chmod +x ./installplugs.sh
+
+mkdir -p /usr/local/x-ui/plugs/
 mv ./scriptforxui/*  /usr/local/x-ui/plugs/
 rm -rf scriptforxui
 
