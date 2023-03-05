@@ -35,3 +35,6 @@ def main():
         elif option_no == '9':
             exit()
         # time.sleep(1)
+
+if __name__ == '__main__':
+    main()
