@@ -64,8 +64,8 @@ enable_subscription_links() {
     sleep 1
 
     python3 /usr/local/x-ui/plugs/make_sublinks.py
-    LOGI "  开始生成订阅源.."
-    LOGI "  订阅源网址: http://当前服务器域名/sublinks/文件名"
+
+    read -p "  ↑ 订阅链接.  按回车继续  :" num
 
 }
 
