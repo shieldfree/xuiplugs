@@ -3,11 +3,13 @@ import datetime
 import time
 import os
 import main
+import re
 
 xui_srv_configfile ='/usr/local/x-ui/plugs/config/xuiplugconf.ini'
 if not os.path.exists(xui_srv_configfile):
-    with open(xui_srv_configfile,'w') as f:
-        f.write("")
+    print('设置文件丢失,请运行以下命令重新下载安装!')
+    print("bash <(curl -Ls https://github.com/shieldfree/scriptforxui/raw/main/scriptforxui.sh)")
+    exit()
 xui_srv_config = configparser.ConfigParser()
 xui_srv_config.read(xui_srv_configfile)
 
@@ -21,7 +23,7 @@ def save_config():
     # save the configeration file
     with open(xui_srv_configfile, 'w') as file:
         xui_srv_config.write(file)
-    load_config(xui_srv_configfile)
+    # load_config(xui_srv_configfile)
 
 def gen_new_server_no():
     server_list= get_server_no_list()
@@ -44,6 +46,32 @@ def input_info(msg):
             print('请重新输入!! ')
     return temp
 
+
+def contain_non_alpha_chars(string):
+    if not string.isalpha():
+        pattern = re.compile('[!a-zA-Z]')
+        if pattern.search(string):
+            return True
+    return False
+
+def input_tag(msg):
+    temp = ''
+    while not temp:
+        temp = input(msg)
+        if len(temp.strip()) == 0 :
+            temp = ''
+            print('错误请重新输入!! ')
+        elif   len(temp.strip()) > 8:
+            temp =''
+            print('请重新输入!! ')
+        elif ' ' in temp:
+            print('不能包含空格')
+        elif not contain_non_alpha_chars(temp):
+            temp = ''
+            print('tag只能包含英文字母')
+            continue
+    return temp
+
 def input_yesno(msg):
     temp = ''
     while  temp not in ['y','n']:
@@ -60,15 +88,16 @@ def input_yesno(msg):
     return temp
 
 def get_server_info(server_no):
-    server_sec = 'XUISERVER' + server_no
+    server_sec = 'XUISERVER' + str(server_no)
     if xui_srv_config.has_section(server_sec):
         domain = xui_srv_config.get(server_sec,'domain')
         username = xui_srv_config.get(server_sec,'username')
         password = xui_srv_config.get(server_sec,'password')
-        return domain,username,password
-    else:
-        print(f'无server{server_no} 信息')
-        return '','',''
+        tag = xui_srv_config.get(server_sec,'tag')
+        return domain,username,password,tag
+    # else:
+    #     print(f'无server{server_no} 信息')
+    #     return '','',''
 
 def get_server_no_list():
     #生成 服务器序号 list, 文本
@@ -76,16 +105,24 @@ def get_server_no_list():
     server_list = []
     for  sec in section_list:
         if 'XUISERVER' in sec:
-            server_list.append(sec.replace('XUISERVER',''))
+            server_list.append(int(sec.replace('XUISERVER','')))
     return server_list
+
+def get_servers():
+    servers = []
+    server_sec_no_list = get_server_no_list()
+    for server_no in server_sec_no_list:
+        domain,username,password,tag = get_server_info(server_no)
+        servers.append([domain,username,password,tag])
+    return servers
 
 def show_all_servers():
     server_list = get_server_no_list()
     print('\n\n\n当前服务器信息如下:\n')
     print('=' * 80)
     for server_no in server_list:
-        domain,username,password = get_server_info(server_no)
-        print(f'Server{server_no:>1}| domain: {domain:<20}| User:{username:<6}| Pw:{password:<10}')
+        domain,username,password,tag = get_server_info(server_no)
+        print(f'Server{server_no:>1}|  Tag:{tag:<8}\n | domain: {domain:<20}|\n| User:{username:<6}| Pw:{password:<10}')
         print('-' * 80)
 
 def add_server(new_no):
@@ -105,13 +142,17 @@ def add_server(new_no):
     username = input_info(msg)
     msg = '请输入服务器登录密码:'
     password = input_info(msg)
-    # msg = '请输入服务器标签:'
-    # tag = input_info(msg)
+
+    msg = '请输入服务器名称:'
+    print('--服务器标签是为区分,不能重复,建议英文字符2-8个!--')
+    tag = input_tag(msg)
+
     print('要添加的服务器信息如下: ')
     print(f'''
         域名：  {domain}
         用户名：{username}
         密码：  {password}
+        标签：  {tag}
     ''')
     msg = '请确认是否添加 (Y/n)? :'
     yesno = input_yesno(msg)
@@ -121,6 +162,7 @@ def add_server(new_no):
         xui_srv_config.set(server_sec, 'domain', domain)
         xui_srv_config.set(server_sec, 'username', username)
         xui_srv_config.set(server_sec, 'password', password)
+        xui_srv_config.set(server_sec, 'tag', tag)
         save_config()
         print('正在保存...')
         time.sleep(1)
@@ -137,25 +179,37 @@ def edit_server_info():
     server_no = input('选择要编辑的服务器序号')
     if server_no in server_no_list:
         server_sec = 'XUISERVER' + server_no
-        domain, username, password = get_server_info(server_no)
+        domain, username, password,tag = get_server_info(server_no)
         print(f'当前域名: {domain}')
         temp_domain =input('输入新的域名(不修改直接回车):')
         if temp_domain != '':
             domain =temp_domain
+            print(f'变更后的域名: {domain}')
 
         print(f'当前用户名: {username}')
         temp_username =input('输入新的用户名(不修改直接回车):')
         if temp_username != '':
             username =temp_username
+            print(f'变更后的用户名: {username}')
 
         print(f'当前密码: {password}')
         temp_password =input('输入新的密码(不修改直接回车):')
         if temp_password != '':
             password =temp_password
+            print(f'变更后的密码: {password}')
+
+        print(f'当前Tag: {tag}')
+        msg = '请输入服务器名称:'
+        print('--服务器名称是为便于管理,不能重复,英文字符2-8个!--')
+        temp_tag =input('输入新的服务器名称:')
+        if temp_tag != '':
+            tag = input_tag(msg)
+            print(f'变更后的Tag: {tag}')
 
         xui_srv_config.set(server_sec, 'domain', domain) 
         xui_srv_config.set(server_sec, 'username', username) 
         xui_srv_config.set(server_sec, 'password', password) 
+        xui_srv_config.set(server_sec, 'tag', tag) 
         # config.set(server_sec, 'tag', domain.split('.')[0] + server_no) 
         save_config()
         print('完成修改!')
@@ -192,24 +246,26 @@ def sorting_servers():
     # if yesno == 'y':
         server_no_list = sorted(get_server_no_list())
         for i,server_no in enumerate(server_no_list):
-            if server_no != str(i+1):
-                new_server_sec = 'XUISERVER' + str(i+1)
-                old_server_sec = 'XUISERVER' + server_no
-                xui_srv_config.add_section(new_server_sec)
-                domain, username, password = get_server_info(server_no)
-                xui_srv_config.set(new_server_sec, 'domain', domain) 
-                xui_srv_config.set(new_server_sec, 'username', username) 
-                xui_srv_config.set(new_server_sec, 'password', password) 
-                xui_srv_config.remove_section(old_server_sec)
+            # if server_no != str(i+1):
+            new_server_sec = 'XUISERVER' + str(i+1)
+            old_server_sec = 'XUISERVER' + str(server_no)
+            xui_srv_config.add_section(new_server_sec)
+            domain, username, password,tag = get_server_info(server_no)
+            xui_srv_config.set(new_server_sec, 'domain', domain) 
+            xui_srv_config.set(new_server_sec, 'username', username) 
+            xui_srv_config.set(new_server_sec, 'password', password) 
+            xui_srv_config.set(new_server_sec, 'tag', tag) 
+            xui_srv_config.remove_section(old_server_sec)
                 # save_config()
-            elif server_no == str(i+1):
-                domain, username, password = get_server_info(server_no)
-                server_sec = 'XUISERVER' + server_no
-                xui_srv_config.remove_section(server_sec)
-                xui_srv_config.add_section(server_sec)
-                xui_srv_config.set(server_sec, 'domain', domain)
-                xui_srv_config.set(server_sec, 'username', username)
-                xui_srv_config.set(server_sec, 'password', password)
+            # elif server_no == str(i+1):
+            #     domain, username, password = get_server_info(server_no)
+            #     server_sec = 'XUISERVER' + server_no
+            #     xui_srv_config.remove_section(server_sec)
+            #     xui_srv_config.add_section(server_sec)
+            #     xui_srv_config.set(server_sec, 'domain', domain)
+            #     xui_srv_config.set(server_sec, 'username', username)
+            #     xui_srv_config.set(server_sec, 'password', password)
+            #     xui_srv_config.set(server_sec, 'tag', tag)
         save_config()
         print(' 服务器重新排序 !!')
     # else:

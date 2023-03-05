@@ -10,82 +10,38 @@ import os
 import json
 import platform
 import configparser
+import config_xuilist as confxuisrv
+import config_sublinks as confsublink
 # import time
 
-xui_srv_configfile ='/usr/local/x-ui/plugs/config/xuiplugconf.ini'
+xui_srv_configfile = confxuisrv.xui_srv_configfile
 xui_srv_config = configparser.ConfigParser()
 xui_srv_config.read(xui_srv_configfile)
 
+sublink_configfile = confsublink.sublink_configfile
+sublink_config = configparser.ConfigParser()
+sublink_config.read(sublink_configfile)
 
 
-def get_server_info(server_no):
-    server_sec = 'XUISERVER' + server_no
-    if xui_srv_config.has_section(server_sec):
-        domain = xui_srv_config.get(server_sec,'domain')
-        username = xui_srv_config.get(server_sec,'username')
-        password = xui_srv_config.get(server_sec,'password')
-        return domain,username,password
-    # else:
-    #     print(f'无server{server_no} 信息')
-    #     return '','',''
 
-def get_server_no_list():
-    #生成 服务器序号 list, 文本
-    section_list = xui_srv_config.sections()
-    server_list = []
-    for  sec in section_list:
-        if 'XUISERVER' in sec:
-            server_list.append(sec.replace('XUISERVER',''))
-    return server_list
-
-def get_servers():
-    servers = []
-    server_sec_no_list = get_server_no_list()
-    for server_no in server_sec_no_list:
-        domain,username,password = get_server_info(server_no)
-        server_sec = 'XUISERVER' + server_no
-        domain = xui_srv_config.get(server_sec,'domain')
-        username = xui_srv_config.get(server_sec,'username')
-        password = xui_srv_config.get(server_sec,'password')
-        servers.append([domain,username,password,domain.split('.')[0]])
-    return servers
-
-
-subscription_list =[
-# 订阅节点信息， 文件名，节点1，节点2。。。
-# every [sub list] is information of one subscribe file
-# 1st one is file name of subscribtion ,the others are inbounds name --generated with nickname + inbound's ID No-- 
-# that added to each subscribtion file
-['00-00-allmonitor.TXT'                                        ],
-['01-02-hydroxides.TXT', 'sega1', 'sega2', 'kinder1', 'kinder2'],
-['03-03-eshareagen.TXT', 'sega3', 'sega4', 'kinder3', 'kinder4'],
-['04-09-us-router.TXT', 'sega5', 'sega6', 'sega7', 'sega8', 'sega9', 'kinder5', 'kinder6', 'kinder7', 'kinder8', 'kinder9'],
-['10-11-molecular.TXT', 'sega10', 'sega11', 'kinder10', 'kinder11'],
-['12-13-patriotic.TXT', 'sega12', 'sega13', 'kinder12', 'kinder13'],
-['14-15-equation.TXT', 'sega14', 'sega15', 'kinder14', 'kinder15'],
-['16-17-kovalence.TXT', 'sega16', 'sega17', 'kinder16', 'kinder17'],
-['18-18-kongdd.TXT', 'sega18'                                     ],
-['19-20-crisis.TXT', 'sega19', 'sega20', 'kinder19', 'kinder20'],
-['21-22-park66.TXT', 'sega18', 'sega21', 'sega22', 'sega23', 'sega24', 'kinder21', 'kinder22']
-
-]
-
-subscription_list = []
-
-temp_file_path = '/usr/local/x-ui/plugs/temp/'
-dbfilepath = temp_file_path + 'x-ui_db/'
-
+#XUI服务器list
+servers = confxuisrv.get_servers()
+#订阅链接list
+subscription_list = confsublink.get_subscription_list()
+#网站根目录
 station = xui_srv_config.get('SUBSCRIPTIONSERVER', 'station_root')
+# 订阅链接的存放地址
+sublinks_path = xui_srv_config.get('SUBSCRIPTIONSERVER', 'sublinkfilepath')  
+# 临时文件夹
+temp_file_path = '/usr/local/x-ui/plugs/temp/'
+#远程的xui 数据库文件复制到本地目录
+dbfilepath = temp_file_path + 'x-ui_db/'
+# 订阅服务器所在的域名
+yourdomain = confxuisrv.xui_srv_config.get('SUBSCRIPTIONSERVER','subserver_domain')
+# 提供订阅的服务器端口
+sport = confxuisrv.xui_srv_config.get('SUBSCRIPTIONSERVER','serverport')
 
-sublinks_path = station + 'sublinks/' 
 os.makedirs(station, exist_ok=True)
-
-# linkfilepath = '/usr/local/x-ui/plugs/temp/x-ui_links/'
-# tempsublinkpath = './temp/x-ui/htmlfile/' #for test
-# tempstation = tempsublinkpath
-
-
-# sublinkpath = station + 'sublinks/' 
 
 
 
@@ -97,7 +53,7 @@ def createSSHClient(server, port, user, password):
     client.connect(server, port, user, password)
     return client
 
-def download_xui_db_file():
+def download_xui_db_file(servers):
     # 下载 x-ui 的数据库文件
     for server in servers:
         if not os.path.isdir(dbfilepath + server[0]):
@@ -418,7 +374,7 @@ def make_sub_file(subscription,linkdict):
     
     if not os.path.isdir(sublinks_path ):
         os.makedirs(sublinks_path,exist_ok=True)
-
+    os.system(f'rm -f {sublinks_path}/* ')
     #首个监控用的全节点集合
     for sub in subscription[0:1]:
         tempsubstr = ''
@@ -435,7 +391,7 @@ def make_sub_file(subscription,linkdict):
     for sub in subscription[1:]:
         tempsubstr = ''
         
-        for inboun in sub[1:]:
+        for inboun in sub[3:]:
             if linkdict.get(inboun):
                 tempsubstr = tempsubstr + linkdict.get(inboun) + '\n'
             else: print(f'There is no inbound named {inboun}')
@@ -475,32 +431,28 @@ def make_default_homepage():
     with open('./index.html','w') as defaultpage:
         defaultpage.writelines(lines)
 
-    # print(f'http://{yourdomain}:{port}/index.html')
+    # for check if http service is running
     shutil.copyfile('./index.html',  sublinks_path + './index.html')
-    # shutil.copyfile('./index.html',  tempiprkpath + './index.html')
     shutil.move('./index.html', station + './index.html')
-    
-
-#执行1 保存成一个文件
-# download_xui_db_file()  #下载服务器数据库文件到本地
-# save_inbounds_all_in_onefile() #从数据库读取节点链接地址保存到文件
 
 
-# for id in range(1,25):
-#     sublink = get_inbound_info_by_json(dbfile,id)
-#     print(sublink)
+
+
 
 if __name__ == '__main__':
-#执行3： 各id 分别保存， 返回字典
-    servers = get_servers()
-    download_xui_db_file()  #下载服务器数据库文件到本地
+
+    #下载服务器数据库文件到本地
+    download_xui_db_file(servers) 
+    # 生成载入inbound link的字典
     linkdict = save_inbounds_links_to_dictionary()
+    #生成订阅文件,放入网站目录
     make_sub_file(subscription_list,linkdict)
-    print('http://'+ servers[0][0] + '/' + subscription_list[0][0])
-    make_default_homepage()
+    make_default_homepage() #生成测试默认页面确认http是否运行用
+    for sublink in subscription_list:
+        uri = sublink[0]
+        print(f'http://{yourdomain}:{sport}/{uri}')
+    # 重启网站nginx服务,载入页面(订阅文件)
     os.system("docker restart `docker ps -a  | grep xuisubsrv | awk '{print $1}'`")
 
-    # # for test
-    # get_servers()
-    # print(servers)
+
 

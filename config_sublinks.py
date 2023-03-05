@@ -9,9 +9,9 @@ sublink_configfile ='/usr/local/x-ui/plugs/config/subscription.ini'
 if not os.path.exists(sublink_configfile):
     print('设置文件丢失,请运行以下命令重新下载安装!')
     print("bash <(curl -Ls https://github.com/shieldfree/scriptforxui/raw/main/scriptforxui.sh)")
-
-config = configparser.ConfigParser()
-config.read(sublink_configfile)
+    exit()
+sublink_config = configparser.ConfigParser()
+sublink_config.read(sublink_configfile)
 
 currenttime = datetime.datetime.now()
 today_date =  currenttime.today().strftime('%Y-%m-%d')
@@ -20,7 +20,7 @@ today_date =  currenttime.today().strftime('%Y-%m-%d')
 def save_config():
     # save the configeration file
     with open(sublink_configfile, 'w') as file:
-        config.write(file)
+        sublink_config.write(file)
 
 def gen_new_sublink_no():
     sublink_list= get_sublink_no_list()
@@ -63,11 +63,11 @@ def print_sublink_info(sublink_no, filename,inbounds,remark,use_yesno):
     print('-' * 85)
 def get_sublink_info(sublink_no):
     sublink_sec = 'SUBSCRIPTION' + str(sublink_no)
-    if config.has_section(sublink_sec):
-        filename = config.get(sublink_sec,'filename')
-        inbounds = config.get(sublink_sec,'inbounds')
-        remark = config.get(sublink_sec,'remark')
-        use_yesno = config.get(sublink_sec,'use_yesno')
+    if sublink_config.has_section(sublink_sec):
+        filename = sublink_config.get(sublink_sec,'filename')
+        inbounds = sublink_config.get(sublink_sec,'inbounds')
+        remark = sublink_config.get(sublink_sec,'remark')
+        use_yesno = sublink_config.get(sublink_sec,'use_yesno')
         return [filename,inbounds,remark,use_yesno]
     # else:
     #     print(f'无server{sublink_no} 信息')
@@ -75,7 +75,7 @@ def get_sublink_info(sublink_no):
 
 def get_sublink_no_list():
     #生成 服务器序号 list, 文本
-    section_list = config.sections()
+    section_list = sublink_config.sections()
     sublink_list = []
     for  sec in section_list:
         if 'SUBSCRIPTION' in sec:
@@ -125,11 +125,11 @@ def add_new_sublink(new_no):
     yesno = input_yesno(msg)
     if yesno =='y' or yesno == '':
         sublink_sec = 'SUBSCRIPTION' + str(new_no)
-        config.add_section(sublink_sec)
-        config.set(sublink_sec, 'filename', filename)
-        config.set(sublink_sec, 'inbounds', inbounds)
-        config.set(sublink_sec, 'remark', remark)
-        config.set(sublink_sec, 'use_yesno', use_yesno)
+        sublink_config.add_section(sublink_sec)
+        sublink_config.set(sublink_sec, 'filename', filename)
+        sublink_config.set(sublink_sec, 'inbounds', inbounds)
+        sublink_config.set(sublink_sec, 'remark', remark)
+        sublink_config.set(sublink_sec, 'use_yesno', use_yesno)
         save_config()
         print('正在保存...')
         time.sleep(1)
@@ -182,10 +182,10 @@ def edit_sublink_info():
             inbounds =temp_inbounds
             print(f'变更后的inbounds 明细:\n\t {inbounds}')
 
-        config.set(server_sec, 'filename', filename) 
-        config.set(server_sec, 'remark', remark) 
-        config.set(server_sec, 'use_yesno', use_yesno) 
-        config.set(server_sec, 'inbounds', inbounds) 
+        sublink_config.set(server_sec, 'filename', filename) 
+        sublink_config.set(server_sec, 'remark', remark) 
+        sublink_config.set(server_sec, 'use_yesno', use_yesno) 
+        sublink_config.set(server_sec, 'inbounds', inbounds) 
         # config.set(server_sec, 'tag', domain.split('.')[0] + server_no) 
         save_config()
         print('完成修改!')
@@ -199,10 +199,10 @@ def remove_sublinks():
     if sublink_no in sublink_no_list:
         filename,inbounds,remark,use_yesno = get_sublink_info(sublink_no)
         sublink_sec = 'SUBSCRIPTION' + str(sublink_no)
-        filename = config.get(sublink_sec,'filename')
-        inbounds = config.get(sublink_sec,'inbounds')
-        remark = config.get(sublink_sec,'remark')
-        use_yesno = config.get(sublink_sec,'use_yesno')
+        filename = sublink_config.get(sublink_sec,'filename')
+        inbounds = sublink_config.get(sublink_sec,'inbounds')
+        remark = sublink_config.get(sublink_sec,'remark')
+        use_yesno = sublink_config.get(sublink_sec,'use_yesno')
         # print(f'sublink{sublink_no:>2} | Filename: {filename:<20}| Use Y/N:{use_yesno} | remark:{remark:<16} |\n\t  | Inbounds:{inbounds:<60} |')
         print('\n'+ '=' * 85)
         print_sublink_info(sublink_no, filename,inbounds,remark,use_yesno)
@@ -211,7 +211,7 @@ def remove_sublinks():
         yesno = input_yesno(msg)
         if yesno =='y':
             server_sec = 'SUBSCRIPTION' + str(sublink_no)
-            config.remove_section(server_sec)
+            sublink_config.remove_section(server_sec)
             save_config()
             sorting_sublinks()
             # show_all_servers
@@ -237,13 +237,13 @@ def sorting_sublinks():
             old_sublink_sec = 'SUBSCRIPTION' + str(sublink_no)
             filename,inbounds,remark,use_yesno = get_sublink_info(sublink_no)
             
-            config.remove_section(old_sublink_sec)
+            sublink_config.remove_section(old_sublink_sec)
 
-            config.add_section(new_sublink_sec)
-            config.set(new_sublink_sec, 'filename', filename) 
-            config.set(new_sublink_sec, 'inbounds', inbounds) 
-            config.set(new_sublink_sec, 'remark', remark) 
-            config.set(new_sublink_sec, 'use_yesno', use_yesno) 
+            sublink_config.add_section(new_sublink_sec)
+            sublink_config.set(new_sublink_sec, 'filename', filename) 
+            sublink_config.set(new_sublink_sec, 'inbounds', inbounds) 
+            sublink_config.set(new_sublink_sec, 'remark', remark) 
+            sublink_config.set(new_sublink_sec, 'use_yesno', use_yesno) 
                 # save_config()
             # elif server_no == str(i+1):
             #     domain, username, password = get_sublink_info(server_no)
