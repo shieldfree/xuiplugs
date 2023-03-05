@@ -58,7 +58,7 @@ def input_yesno(msg):
         print('请重新输入!! ')
 
 def print_sublink_info(sublink_no, filename,use_yesno,remark,inbounds):
-    print(f'sublink{sublink_no:>2} | Filename: {filename:<25}| Use Y/N:{use_yesno} | remark:{remark:<16} |\n\t  | Inbounds:{inbounds:<63} |')
+    print(f'sublink{sublink_no:>2} | Filename: {filename:<25}| Use y/n :  {use_yesno:^5}| remark:{remark:<16} |\n\t  | Inbounds:{inbounds:<63} |')
     print('-' * 85)
 
 def get_sublink_info(sublink_no):
