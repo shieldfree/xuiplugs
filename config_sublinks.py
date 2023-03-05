@@ -17,7 +17,7 @@ currenttime = datetime.datetime.now()
 today_date =  currenttime.today().strftime('%Y-%m-%d')
 
 
-def save_config():
+def save_config():  # config,file 
     # save the configeration file
     with open(sublink_configfile, 'w') as file:
         sublink_config.write(file)
@@ -157,11 +157,12 @@ def edit_sublink_info():
     sublink_no_list = get_sublink_no_list()
     show_all_sublinks()
     sublink_no = ''
-    sublink_no = int(input('选择要修改的的订阅链接序号:'))
-    if sublink_no in sublink_no_list:
-        server_sec = 'SUBSCRIPTION' + str(sublink_no)
+    sublink_no = input('选择要修改的的订阅链接序号:')
+    if sublink_no == '' or not sublink_no.isnumeric():
+        return
+    if int(sublink_no) in sublink_no_list:
+        server_sec = 'SUBSCRIPTION' + sublink_no
         filename,use_yesno,remark,inbounds = get_sublink_info(sublink_no)
-
 
         print(f'\n开始修改: | sublink{sublink_no:>2} | remark:{remark:<16}|\n')
         # print(f'sublink{sublink_no:>2} | Filename: {filename:<20}| Use Y/N:{use_yesno} | remark:{remark:<16} |\n\t  | Inbounds:{inbounds:<60} |')

@@ -177,7 +177,7 @@ def edit_server_info():
     show_all_servers()
     server_no = ''
     server_no = input('选择要编辑的服务器序号')
-    if server_no == '':
+    if server_no == '' or not server_no.isnumeric():
         return
     if int(server_no) in server_no_list:
         server_sec = 'XUISERVER' + server_no
@@ -222,7 +222,7 @@ def remove_server():
     server_no_list = get_server_no_list()
     show_all_servers()
     server_no = input('请输入要删除的服务器序号 :')
-    if server_no == '': #输入的server_no 是 str
+    if server_no == '' or not server_no.isnumeric():
         return
     if int(server_no) in server_no_list:
         msg = f'请确认是否删除 {server_no}号 服务器(y/N)'
@@ -251,7 +251,7 @@ def sorting_servers():
         server_no_list = sorted(get_server_no_list())
         for i,server_no in enumerate(server_no_list):
             # if server_no != str(i+1):
-            new_server_sec = 'XUISERVER' + str(i+1)
+            new_server_sec = 'XUISERVER' + str(i+1)     #从1 开始排序
             old_server_sec = 'XUISERVER' + str(server_no)
             domain, username, password,tag = get_server_info(server_no)
             xui_srv_config.remove_section(old_server_sec)

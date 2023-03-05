@@ -451,9 +451,10 @@ if __name__ == '__main__':
     # 重启网站nginx服务,载入页面(订阅文件)
     os.system("docker restart `docker ps -a  | grep xuisubsrv | awk '{print $1}'`")
     
-    for sublink in subscription_list:
+    for i, sublink in enumerate(subscription_list):
         uri = sublink[0]
         sublinkfolder = sublinks_path.split('station/')[-1]
+        if i == 0: print('0号订阅为管理用,包含全部节点')
         print(f'http://{yourdomain}:{sport}/{sublinkfolder}{uri}')
 
 
