@@ -180,25 +180,25 @@ def edit_server_info():
     if int(server_no) in server_no_list:
         server_sec = 'XUISERVER' + server_no
         domain, username, password,tag = get_server_info(server_no)
-        print(f'当前域名: {domain}')
+        print(f'\n当前域名: {domain}')
         temp_domain =input('输入新的域名(不修改直接回车):')
         if temp_domain != '':
             domain =temp_domain
             print(f'变更后的域名: {domain}')
 
-        print(f'当前用户名: {username}')
+        print(f'\n当前用户名: {username}')
         temp_username =input('输入新的用户名(不修改直接回车):')
         if temp_username != '':
             username =temp_username
             print(f'变更后的用户名: {username}')
 
-        print(f'当前密码: {password}')
+        print(f'\n当前密码: {password}')
         temp_password =input('输入新的密码(不修改直接回车):')
         if temp_password != '':
             password =temp_password
             print(f'变更后的密码: {password}')
 
-        print(f'当前Tag: {tag}')
+        print(f'\n当前Tag: {tag}')
         print('--服务器名称是为便于管理,不能重复,英文字符2-8个!--')
         temp_tag =input('输入新的服务器名称:')
         if temp_tag != '':
@@ -212,7 +212,7 @@ def edit_server_info():
         xui_srv_config.set(server_sec, 'tag', tag) 
         # config.set(server_sec, 'tag', domain.split('.')[0] + server_no) 
         save_config()
-        print('完成修改!')
+        print('\n完成修改!')
     else: 
         print('输入有误!')
 

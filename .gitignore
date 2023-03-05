@@ -3,3 +3,4 @@ test.TXT
 .vscode/
 x-ui.db
 __pycache__/
+test.py
