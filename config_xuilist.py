@@ -66,7 +66,7 @@ def input_tag(msg):
             print('请重新输入!! ')
         elif ' ' in temp:
             print('不能包含空格')
-        elif not contain_non_alpha_chars(temp):
+        elif contain_non_alpha_chars(temp):
             temp = ''
             print('tag只能包含英文字母')
             continue
