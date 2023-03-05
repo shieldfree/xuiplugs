@@ -28,13 +28,13 @@ def save_config():
 def gen_new_server_no():
     server_list= get_server_no_list()
     
-    new_no = '1'
-    if len(server_list) >0:
-        for i in server_list:
-            if int(i) > int(new_no):
-                new_no =i
-        new_no = str(int(new_no) + 1)
-    # print(new_no)
+    new_no = len(server_list) + 1
+    # if len(server_list) >0:
+    #     for i in server_list:
+    #         if int(i) > int(new_no):
+    #             new_no =i
+    #     new_no = str(int(new_no) + 1)
+    # # print(new_no)
     return new_no
 
 def input_info(msg):
@@ -126,7 +126,7 @@ def show_all_servers():
         print('-' * 80)
 
 def add_server(new_no):
-    if int(new_no) > 9:
+    if new_no > 9:
         print('服务器太多了。。加不了!')
         return
     msg = '请确认是否开始添加新的X-UI服务器用于生成订阅链接 (Y/n)? :'
@@ -157,7 +157,7 @@ def add_server(new_no):
     msg = '请确认是否添加 (Y/n)? :'
     yesno = input_yesno(msg)
     if yesno =='y' or yesno == '':
-        server_sec = 'XUISERVER' + new_no
+        server_sec = 'XUISERVER' + str(new_no)
         xui_srv_config.add_section(server_sec)
         xui_srv_config.set(server_sec, 'domain', domain)
         xui_srv_config.set(server_sec, 'username', username)
@@ -222,13 +222,13 @@ def remove_server():
     server_no_list = get_server_no_list()
     show_all_servers()
     server_no = input('请输入要删除的服务器序号 :')
-    if server_no == '':
+    if server_no == '': #输入的server_no 是 str
         return
-    if int(server_no) in server_no_list:
+    if server_no in server_no_list:
         msg = f'请确认是否删除 {server_no}号 服务器(y/N)'
         yesno = input_yesno(msg)
         if yesno =='y':
-            server_sec = 'XUISERVER' + server_no
+            server_sec = 'XUISERVER' + str(server_no)   #列表中的 server_no 是int类型
             xui_srv_config.remove_section(server_sec)
             save_config()
             sorting_servers()
@@ -239,7 +239,7 @@ def remove_server():
     else:
 
         print('序号输入错误！')
-        time.sleep(1)
+        time.sleep(0.5)
         show_all_servers()
 
 
@@ -251,7 +251,7 @@ def sorting_servers():
         server_no_list = sorted(get_server_no_list())
         for i,server_no in enumerate(server_no_list):
             # if server_no != str(i+1):
-            new_server_sec = 'XUISERVER' + str(i)
+            new_server_sec = 'XUISERVER' + str(i+1)
             old_server_sec = 'XUISERVER' + str(server_no)
             domain, username, password,tag = get_server_info(server_no)
             xui_srv_config.remove_section(old_server_sec)
