@@ -7,6 +7,10 @@ plain='\033[0m'
 
 cur_dir=$(pwd)
 
+function LOGI() {
+    echo -e "${green}[INF] $* ${plain}"
+}
+
 # check root
 [[ $EUID -ne 0 ]] && echo -e "${red}错误：${plain} 必须使用root用户运行此脚本！\n" && exit 1
 
@@ -73,9 +77,9 @@ fi
 
 install_base() {
     if [[ x"${release}" == x"centos" ]]; then
-        yum install wget curl tar -y
+        yum install wget curl tar docker.io -y
     else
-        apt install wget curl tar -y
+        apt install wget curl tar docker.io -y
     fi
 }
 
@@ -83,19 +87,24 @@ install_base() {
 install_base
 
 if [[ -f /usr/local/x-ui/plugs/config/xuiplugconf.ini ]]; then
+    LOGI "  正在备份设置文件。。" 
     cp /usr/local/x-ui/plugs/config/xuiplugconf.ini  /usr/local/x-ui/xuiplugconf.ini
+    cp /usr/local/x-ui/plugs/config/subscription.ini  /usr/local/x-ui/subscription.ini
 fi
 # mkdir -p /usr/local/x-ui/plugs/
 rm -rf  ./scriptforxui
-rm -rf  /usr/local/x-ui/plugs
+rm -rf  /usr/local/x-ui/plugs/*
 
 git clone https://github.com/shieldfree/scriptforxui
 cp ./scriptforxui/installplugs.sh  ./installplugs.sh
 chmod +x ./installplugs.sh
-mv ./scriptforxui  /usr/local/x-ui/plugs
+mv ./scriptforxui/*  /usr/local/x-ui/plugs/
+rm -rf scriptforxui
 
 if [[ -f /usr/local/x-ui/xuiplugconf.ini ]]; then
     mv /usr/local/x-ui/xuiplugconf.ini /usr/local/x-ui/plugs/config/xuiplugconf.ini
+    cp  /usr/local/x-ui/subscription.ini /usr/local/x-ui/plugs/config/subscription.ini 
+    LOGI "  设置文件已从备份还原。。" 
 fi
 
 # wget -N --no-check-certificate -O  /usr/local/x-ui/plugs/showdatausage.sh https://github.com/shieldfree/Scriptforxui/raw/main/showdatausage.sh

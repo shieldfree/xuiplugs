@@ -280,7 +280,10 @@ def select_main_option(msg):
         1. 添加
         2. 修改
         3. 删除
-    
+        ===订阅服务器==
+        4. 域名
+        5. 端口
+
     '''
 
     # while  True :
@@ -289,6 +292,27 @@ def select_main_option(msg):
     option_no = input(msg)
 
     return option_no
+
+def sub_server_mng():
+    sub_srv_domain = xui_srv_config.get('SUBSCRIPTIONSERVER','subserver_domain')
+    serverport = xui_srv_config.get('SUBSCRIPTIONSERVER','serverport')
+    print(f'当前服务器域名为: {sub_srv_domain}, 端口为: {serverport}')
+
+    print(f'\n变更域名: {sub_srv_domain}')
+    temp_sub_srv_domain =input('输入新的域名(不修改直接回车):')
+    if temp_sub_srv_domain != '':
+        sub_srv_domain =temp_sub_srv_domain
+        print(f'变更后的域名: {sub_srv_domain}')
+
+    print(f'\n变更端口: {serverport}')
+    temp_serverport =input('输入新的域名(不修改直接回车):')
+    if temp_serverport != '':
+        serverport =temp_serverport
+        print(f'变更后的端口: {serverport}')
+
+    print('\n 保存完毕！ 变更后的信息：')
+    print(f'当前服务器域名为: {sub_srv_domain}, 端口为: {serverport}')
+    save_config()
 
 
 def server_mng_menu():
@@ -300,6 +324,9 @@ def server_mng_menu():
             2. 修改(Edit)
             3. 删除(Delete)
 
+            ===订阅服务器==
+
+            4. 域名设置(domain)
             ===============
             9. 退出(Exit)
         
@@ -310,7 +337,7 @@ def server_mng_menu():
         msg = '请输入操作菜单序号:'
         option_no = input(msg)
         
-        if option_no not in [ '1','2', '3', '4','9']:
+        if option_no not in [ '1','2', '3', '4', '9']:
             print('输入有误请重新输入!! ')
             time.sleep(1)
             continue
@@ -329,7 +356,7 @@ def server_mng_menu():
             remove_server()
 
         elif option_no == '4':
-            sorting_servers()
+            sub_server_mng()
 
         elif option_no == '9':
             exit()
