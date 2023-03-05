@@ -66,10 +66,10 @@ def get_sublink_info(sublink_no):
     sublink_sec = 'SUBSCRIPTION' + str(sublink_no)
     if sublink_config.has_section(sublink_sec):
         filename = sublink_config.get(sublink_sec,'filename')
-        inbounds = sublink_config.get(sublink_sec,'inbounds')
-        remark = sublink_config.get(sublink_sec,'remark')
         use_yesno = sublink_config.get(sublink_sec,'use_yesno')
-        return [filename,inbounds,remark,use_yesno]
+        remark = sublink_config.get(sublink_sec,'remark')
+        inbounds = sublink_config.get(sublink_sec,'inbounds')
+        return [filename,use_yesno,remark,inbounds]
     # else:
     #     print(f'无server{sublink_no} 信息')
     #     return '','',''
@@ -87,9 +87,14 @@ def get_subscription_list():
     sublink = []
     sublink_no_list = get_sublink_no_list()
     for sublink_no in sublink_no_list:
-        filename,inbounds,remark,use_yesno = get_sublink_info(sublink_no)
+        filename,use_yesno,remark,inbounds = get_sublink_info(sublink_no)
         if use_yesno =='y':
-            sublink.append([filename,use_yesno,remark,inbounds.split(' ')])
+            temp_sublink = [filename,use_yesno,remark]
+            temp_inbounds = inbounds.strip().split(' ')
+            for inbound in temp_inbounds:
+                if ' ' not in inbound and inbound:
+                    temp_sublink.append(inbound)
+            sublink.append(temp_sublink)
     return sublink
 
 def show_all_sublinks():
