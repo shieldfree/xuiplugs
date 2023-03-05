@@ -367,7 +367,7 @@ def server_mng_menu():
 
         elif option_no == '9':
             exit()
-        time.sleep(1)
+        # time.sleep(1)
 
 
 
