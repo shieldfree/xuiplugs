@@ -270,8 +270,8 @@ show_menu() {
         ;;
     *)
         clear
-        LOGE "  请输入正确的数字 [0-8] : "
-        LOGE "  Please input correct number [0-8]  :"
+        LOGE "  请输入正确的数字 [0-9] : "
+        LOGE "  Please input correct number [0-9]  :"
         sleep 1
         show_menu 
         ;;
