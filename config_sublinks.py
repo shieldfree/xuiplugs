@@ -109,7 +109,6 @@ def show_all_sublinks():
         use_yesno = temp_data[3]
         # print(f'sublink{sublink_no:>2} | Filename: {filename:<20}| Use Y/N:{use_yesno} | remark:{remark:<16} |\n\t  | Inbounds:{inbounds:<60} |')
         print_sublink_info(sublink_no, filename,inbounds,remark,use_yesno)
-        
 
 def add_new_sublink(new_no):
     if int(new_no) > 30:
@@ -250,7 +249,7 @@ def sorting_sublinks():
             # if sublink_no != str(i+1):
             new_sublink_sec = 'SUBSCRIPTION' + str(i)
             old_sublink_sec = 'SUBSCRIPTION' + str(sublink_no)
-            filename,inbounds,remark,use_yesno = get_sublink_info(sublink_no)
+            filename,use_yesno,remark,inbounds = get_sublink_info(sublink_no)
             
             sublink_config.remove_section(old_sublink_sec)
 
