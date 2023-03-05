@@ -335,7 +335,7 @@ def server_mng_menu():
 
             4. 域名设置(domain)
             ===============
-            9. 退出(Exit)
+            9. 返回(Exit)
         
         '''
         print(menu)
@@ -343,9 +343,10 @@ def server_mng_menu():
 
         msg = '请输入操作菜单序号:'
         option_no = input(msg)
-        
+        if option_no == '' or not option_no.isnumeric():
+            continue
         if option_no not in [ '1','2', '3', '4', '9']:
-            print('输入有误请重新输入!! ')
+            print('\n输入有误请重新输入!! ')
             time.sleep(1)
             continue
 

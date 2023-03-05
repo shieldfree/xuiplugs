@@ -57,7 +57,8 @@ def input_yesno(msg):
             return temp
         print('请重新输入!! ')
 
-def print_sublink_info(sublink_no, filename,use_yesno,remark,inbounds):
+def print_sublink_info(sublink_no):
+    filename,use_yesno,remark,inbounds = get_sublink_info(sublink_no)
     print(f'sublink{sublink_no:>2} | Filename: {filename:<25}| Use y/n :  {use_yesno:^5}| remark:{remark:<16} |\n\t  | Inbounds:{inbounds:<63} |')
     print('-' * 85)
 
@@ -164,7 +165,7 @@ def edit_sublink_info():
 
         print(f'\n开始修改: | sublink{sublink_no:>2} | remark:{remark:<16}|\n')
         # print(f'sublink{sublink_no:>2} | Filename: {filename:<20}| Use Y/N:{use_yesno} | remark:{remark:<16} |\n\t  | Inbounds:{inbounds:<60} |')
-        print_sublink_info(sublink_no, filename,inbounds,remark,use_yesno)
+        print_sublink_info(sublink_no)
         print()
 
         print(f'\n当前文件名: {filename}')
@@ -205,17 +206,13 @@ def edit_sublink_info():
 def remove_sublinks():
     sublink_no_list = get_sublink_no_list()
     show_all_sublinks()
-    sublink_no = int(input('\n请输入要删除的订阅链接序号 :'))
-    if sublink_no in sublink_no_list:
-        filename,inbounds,remark,use_yesno = get_sublink_info(sublink_no)
-        sublink_sec = 'SUBSCRIPTION' + str(sublink_no)
-        filename = sublink_config.get(sublink_sec,'filename')
-        inbounds = sublink_config.get(sublink_sec,'inbounds')
-        remark = sublink_config.get(sublink_sec,'remark')
-        use_yesno = sublink_config.get(sublink_sec,'use_yesno')
-        # print(f'sublink{sublink_no:>2} | Filename: {filename:<20}| Use Y/N:{use_yesno} | remark:{remark:<16} |\n\t  | Inbounds:{inbounds:<60} |')
+    sublink_no = input('\n请输入要删除的订阅链接序号 :')
+    if sublink_no == '' or not sublink_no.isnumeric():
+        return
+    if int(sublink_no) in sublink_no_list:
+
         print('\n'+ '=' * 85)
-        print_sublink_info(sublink_no, filename,inbounds,remark,use_yesno)
+        print_sublink_info(sublink_no)
         msg = f'请确认是否删除 {sublink_no}号 订阅链接(y/N)'
 
         yesno = input_yesno(msg)
@@ -306,9 +303,10 @@ def sublink_mng_menu():
 
         msg = '请输入操作菜单序号:'
         option_no = input(msg)
-        
+        if option_no == '' or not option_no.isnumeric():
+            continue
         if option_no not in [ '1','2', '3','9']:
-            print('输入有误请重新输入!! ')
+            print('\n输入有误请重新输入!! ')
             time.sleep(1)
             continue
 
