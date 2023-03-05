@@ -2,6 +2,7 @@ import configparser
 import datetime
 import time
 import os
+import main
 
 configfile ='/usr/local/x-ui/plugs/config/subscription.ini'
 configfile = './config/subscription.ini' # 本机调试用
@@ -277,7 +278,7 @@ def select_main_option(msg):
     return option_no
 
 
-def main():
+def sublink_mng_menu():
     while True:
         show_all_sublinks()
         menu = '''
@@ -306,7 +307,8 @@ def main():
             continue
             print('test')
         elif option_no == '0':
-            show_all_sublinks()
+            # show_all_sublinks()
+            main.main_menu()
         elif option_no == '1':
             new_no = gen_new_sublink_no()
             add_new_sublink(new_no)
@@ -331,7 +333,7 @@ def main():
 
 if __name__ == '__main__':
 
-    main()
+    sublink_mng_menu()
     # filename,inbounds,remark,use_yesno = get_sublink_info(1)
     # inbound_temp = inbounds.split(' ')
     # print(inbound_temp)

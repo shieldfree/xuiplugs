@@ -1,16 +1,15 @@
 import config_xuilist
-def main():
+import config_sublinks
+def main_menu():
     while True:
         # show_all_servers()
         menu = '''
-            ===X-UI服务器===
-            0. 返回
-            1. 添加
-            2. 修改
-            3. 删除
-            4. 重新排序
-            ===订阅服务器==
-            5.
+            ===X-UI面板插件管理===
+            1. X-UI 服务器管理
+            2. 订阅节点管理
+            3. 
+            4. ---
+
 
             ===============
             9. 退出
@@ -27,9 +26,10 @@ def main():
             # time.sleep(1)
             continue
             print('test')
-        elif option_no == '0':
-            config_xuilist.main()
         elif option_no == '1':
+            config_xuilist.server_mng_menu()
+        elif option_no == '2':
+            config_sublinks.sublink_mng_menu()
             pass
 
         elif option_no == '9':
@@ -37,4 +37,4 @@ def main():
         # time.sleep(1)
 
 if __name__ == '__main__':
-    main()
+    main_menu()

@@ -2,6 +2,7 @@ import configparser
 import datetime
 import time
 import os
+import main
 
 configfile ='/usr/local/x-ui/plugs/config/xuiplugconf.ini'
 if not os.path.exists(configfile):
@@ -234,7 +235,7 @@ def select_main_option(msg):
     return option_no
 
 
-def main():
+def server_mng_menu():
     while True:
         show_all_servers()
         menu = '''
@@ -263,7 +264,8 @@ def main():
             continue
             print('test')
         elif option_no == '0':
-            show_all_servers()
+            # show_all_servers()
+            main.main_menu()
         elif option_no == '1':
             new_no = gen_new_server_no()
             add_server(new_no)
@@ -288,4 +290,4 @@ def main():
 
 if __name__ == '__main__':
 
-    main()
+    server_mng_menu()
