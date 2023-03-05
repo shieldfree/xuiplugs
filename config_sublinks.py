@@ -102,13 +102,9 @@ def show_all_sublinks():
     print('\n\n\n当前订阅节点明细:\n')
     print('=' * 85)
     for sublink_no in sublink_no_list:
-        temp_data = get_sublink_info(sublink_no)
-        filename = temp_data[0]
-        inbounds = temp_data[1]
-        remark =temp_data[2]
-        use_yesno = temp_data[3]
+        # filename,use_yesno,remark,inbounds = get_sublink_info(sublink_no)
         # print(f'sublink{sublink_no:>2} | Filename: {filename:<20}| Use Y/N:{use_yesno} | remark:{remark:<16} |\n\t  | Inbounds:{inbounds:<60} |')
-        print_sublink_info(sublink_no, filename,inbounds,remark,use_yesno)
+        print_sublink_info(sublink_no)
 
 def add_new_sublink(new_no):
     if int(new_no) > 30:
