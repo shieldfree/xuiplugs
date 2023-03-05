@@ -283,16 +283,11 @@ def sublink_mng_menu():
         show_all_sublinks()
         menu = '''
             ===X-UI订阅链接管理===
-            0. 返回
-            1. 添加
-            2. 修改
-            3. 删除
-            4. 重新排序
-            ===订阅服务器==
-            5.
-
+            1. 添加(Add)
+            2. 修改(Edit)
+            3. 删除(Delete)
             ===============
-            9. 退出
+            9. 返回(Exit)
         
         '''
         print(menu)
@@ -301,14 +296,14 @@ def sublink_mng_menu():
         msg = '请输入操作菜单序号:'
         option_no = input(msg)
         
-        if option_no not in ['0', '1','2', '3', '4','9']:
+        if option_no not in [ '1','2', '3','9']:
             print('输入有误请重新输入!! ')
             time.sleep(1)
             continue
-            print('test')
-        elif option_no == '0':
-            # show_all_sublinks()
-            main.main_menu()
+
+        # elif option_no == '0':
+        #     # show_all_sublinks()
+        #     main.main_menu()
         elif option_no == '1':
             new_no = gen_new_sublink_no()
             add_new_sublink(new_no)
@@ -319,8 +314,8 @@ def sublink_mng_menu():
         elif option_no == '3':
             remove_sublinks()
 
-        elif option_no == '4':
-            sorting_sublinks()
+        # elif option_no == '4':
+        #     sorting_sublinks()
 
         elif option_no == '9':
             exit()

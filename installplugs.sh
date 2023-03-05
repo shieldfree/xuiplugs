@@ -200,18 +200,19 @@ show_menu() {
   
     ${green}0.${plain} ${red}退出脚本 (Exit)${plain} 
  ——————————————————————————
-    ${green}1.${plain} 搭建订阅服务器
-    ${green}2.${plain} 删除订阅服务器
-    ${green}3.${plain} 安装端口++插件
-    ${green}4.${plain} 卸载端口++插件
-    ${green}5.${plain} remark显示用量
-    ${green}6.${plain} remark删除用量
-    ${green}7.${plain} 插件参数设置
-    ${green}8.${plain} 服务器信息管理
+    ${green}1.${plain} 搭建订阅服务器(Build subscription server)
+    ${green}2.${plain} 删除订阅服务器(Delete subscription server)
+    ${green}3.${plain} 安装端口++插件(Install port changer)
+    ${green}4.${plain} 卸载端口++插件(Remove port changer)
+    ${green}5.${plain} remark显示用量(Show Usage data)
+    ${green}6.${plain} remark删除用量(Remove Usage data)
+    ${green}7.${plain} 订阅节点信息管理(Manage subscription links)
+    ${green}8.${plain} 服务器信息管理(X-UI server manage)
+    ${green}9.${plain} 其他参数设置(Other parameter setting)
  ——————————————————————————
  "
-    echo "  Please input a number [0-8]  "
-    echo && read -p "  请输入选择 [0-8]  :" num
+    echo "  Please input a number [0-9]  "
+    echo && read -p "  请输入选择 [0-9]  :" num
 
     case "${num}" in
     0)
@@ -252,13 +253,17 @@ show_menu() {
         show_menu 
         ;;
     7)
-        LOGE "  暂时手动修改吧。。"
-        sleep 2
-        vim /usr/local/x-ui/plugs/config/xuiplugconf.ini
+        # 节点信息管理
+        python3 /usr/local/x-ui/plugs/config_sublinks.py
         sleep 2
         show_menu 
         ;;
     8)
+        python3 /usr/local/x-ui/plugs/config_xuilist.py
+        sleep 2
+        show_menu 
+        ;;
+    9)
         python3 /usr/local/x-ui/plugs/config_xuilist.py
         sleep 2
         show_menu 
