@@ -312,7 +312,7 @@ def sub_server_mng():
     print(f'\n变更端口: {serverport}')
     temp_serverport =input('输入新的域名(不修改直接回车):')
     if temp_serverport != '':
-        serverport =temp_serverport
+        serverport =temp_serverport 
         print(f'\n变更后的端口: {serverport}')
         xui_srv_config.set('SUBSCRIPTIONSERVER','subserver_domain', sub_srv_domain)
         xui_srv_config.set('SUBSCRIPTIONSERVER','serverport',serverport)
