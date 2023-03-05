@@ -314,8 +314,8 @@ def sub_server_mng():
     if temp_serverport != '':
         serverport =temp_serverport
         print(f'\n变更后的端口: {serverport}')
-        xui_srv_config.get('SUBSCRIPTIONSERVER','subserver_domain', sub_srv_domain)
-        xui_srv_config.get('SUBSCRIPTIONSERVER','serverport',serverport)
+        xui_srv_config.set('SUBSCRIPTIONSERVER','subserver_domain', sub_srv_domain)
+        xui_srv_config.set('SUBSCRIPTIONSERVER','serverport',serverport)
 
     print('\n 保存完毕！ 变更后的信息：')
     print(f'\n当前服务器域名为: {sub_srv_domain}, 端口为: {serverport}')
