@@ -1,11 +1,17 @@
 # Funny X-UI plugs
-## 快速使用
+##  快速使用
+
+
+<details>
+-  <summary><b> 点击查看快速使用说明</b></summary> 
+
  - 用一键安装命令进行安装
 ```
 bash <(curl -Ls https://github.com/shieldfree/scriptforxui/raw/main/scriptforxui.sh)
 
 ```
 运行界面如下
+
 ```
     0. 退出脚本 (Exit) 
  ——————————————————————————
@@ -24,7 +30,7 @@ bash <(curl -Ls https://github.com/shieldfree/scriptforxui/raw/main/scriptforxui
 
 ```
 
- 1. 进入<8. 服务器信息管理> 填写当前服务器的域名和要用于订阅的http端口。
+ 1. 进入 <8. 服务器信息管理> 填写当前服务器的域名和订阅服务用的http端口。
  1. 进入 <8. 服务器信息管理> 菜单添加X-UI 所在的服务器信息，
 输入服务器的域名，linux系统的用户名和密码(不是面板的)，以及服务器的名称(英文字母)， 安装在xui面板所在的服务器也需要输入, 
     - 输入的用户名 需要有权限能够访问 /etc目录下面板数据库
@@ -35,9 +41,12 @@ bash <(curl -Ls https://github.com/shieldfree/scriptforxui/raw/main/scriptforxui
     -假设 上面添加的命名为 candy的服务器有入站 1，2，3，4，5 ...
     - 就在inbound 填写  candy1  candy2 candy3 ...  中间空格区分
     - 该订阅链接就可以订阅这三个节点 
- 1. 运行 <1. 搭建订阅服务器> 创建静态网站,运行完后屏幕显示订阅链接地址，如果看不到， 订阅地址为 http://当前服务器域名:18080/sublinks/文件名，大概下面这个样子
+ 1. 运行 <1. 搭建订阅服务器> 创建静态网站,运行完后屏幕显示订阅链接地址，如果看不到，
+     订阅地址为 http://当前服务器域名:18080/sublinks/文件名，大概下面这个样子
     - http://app.myserver.com:18080/sublinks/test98e9e8ijgf
     - http://app.myserver.com:18080/sublinks/test3-kdiflvid
+
+</details>  
 
 ## 菜单选项 
 - [1. 显示流量](#客户端显示流量插件)  
