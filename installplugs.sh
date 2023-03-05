@@ -199,7 +199,7 @@ show_menu() {
   ${green}(instead of directly to client)${plain}
   
     ${green}0.${plain} ${red}退出脚本 (Exit)${plain} 
- ——————————————————————————
+ —————————————————————————————————————————————————————————————————
     ${green}1.${plain} 搭建订阅服务器(Build subscription server)
     ${green}2.${plain} 删除订阅服务器(Delete subscription server)
     ${green}3.${plain} 安装端口++插件(Install port changer)
@@ -209,7 +209,7 @@ show_menu() {
     ${green}7.${plain} 订阅节点信息管理(Manage subscription links)
     ${green}8.${plain} 服务器信息管理(X-UI server manage)
     ${green}9.${plain} 其他参数设置(Other parameter setting)
- ——————————————————————————
+ —————————————————————————————————————————————————————————————————
  "
     echo "  Please input a number [0-9]  "
     echo && read -p "  请输入选择 [0-9]  :" num
