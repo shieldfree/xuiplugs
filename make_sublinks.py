@@ -170,7 +170,7 @@ def get_inbound_link(db,id):
     else:
         print(" unsupported protocol")
     # print("type: ",protocol, v,ps,add, port,alterid,network,type1,host,path,tls,sniffing,alpn ) #,userid
-    print('\n', ps, '\n', sublink)
+    # print('\n', ps, '\n', sublink)
 
     return sublink
 
@@ -405,7 +405,7 @@ def make_sub_file(subscription,linkdict):
         pass
 
 def make_default_homepage():
-    print('-- bulding default webpage file --')
+    # print('-- bulding default webpage file --')
     lines = [
         '<!DOCTYPE html> \n',
         '<html> \n',
@@ -448,11 +448,12 @@ if __name__ == '__main__':
     #生成订阅文件,放入网站目录
     make_sub_file(subscription_list,linkdict)
     make_default_homepage() #生成测试默认页面确认http是否运行用
-    for sublink in subscription_list:
-        uri = sublink[0]
-        print(f'http://{yourdomain}:{sport}/{uri}')
     # 重启网站nginx服务,载入页面(订阅文件)
     os.system("docker restart `docker ps -a  | grep xuisubsrv | awk '{print $1}'`")
-
+    
+    for sublink in subscription_list:
+        uri = sublink[0]
+        sublinkfolder = sublinks_path.split('station/')[-1]
+        print(f'http://{yourdomain}:{sport}/{sublinkfolder}{uri}')
 
 

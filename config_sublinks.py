@@ -89,7 +89,7 @@ def get_subscription_list():
     for sublink_no in sublink_no_list:
         filename,inbounds,remark,use_yesno = get_sublink_info(sublink_no)
         if use_yesno =='y':
-            sublink.append([filename,use_yesno,remark,inbounds])
+            sublink.append([filename,use_yesno,remark,inbounds.split(' ')])
     return sublink
 
 def show_all_sublinks():
