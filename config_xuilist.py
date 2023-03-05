@@ -129,7 +129,7 @@ def add_server(new_no):
     if int(new_no) > 9:
         print('服务器太多了。。加不了!')
         return
-    msg = '请确认是否开始添加新的X-UI服务器 (Y/n)? :'
+    msg = '请确认是否开始添加新的X-UI服务器用于生成订阅链接 (Y/n)? :'
     yesno = input_yesno(msg)
     if yesno =='n' :
         print('取消添加服务器信息!')
@@ -201,10 +201,9 @@ def edit_server_info():
         print(f'当前Tag: {tag}')
         msg = '请输入服务器名称:'
         print('--服务器名称是为便于管理,不能重复,英文字符2-8个!--')
-        temp_tag =input('输入新的服务器名称:')
-        if temp_tag != '':
-            tag = input_tag(msg)
-            print(f'变更后的Tag: {tag}')
+        # temp_tag =input('输入新的服务器名称:')
+        tag = input_tag(msg)
+        print(f'变更后的Tag: {tag}')
 
         xui_srv_config.set(server_sec, 'domain', domain) 
         xui_srv_config.set(server_sec, 'username', username) 
