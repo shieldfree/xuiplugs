@@ -4,7 +4,7 @@ import time
 import os
 
 configfile ='/usr/local/x-ui/plugs/config/subscription.ini'
-configfile = './config/subscription.ini'
+configfile = './config/subscription.ini' # 本机调试用
 if not os.path.exists(configfile):
     with open(configfile,'w') as f:
         f.write("")
@@ -19,7 +19,6 @@ def save_config():
     # save the configeration file
     with open(configfile, 'w') as file:
         config.write(file)
-
 
 def gen_new_sublink_no():
     sublink_list= get_sublink_no_list()
@@ -57,6 +56,9 @@ def input_yesno(msg):
         print('请重新输入!! ')
     return temp
 
+def print_sublink_info(sublink_no, filename,inbounds,remark,use_yesno):
+    print(f'sublink{sublink_no:>2} | Filename: {filename:<25}| Use Y/N:{use_yesno} | remark:{remark:<16} |\n\t  | Inbounds:{inbounds:<63} |')
+    print('-' * 85)
 def get_sublink_info(sublink_no):
     sublink_sec = 'SUBSCRIPTION' + str(sublink_no)
     if config.has_section(sublink_sec):
@@ -75,25 +77,26 @@ def get_sublink_no_list():
     sublink_list = []
     for  sec in section_list:
         if 'SUBSCRIPTION' in sec:
-            sublink_list.append(sec.replace('SUBSCRIPTION',''))
+            sublink_list.append(int(sec.replace('SUBSCRIPTION','')))
     return sublink_list
 
 def show_all_sublinks():
     sublink_no_list = get_sublink_no_list()
-    print('\n\n\n当前服务器信息如下:\n')
-    print('=' * 80)
+    print('\n\n\n当前订阅节点明细:\n')
+    print('=' * 85)
     for sublink_no in sublink_no_list:
         temp_data = get_sublink_info(sublink_no)
         filename = temp_data[0]
         inbounds = temp_data[1]
         remark =temp_data[2]
         use_yesno = temp_data[3]
-        print(f'sublink{sublink_no:>2} | Filename: {filename:<20}| Use Y/N:{use_yesno} | remark:{remark:<6}|\n\t  | Inbounds:{inbounds:<10}')
-        print('-' * 80)
+        # print(f'sublink{sublink_no:>2} | Filename: {filename:<20}| Use Y/N:{use_yesno} | remark:{remark:<16} |\n\t  | Inbounds:{inbounds:<60} |')
+        print_sublink_info(sublink_no, filename,inbounds,remark,use_yesno)
+        
 
 def add_new_sublink(new_no):
     if int(new_no) > 30:
-        print('订阅链接太多了。。加不了!')
+        print('订阅链接是不是太多了。。加不了!')
         return
     msg = '请确认是否开始添加新的订阅链接 (Y/n)? :'
     yesno = input_yesno(msg)
@@ -112,11 +115,10 @@ def add_new_sublink(new_no):
     # msg = '请输入服务器标签:'
     # tag = input_info(msg)
     use_yesno = 'y'
-    print('要添加的订阅链接信息如下: ')
-    print(f'''
-        sublink{new_no:>2} | filename: {filename:<20}| Use Y/N:{use_yesno} | remark:{remark:<6}|\n\t  |Inbounds:{inbounds:<10}
-
-    ''')
+    print('要添加的订阅链接信息如下: \n')
+    print('-' * 85)
+    # print(f'sublink{new_no:>2} | filename: {filename:<20}| Use Y/N:{use_yesno} | remark:{remark:<16} |\n\t  |Inbounds:{inbounds:<60} |')
+    print_sublink_info(new_no, filename,inbounds,remark,use_yesno)
     msg = '请确认是否添加节点 (Y/n)? :'
     yesno = input_yesno(msg)
     if yesno =='y' or yesno == '':
@@ -139,57 +141,77 @@ def edit_sublink_info():
     sublink_no_list = get_sublink_no_list()
     show_all_sublinks()
     sublink_no = ''
-    sublink_no = input('选择要编辑的服务器序号')
+    sublink_no = int(input('选择要修改的的订阅链接序号:'))
     if sublink_no in sublink_no_list:
-        server_sec = 'SUBSCRIPTION' + sublink_no
+        server_sec = 'SUBSCRIPTION' + str(sublink_no)
         temp_data = get_sublink_info(sublink_no)
         filename = temp_data[0]
         inbounds = temp_data[1]
         remark =temp_data[2]
         use_yesno = temp_data[3]
 
-        print(f'当前文件名: {filename}')
-        temp_filename =input('输入新的域名(不修改直接回车):')
-        if temp_filename != '':
-            filename =temp_filename
+        print(f'\n开始修改: | sublink{sublink_no:>2} | remark:{remark:<16}|\n')
+        # print(f'sublink{sublink_no:>2} | Filename: {filename:<20}| Use Y/N:{use_yesno} | remark:{remark:<16} |\n\t  | Inbounds:{inbounds:<60} |')
+        print_sublink_info(sublink_no, filename,inbounds,remark,use_yesno)
+        print()
 
-        print(f'当前remark: {remark}')
-        temp_remark =input('输入新的remark(不修改直接回车):')
+        print(f'\n当前文件名: {filename}')
+        temp_filename =input('输入新的文件名(不修改直接回车):')
+        if temp_filename.strip() != '':
+            filename =temp_filename
+            print(f'变更后的文件名: {filename}')
+
+        print(f'\n当前remark: {remark}')
+        temp_remark =input('变更remark(不修改直接回车):')
         if temp_remark != '':
             remark =temp_remark
+            print(f'变更后的remark: {remark}')
 
-        print(f'当前使用状态: {use_yesno}')
-        temp_use_yesno =input('输入新的密码(不修改直接回车):')
+        print(f'\n当前使用状态: {use_yesno}')
+        msg = '使用状态y/n(不修改直接回车):'
+        temp_use_yesno = input_yesno(msg)
         if temp_use_yesno != '':
             use_yesno =temp_use_yesno
+            print(f'变更后的使用状态: {use_yesno}')
 
-        print(f'当前inbounds 明细: {inbounds}')
-        temp_inbounds =input('输入当前inbounds,以空格分开(不修改直接回车):')
+        print(f'\n当前inbounds 明细: {inbounds}')
+        temp_inbounds =input('输入当前inbounds,空格分开(不修改直接回车):')
         if temp_inbounds != '':
-            use_yesno =temp_inbounds
+            inbounds =temp_inbounds
+            print(f'变更后的inbounds 明细:\n\t {inbounds}')
 
         config.set(server_sec, 'filename', filename) 
-        config.set(server_sec, 'filename', filename) 
+        config.set(server_sec, 'remark', remark) 
         config.set(server_sec, 'use_yesno', use_yesno) 
-        config.set(server_sec, 'use_yesno', use_yesno) 
+        config.set(server_sec, 'inbounds', inbounds) 
         # config.set(server_sec, 'tag', domain.split('.')[0] + server_no) 
         save_config()
         print('完成修改!')
     else: 
         print('输入有误!')
 
-def remove_server():
-    server_no_list = get_sublink_no_list()
-    show_all_servers()
-    server_no = input('请输入要删除的服务器序号 :')
-    if server_no in server_no_list:
-        msg = f'请确认是否删除 {server_no}号 服务器(y/N)'
+def remove_sublinks():
+    sublink_no_list = get_sublink_no_list()
+    show_all_sublinks()
+    sublink_no = int(input('\n请输入要删除的订阅链接序号 :'))
+    if sublink_no in sublink_no_list:
+        filename,inbounds,remark,use_yesno = get_sublink_info(sublink_no)
+        sublink_sec = 'SUBSCRIPTION' + str(sublink_no)
+        filename = config.get(sublink_sec,'filename')
+        inbounds = config.get(sublink_sec,'inbounds')
+        remark = config.get(sublink_sec,'remark')
+        use_yesno = config.get(sublink_sec,'use_yesno')
+        # print(f'sublink{sublink_no:>2} | Filename: {filename:<20}| Use Y/N:{use_yesno} | remark:{remark:<16} |\n\t  | Inbounds:{inbounds:<60} |')
+        print('\n'+ '=' * 85)
+        print_sublink_info(sublink_no, filename,inbounds,remark,use_yesno)
+        msg = f'请确认是否删除 {sublink_no}号 订阅链接(y/N)'
+
         yesno = input_yesno(msg)
         if yesno =='y':
-            server_sec = 'XUISERVER' + server_no
+            server_sec = 'SUBSCRIPTION' + str(sublink_no)
             config.remove_section(server_sec)
             save_config()
-            sorting_servers()
+            sorting_sublinks()
             # show_all_servers
         else:
             print('取消删除')
@@ -198,36 +220,40 @@ def remove_server():
 
         print('序号输入错误！')
         time.sleep(1)
-        show_all_servers()
+        show_all_sublinks()
 
 
-def sorting_servers():
+def sorting_sublinks():
     # 每次有删减,重新 从1号开始排序
     # msg = '确认是否进行排序(y/N)'
     # yesno = input_yesno(msg)
     # if yesno == 'y':
-        server_no_list = sorted(get_sublink_no_list())
-        for i,server_no in enumerate(server_no_list):
-            if server_no != str(i+1):
-                new_server_sec = 'XUISERVER' + str(i+1)
-                old_server_sec = 'XUISERVER' + server_no
-                config.add_section(new_server_sec)
-                domain, username, password = get_sublink_info(server_no)
-                config.set(new_server_sec, 'domain', domain) 
-                config.set(new_server_sec, 'username', username) 
-                config.set(new_server_sec, 'password', password) 
-                config.remove_section(old_server_sec)
+        sublink_no_list = sorted(get_sublink_no_list())
+        for i,sublink_no in enumerate(sublink_no_list):
+            # if sublink_no != str(i+1):
+            new_sublink_sec = 'SUBSCRIPTION' + str(i)
+            old_sublink_sec = 'SUBSCRIPTION' + str(sublink_no)
+            filename,inbounds,remark,use_yesno = get_sublink_info(sublink_no)
+            
+            config.remove_section(old_sublink_sec)
+
+            config.add_section(new_sublink_sec)
+            config.set(new_sublink_sec, 'filename', filename) 
+            config.set(new_sublink_sec, 'inbounds', inbounds) 
+            config.set(new_sublink_sec, 'remark', remark) 
+            config.set(new_sublink_sec, 'use_yesno', use_yesno) 
                 # save_config()
-            elif server_no == str(i+1):
-                domain, username, password = get_server_info(server_no)
-                server_sec = 'XUISERVER' + server_no
-                config.remove_section(server_sec)
-                config.add_section(server_sec)
-                config.set(server_sec, 'domain', domain)
-                config.set(server_sec, 'username', username)
-                config.set(server_sec, 'password', password)
+            # elif server_no == str(i+1):
+            #     domain, username, password = get_sublink_info(server_no)
+            #     server_sec = 'SUBSCRIPTION' + server_no
+            #     config.remove_section(server_sec)
+            #     config.add_section(server_sec)
+            #     config.set(server_sec, 'domain', domain)
+            #     config.set(server_sec, 'username', username)
+            #     config.set(server_sec, 'password', password)
         save_config()
-        print(' 服务器重新排序 !!')
+        print(' \n\n注意:订阅链接 序号重新排序 !!')
+        time.sleep(2)
     # else:
     #     print('取消重新排序')
 
@@ -255,7 +281,7 @@ def main():
     while True:
         show_all_sublinks()
         menu = '''
-            ===X-UI服务器===
+            ===X-UI订阅链接管理===
             0. 返回
             1. 添加
             2. 修改
@@ -289,10 +315,10 @@ def main():
             edit_sublink_info()
 
         elif option_no == '3':
-            remove_server()
+            remove_sublinks()
 
         elif option_no == '4':
-            sorting_servers()
+            sorting_sublinks()
 
         elif option_no == '9':
             exit()
@@ -305,7 +331,7 @@ def main():
 
 if __name__ == '__main__':
 
-    # main()
+    main()
     # filename,inbounds,remark,use_yesno = get_sublink_info(1)
     # inbound_temp = inbounds.split(' ')
     # print(inbound_temp)
@@ -317,4 +343,6 @@ if __name__ == '__main__':
     # new_no = gen_new_sublink_no()
     # add_new_sublink(new_no)
     
-    edit_sublink_info()
+    # edit_sublink_info()
+    # msg = '输入使用状态y/n(不修改直接回车):'
+    # temp_use_yesno = input_yesno(msg)
