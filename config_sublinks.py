@@ -56,7 +56,6 @@ def input_yesno(msg):
         elif temp == '':
             return temp
         print('请重新输入!! ')
-    return temp
 
 def print_sublink_info(sublink_no, filename,inbounds,remark,use_yesno):
     print(f'sublink{sublink_no:>2} | Filename: {filename:<25}| Use Y/N:{use_yesno} | remark:{remark:<16} |\n\t  | Inbounds:{inbounds:<63} |')
@@ -160,11 +159,8 @@ def edit_sublink_info():
     sublink_no = int(input('选择要修改的的订阅链接序号:'))
     if sublink_no in sublink_no_list:
         server_sec = 'SUBSCRIPTION' + str(sublink_no)
-        temp_data = get_sublink_info(sublink_no)
-        filename = temp_data[0]
-        inbounds = temp_data[1]
-        remark =temp_data[2]
-        use_yesno = temp_data[3]
+        filename,use_yesno,remark,inbounds = get_sublink_info(sublink_no)
+
 
         print(f'\n开始修改: | sublink{sublink_no:>2} | remark:{remark:<16}|\n')
         # print(f'sublink{sublink_no:>2} | Filename: {filename:<20}| Use Y/N:{use_yesno} | remark:{remark:<16} |\n\t  | Inbounds:{inbounds:<60} |')
