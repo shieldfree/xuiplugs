@@ -118,7 +118,7 @@ def get_servers():
 
 def show_all_servers():
     server_list = get_server_no_list()
-    print('\n\n\n当前服务器信息如下:\n')
+    print('\n\n\n当前 X-UI 服务器明细:\n')
     print('=' * 80)
     for server_no in server_list:
         domain,username,password,tag = get_server_info(server_no)
@@ -327,14 +327,14 @@ def server_mng_menu():
         # show_all_servers()
         menu = '''
             ===X-UI服务器===
-            0. 查看XUI服务器
-            1. 添加(Add)
-            2. 修改(Edit)
-            3. 删除(Delete)
+            1. 查看XUI服务器
+            2. 添加(Add)
+            3. 修改(Edit)
+            4. 删除(Delete)
 
             ===订阅服务器==
 
-            4. 域名设置(domain)
+            5. 域名设置(domain)
             ===============
             9. 返回(Exit)
         
@@ -346,26 +346,26 @@ def server_mng_menu():
         option_no = input(msg)
         if option_no == '' or not option_no.isnumeric():
             continue
-        if option_no not in [ '1','2', '3', '4', '9']:
+        if option_no not in [ '1','2', '3', '4', '5', '9']:
             print('\n输入有误请重新输入!! ')
             time.sleep(1)
             continue
 
-        elif option_no == '0':
+        elif option_no == '1':
             show_all_servers()
             print(menu)
             # main.main_menu()
-        elif option_no == '1':
+        elif option_no == '2':
             new_no = gen_new_server_no()
             add_server(new_no)
 
-        elif option_no == '2':
+        elif option_no == '3':
             edit_server_info()
 
-        elif option_no == '3':
+        elif option_no == '4':
             remove_server()
 
-        elif option_no == '4':
+        elif option_no == '5':
             sub_server_mng()
 
         elif option_no == '9':
