@@ -49,8 +49,8 @@ before_show_menu() {
 
 enable_subscription_links() {
 
-    echo -e "${yellow}请确认: ${plain}"
-    read -p "确认是否继续,输入y继续[y/n]": config_confirm
+    echo -e "${yellow}请确认开始搭建订阅服务器: ${plain}"
+    read -p "输入y继续,其他退出[y/n]": config_confirm
     if [[ x"${config_confirm}" == x"y" || x"${config_confirm}" == x"Y" ]]; then
         clear
         LOGI "  开始搭建订阅网站服务器..."
