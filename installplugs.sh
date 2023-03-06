@@ -63,7 +63,6 @@ enable_subscription_links() {
     rm /tmp/crontabTask.tmp
     sleep 1
 
-    python3 /usr/local/x-ui/plugs/make_sublinks.py
 
     read -p "  ↑ 订阅链接.  按回车继续  :" num
 
@@ -221,6 +220,7 @@ show_menu() {
     1)
         check_install && python3 /usr/local/x-ui/plugs/subserver.py
         enable_subscription_links
+        python3 /usr/local/x-ui/plugs/make_sublinks.py
         sleep 1
         show_menu 
         ;;

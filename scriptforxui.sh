@@ -77,7 +77,7 @@ fi
 
 install_base() {
     if [[ x"${release}" == x"centos" ]]; then
-        yum update
+        yum update -y
         yum install wget curl tar docker.io python3-pip -y
         pip install paramiko scp
 

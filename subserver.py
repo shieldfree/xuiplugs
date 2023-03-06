@@ -52,14 +52,13 @@ def build_docker_container():
     except docker.errors.NotFound as exc: 
         # if the container not exist build new one
         print(f'-- building docker container name:{engin_name} site root: {htmlroot} --')
-        os.system(r"docker start `docker ps -a | grep xuisubsrv | awk '{print $1}'`")
+        os.system(r"docker stop `docker ps -a | grep xuisubsrv | awk '{print $1}'`")
         os.system(r"docker rm `docker ps -a | grep xuisubsrv | awk '{print $1}'`")
-
         os.system(f'docker run -d -p {serverport}:80  -v {htmlroot}:/usr/share/nginx/html \
             --name {engin_name} --restart=always nginx')
     else:
         print(f'start docker container : {engin_name}')
-        os.system(r"docker start `docker ps -a | grep xuisubsrv | awk '{print $1}'`")
+        os.system(r"docker stop `docker ps -a | grep xuisubsrv | awk '{print $1}'`")
         os.system(r"docker rm `docker ps -a | grep xuisubsrv | awk '{print $1}'`")
         os.system(f'docker run -d -p {serverport}:80  -v {htmlroot}:/usr/share/nginx/html \
             --name {engin_name} --restart=always nginx')
