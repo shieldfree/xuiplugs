@@ -324,9 +324,10 @@ def sub_server_mng():
 
 def server_mng_menu():
     while True:
-        show_all_servers()
+        # show_all_servers()
         menu = '''
             ===X-UI服务器===
+            0. 查看XUI服务器
             1. 添加(Add)
             2. 修改(Edit)
             3. 删除(Delete)
@@ -350,9 +351,10 @@ def server_mng_menu():
             time.sleep(1)
             continue
 
-        # elif option_no == '0':
-        #     # show_all_servers()
-        #     main.main_menu()
+        elif option_no == '0':
+            show_all_servers()
+            print(menu)
+            # main.main_menu()
         elif option_no == '1':
             new_no = gen_new_server_no()
             add_server(new_no)
