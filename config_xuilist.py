@@ -322,6 +322,7 @@ def sub_server_mng():
     save_config()
 
 
+
 def server_mng_menu():
     while True:
         # show_all_servers()
