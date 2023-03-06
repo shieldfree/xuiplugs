@@ -453,8 +453,9 @@ if __name__ == '__main__':
     
     for i, sublink in enumerate(subscription_list):
         uri = sublink[0]
+        remark = sublink[2]
         sublinkfolder = sublinks_path.split('station/')[-1]
         if i == 0: print('0号订阅为管理用,包含全部节点')
-        print(f'http://{yourdomain}:{sport}/{sublinkfolder}{uri}')
+        print(f'sublink{i:>2} : 备注: {remark}\n 订阅链接: http://{yourdomain}:{sport}/{sublinkfolder}{uri}')
 
 
