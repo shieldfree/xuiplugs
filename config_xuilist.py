@@ -348,12 +348,12 @@ def server_mng_menu():
             continue
         if option_no not in [ '1','2', '3', '4', '5', '9']:
             print('\n输入有误请重新输入!! ')
-            time.sleep(1)
+            # time.sleep(1)
             continue
 
         elif option_no == '1':
             show_all_servers()
-            print(menu)
+            # print(menu)
             # main.main_menu()
         elif option_no == '2':
             new_no = gen_new_server_no()
