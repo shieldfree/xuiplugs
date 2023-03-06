@@ -48,23 +48,26 @@ before_show_menu() {
 }
 
 enable_subscription_links() {
-    clear
-    LOGI "  正在 搭建订阅服务器..."
-    # mkdir -p /usr/local/x-ui/plugs/
-    # cp ./port_changer.py  /usr/local/x-ui/plugs/xuiplug_show_usage.py
-    # cp ./xuiplug_show_usage_uninstall.py  /usr/local/x-ui/plugs/xuiplug_show_usage_uninstall.py
-    # python3 /usr/local/x-ui/plugs/xuiplug_show_usage.py 
 
-    crontab -l | grep -v "make_sublinks" | crontab -
+    echo -e "${yellow}请确认: ${plain}"
+    read -p "确认是否继续,输入y继续[y/n]": config_confirm
+    if [[ x"${config_confirm}" == x"y" || x"${config_confirm}" == x"Y" ]]; then
+        clear
+        LOGI "  开始搭建订阅网站服务器..."
+        check_install && python3 /usr/local/x-ui/plugs/subserver.py
 
-    crontab -l >/tmp/crontabTask.tmp
-    echo "*/8 * * * * python3 /usr/local/x-ui/plugs/make_sublinks.py " >>/tmp/crontabTask.tmp
-    crontab /tmp/crontabTask.tmp
-    rm /tmp/crontabTask.tmp
-    sleep 1
+        python3 /usr/local/x-ui/plugs/make_sublinks.py 
 
+        crontab -l | grep -v "make_sublinks" | crontab -
+        crontab -l >/tmp/crontabTask.tmp
+        echo "*/8 * * * * python3 /usr/local/x-ui/plugs/make_sublinks.py " >>/tmp/crontabTask.tmp
+        crontab /tmp/crontabTask.tmp
+        rm /tmp/crontabTask.tmp
+        read -p "  ↑ 订阅链接.  按回车继续  :" num
+    else
+    echo -e "${red}已取消搭建订阅服务器...${plain}"
+    fi
 
-    read -p "  ↑ 订阅链接.  按回车继续  :" num
 
 }
 
@@ -218,10 +221,7 @@ show_menu() {
         exit 0
         ;;
     1)
-        check_install && python3 /usr/local/x-ui/plugs/subserver.py
         enable_subscription_links
-        python3 /usr/local/x-ui/plugs/make_sublinks.py
-        sleep 1
         show_menu 
         ;;
     2)
