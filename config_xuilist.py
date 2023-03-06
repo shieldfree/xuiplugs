@@ -122,7 +122,7 @@ def show_all_servers():
     print('=' * 80)
     for server_no in server_list:
         domain,username,password,tag = get_server_info(server_no)
-        print(f'Server{server_no:>1}|  Tag:{tag:<8}\n | domain: {domain:<20}|\n| User:{username:<6}| Pw:{password:<10}')
+        print(f'Server{server_no:>1}|  Tag:{tag:<8}\n | domain: {domain:<20}|\n | User:{username:<6}| Pw:{password:<10}')
         print('-' * 80)
 
 def add_server(new_no):
@@ -301,7 +301,7 @@ def select_main_option(msg):
 def sub_server_mng():
     sub_srv_domain = xui_srv_config.get('SUBSCRIPTIONSERVER','subserver_domain')
     serverport = xui_srv_config.get('SUBSCRIPTIONSERVER','serverport')
-    print(f'当前服务器域名为: {sub_srv_domain}, 端口为: {serverport}')
+    print(f'当前订阅服务器域名为: {sub_srv_domain}, 端口为: {serverport}')
 
     print(f'\n变更域名: {sub_srv_domain}')
     temp_sub_srv_domain =input('输入新的域名(不修改直接回车):')
@@ -334,7 +334,7 @@ def server_mng_menu():
 
             ===订阅服务器==
 
-            5. 域名设置(domain)
+            5. 域名端口设置(domain)
             ===============
             9. 返回(Exit)
         

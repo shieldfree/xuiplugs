@@ -21,6 +21,12 @@ htmlroot = config.get(subserver_sec,'station_root')
 serverport = config.get(subserver_sec,'serverport')
 engin_name = 'xuisubsrv' + config.get(subserver_sec,'engin_name') 
 subserver_domain = config.get(subserver_sec,'subserver_domain')
+if subserver_domain =='app.myserver.com':
+    print('订阅服务器域名是默认值,请先设置订阅服务器的域名!!\n 进入菜单:<8. 服务器信息管理> ==> <5.域名端口设置(domain)>')
+    exit()
+if config.get('XUISERVER1','domain') == 'app.myserver.com':
+    print('请先添加xui服务器的信息,以读取入站信息\n 进入菜单:<8. 服务器信息管理> ==> <2. 添加(Add)>')
+    exit()
 
 if os.path.isdir('/root/'):
     print(f'-- making folder to {htmlroot} --')

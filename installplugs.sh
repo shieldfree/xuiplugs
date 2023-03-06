@@ -264,7 +264,7 @@ show_menu() {
         show_menu 
         ;;
     9)
-        python3 /usr/local/x-ui/plugs/config_xuilist.py
+        echo "还没写..."
         sleep 2
         show_menu 
         ;;
