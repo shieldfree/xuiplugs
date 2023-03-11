@@ -211,13 +211,14 @@ if __name__ == '__main__':
     # dbfile =  './x-ui.db'
     id_list = get_inbounds_fields_list(dbfile,'id')
     port_list = get_inbounds_fields_list(dbfile,'port')
-    print('\n\n\n==== 注意： 添加完毕后 需要点击 重置流量按钮刷新节点信息 !!! ======\n====   并在系统状态页面重启一次xray!!! ====\n\n\n')
-    print('根据输入的域名生成证书路径:')
+    print('\n\n\n==== 注意： 添加完毕后 需要点击 x-ui面板的 重置流量按钮刷新节点信息 !!! ======\n====   并在系统状态页面重启一次xray!!! ====\n\n\n')
+    print('自动添加的节点随机选择节点类型[ vmess, vless, trojan]\n')
+    print('根据输入的域名生成证书路径如下:')
     print('path to cert:/root/cert/fullchain.cer')
     print('path to key:/root/cert/YOUR_DOMAIN.key')
     domain = input_domain()
 
-    msg = '请输入备注信息(如:usCA) :'
+    msg = '请输入备注信息(如:us) :'
     remark = input(msg)
 
     msg ='请输入要添加的入站个数(0 退出) :'
