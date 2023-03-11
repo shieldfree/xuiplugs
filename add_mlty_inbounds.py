@@ -228,6 +228,9 @@ if __name__ == '__main__':
     temp_port_step = input(msg)
     if temp_port_step == '':
         port_step = 300
+    else:
+        port_step = int(temp_port_step)
+
     print('\n\n开始添加节点')
     for i in range(0,qty):
         new_port =gen_new_port_num(port_list,port_step)
