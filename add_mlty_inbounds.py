@@ -240,6 +240,7 @@ if __name__ == '__main__':
 
         time.sleep(0.1)
     print('\n\n\n\n添加完毕, 请点击 重置流量按钮!!! 并在系统状态页面重启一次xray\n\n\n\n')
+    input('按回车退出.')
     # gen_new_port_num()
     # print(port_list)
     # print('end')

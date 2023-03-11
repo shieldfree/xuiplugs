@@ -202,15 +202,15 @@ show_menu() {
   
     ${green}0.${plain} ${red}退出脚本 (Exit)${plain} 
  —————————————————————————————————————————————————————————————————
-    ${green}1.${plain} 搭建订阅服务器(Build subscription server)
-    ${green}2.${plain} 删除订阅服务器(Delete subscription server)
-    ${green}3.${plain} 安装端口++插件(Install port changer)
-    ${green}4.${plain} 卸载端口++插件(Remove port changer)
-    ${green}5.${plain} 安装客户端显示用量(Show Usage data)
-    ${green}6.${plain} 卸载客户端显示用量(Remove Usage data)
-    ${green}7.${plain} 订阅节点信息管理(Manage subscription links)
-    ${green}8.${plain} 服务器信息管理(X-UI server manage)
-    ${green}9.${plain} 批量添加节点(Add multiple inbounds)
+    ${green} 1.${plain} 搭建订阅服务器(Build subscription server)
+    ${green} 2.${plain} 删除订阅服务器(Delete subscription server)
+    ${green} 3.${plain} 安装端口++插件(Install port changer)
+    ${green} 4.${plain} 卸载端口++插件(Remove port changer)
+    ${green} 5.${plain} 安装客户端显示用量(Show Usage data)
+    ${green} 6.${plain} 卸载客户端显示用量(Remove Usage data)
+    ${green} 7.${plain} 订阅节点信息管理(Manage subscription links)
+    ${green} 8.${plain} 服务器信息管理(X-UI server manage)
+    ${green} 9.${plain} 批量添加节点(Add multiple inbounds)
     ${green}10.${plain} 其他参数设置(Other parameter setting)
  —————————————————————————————————————————————————————————————————
  "
