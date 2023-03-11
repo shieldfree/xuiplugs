@@ -210,7 +210,8 @@ show_menu() {
     ${green}6.${plain} 卸载客户端显示用量(Remove Usage data)
     ${green}7.${plain} 订阅节点信息管理(Manage subscription links)
     ${green}8.${plain} 服务器信息管理(X-UI server manage)
-    ${green}9.${plain} 其他参数设置(Other parameter setting)
+    ${green}9.${plain} 批量添加节点(Add multiple inbounds)
+    ${green}10.${plain} 其他参数设置(Other parameter setting)
  —————————————————————————————————————————————————————————————————
  "
     echo "  Please input a number [0-9]  "
@@ -264,6 +265,11 @@ show_menu() {
         show_menu 
         ;;
     9)
+        python3 /usr/local/x-ui/plugs/add_mlty_inbounds.py
+        sleep 2
+        show_menu 
+        ;;
+    10)
         echo "还没写..."
         sleep 2
         show_menu 
