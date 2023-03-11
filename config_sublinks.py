@@ -129,8 +129,8 @@ def add_new_sublink(new_no):
     use_yesno = 'y'
     print('要添加的订阅链接信息如下: \n')
     print('-' * 85)
-    # print(f'sublink{new_no:>2} | filename: {filename:<20}| Use Y/N:{use_yesno} | remark:{remark:<16} |\n\t  |Inbounds:{inbounds:<60} |')
-    print_sublink_info(new_no, filename,inbounds,remark,use_yesno)
+    print(f'sublink{new_no:>2} | filename: {filename:<20}| Use Y/N:{use_yesno} | remark:{remark:<16} |\n\t  |Inbounds:{inbounds:<60} |')
+    # print_sublink_info(new_no, filename,inbounds,remark,use_yesno)
     msg = '请确认是否添加节点 (Y/n)? :'
     yesno = input_yesno(msg)
     if yesno =='y' or yesno == '':
