@@ -231,7 +231,10 @@ if __name__ == '__main__':
     print('\n\n开始添加节点')
     for i in range(0,qty):
         new_port =gen_new_port_num(port_list,port_step)
-        new_id = max(id_list) + 1
+        if len(id_list) == 0:
+            new_id = 1
+        else:
+            new_id = max(id_list) + 1
         
         print(new_id,new_port)
 
