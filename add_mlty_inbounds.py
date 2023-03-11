@@ -239,7 +239,7 @@ if __name__ == '__main__':
         port_list.append(new_port)
 
         time.sleep(0.1)
-    print('\n\n\n\n添加完毕, 请点击 重置流量按钮!!! 并在系统状态页面重启一次xray\n\n\n\n')
+    print(f'\n\n\n\n=== {qty}个节点添加完毕, 请点击x-ui面板 重置流量按钮!!! \n=== 并在系统状态页面重启一次xray,确认运行状态为running \n\n\n\n')
     input('按回车退出.')
     # gen_new_port_num()
     # print(port_list)
