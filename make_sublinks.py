@@ -105,7 +105,7 @@ def get_inbound_link(db,id):
     else :  userid = inboundinfo[13].split('"id": "')[1].split('"')[0]
 
     if protocol == 'vmess':
-        alterid = inboundinfo[13].split('"alterId": ')[1].split(' ')[0].strip()
+        alterid = inboundinfo[13].split('"alterId": ')[1].split(',')[0].strip()
     else : alterid = 0
 
     network = inboundinfo[14].split('"network": "')[-1].split('"')[0]
