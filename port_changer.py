@@ -175,7 +175,7 @@ def main_port_changer():
             print('流量上限规则，端口号变更完毕！')
         end_time = current_time.today().strftime('%Y-%m-%d %H:%M:%S')
         config.set(portchanger_section,'end_time',end_time)
-        # config.set(portchanger_section,'updateddate',today_date) # 
+        config.set(portchanger_section,'updateddate',today_date) # 
         save_config()
         restart_xui()
 if int(data_usage_reset_date) == int(current_date_num):
