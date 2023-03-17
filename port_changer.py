@@ -28,11 +28,12 @@ lastupdateddate = config.get(portchanger_section,'updateddate')
 datamax = int(config.get(portchanger_section,'datamaximum'))  #(MB)
 portstep = int(config.get(portchanger_section,'portstep')) # the step of port number daily changed for
 data_usage_reset_date = config.get(portchanger_section,'data_usage_reset_date')
+port_change_cycle_day = config.get(portchanger_section,'port_change_cycle_day') # change port per day
 current_date_num = current_time.today().strftime('%d')
 evenodd_yesno = config.get(portchanger_section,'evenodd_yesno')
 datamax_yesno = config.get(portchanger_section,'datamax_yesno')
 
-dayevenodd = current_time.day % 2
+dayevenodd = current_time.day % port_change_cycle_day
 print(f"port changer is running {current_time}")
 
 
@@ -74,8 +75,8 @@ def db_inquiry(db,id):
 
     id = inboundinfo[0]
     port = inboundinfo[1]
-    up_data = int(inboundinfo[2] / 1000000)
-    down_data = int(inboundinfo[3] / 1000000)
+    up_data = int(inboundinfo[2] / 1024 / 1024)
+    down_data = int(inboundinfo[3] / 1024 /1024)
     datasum = up_data + down_data
     remark = inboundinfo[5]
     tag = inboundinfo[6]
@@ -117,7 +118,7 @@ def care_port_evenodd():
     for id in ids :
         id,port, datasum,remark = db_inquiry(dbfile,id) 
         if '_' not in remark: remark = remark + '_0'
-        if id % 2 == dayevenodd : 
+        if id % port_change_cycle_day == dayevenodd : 
             if remark.split('_')[1] != str(current_time.day) :
                 db_update_portadd(dbfile,id,port,remark)
                 id,newport, newdatasum,newremark = db_inquiry(dbfile,id)
@@ -165,6 +166,7 @@ def main_port_changer():
     else:
         start_time = current_time.today().strftime('%Y-%m-%d %H:%M:%S')
         config.set(portchanger_section,'start_time',start_time)
+
         if evenodd_yesno == 'y':
             care_port_evenodd()
             print('单双号规则，端口号变更完毕！')

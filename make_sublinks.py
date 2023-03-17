@@ -338,7 +338,7 @@ def save_inbounds_all_in_onefile():
         ids = make_id_list(db)
         sublinklist = []
         for id in ids:
-            sublinklist.append(get_inbound_link(db,id))
+            sublinklist.append(get_inbound_link_by_json(db,id))
         with open(linkfile,'w') as f:
             for link in sublinklist:
                 f.write(link + '\n')
@@ -354,7 +354,7 @@ def save_inbounds_links_to_dictionary():
         #     os.makedirs(linkfilepath + server[0])
         ids = make_id_list(db)
         for id in ids:
-            link = get_inbound_link(db,id)
+            link = get_inbound_link_by_json(db,id)
             # link = get_inbound_link_by_json(db,id) # another way to get link
 
             # save links to each file named with nickname + Id
