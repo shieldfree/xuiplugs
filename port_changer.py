@@ -33,7 +33,7 @@ current_date_num = current_time.today().strftime('%d')
 evenodd_yesno = config.get(portchanger_section,'evenodd_yesno')
 datamax_yesno = config.get(portchanger_section,'datamax_yesno')
 
-dayevenodd = current_time.day % port_change_cycle_day
+dayevenodd = current_time.day % int(port_change_cycle_day)
 print(f"port changer is running {current_time}")
 
 
