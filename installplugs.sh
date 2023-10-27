@@ -103,7 +103,7 @@ enable_port_changer() {
     crontab -l | grep -v "port_changer" | crontab -
 
     crontab -l >/tmp/crontabTask.tmp
-    echo "1 2 * * * python3 /usr/local/x-ui/plugs/port_changer.py " >>/tmp/crontabTask.tmp
+    echo "26 2 * * * cd /usr/local/x-ui/plugs && python3 port_changer.py " >>/tmp/crontabTask.tmp
     crontab /tmp/crontabTask.tmp
     rm /tmp/crontabTask.tmp
 
