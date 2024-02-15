@@ -56,23 +56,24 @@ bash <(curl -Ls https://github.com/shieldfree/scriptforxui/raw/main/scriptforxui
  
 </details>  
 
+
 ## 菜单选项 
 - [1. 搭建订阅服务器](#搭建订阅服务器)  
-- [2. 删除订阅服务器](#删除订阅服务器)  
-
-
+- [2. 删除订阅服务器](#删除订阅服务器)
+- 
 <details>
 -  <summary><b> 点击查看使用说明</b></summary> 
 
 
+
 ##
-1. ## 搭建订阅服务器
+## 1. 搭建订阅服务器
 - 搭建订阅服务器,并实时生成订阅文件,通过网站发布给客户端
 - 生成订阅地址 
  http:// YOURDOMAIN:PORT/sublinks/FILENAME
 
  ###  - 待解决问题
- - 订阅节点的管理方案- 数据库?  
+ 
  - 网站服务 ssl 证书配置
  - 端口号改为随机生成
 
