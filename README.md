@@ -23,7 +23,8 @@ bash <(curl -Ls https://github.com/shieldfree/scriptforxui/raw/main/scriptforxui
     6. 卸载客户端显示用量(Remove Usage data)
     7. 订阅节点信息管理(Manage subscription links)
     8. 服务器信息管理(X-UI server manage)
-    9. 其他参数设置(Other parameter setting)
+    9. 批量添加节点(Add multiple inbounds)
+    10. 其他参数设置(Other parameter setting)
  ——————————————————————————————————————————————————
   Please input a number [0-9]  
 
@@ -44,13 +45,20 @@ bash <(curl -Ls https://github.com/shieldfree/scriptforxui/raw/main/scriptforxui
     - 订阅地址为 http://当前服务器域名:18080/sublinks/文件名，大概下面这个样子
     - http://xxxx.myserver.com:18080/sublinks/test98e9e8ijgf
     - http://xxxx.myserver.com:18080/sublinks/test3-kdiflvid
+ 1. 上面订阅地址如果需要转换成CLASH订阅链接
+    - 安装docker命令， 下载2013tindy/subconverter镜像，生成容器以运行服务，命令如下：
+    - docker run -d --restart=always -p 55555:25500 tindy2013/subconverter:latest
+    - clash订阅地址为 https://xxxx.myserver.com:55555/sub?target=clash&url=<YOURSUBSCRIBELINK>
+    - 如： https://xxxx.myserver.com:55555/sub?target=clash&url=http%3A%2F%2Fxxxx.myserver.com%3A18080%2Fsublinks%2Ftest3-kdiflvid
+    - url 需要 URL Encoding 可以到这里转换☞：https://www.urlencoder.org/
+    - 
  1. 目前Ubuntu机器上测试过可以运行。centos 还没试过
  
 </details>  
 
 ## 菜单选项 
-- [1. 显示流量](#客户端显示流量插件)  
-- [2. 订阅地址](#订阅节点静态站)  
+- [1. 搭建订阅服务器](#搭建订阅服务器)  
+- [2. 删除订阅服务器](#删除订阅服务器)  
 
 
 <details>
@@ -90,6 +98,9 @@ bash <(curl -Ls https://github.com/shieldfree/scriptforxui/raw/main/scriptforxui
 - 没写完
 ## xui服务器列表管理
 - 添加删除用于生成订阅链接的xui服务器
+- 
+## 批量添加节点
+- 使用批量添加功能添加后需要在X-UI面板点击一次**流量重置** 否则添加的节点不能正常工作(水平有限..)
 
 ## 申请 SSL证书
 - 没写完
