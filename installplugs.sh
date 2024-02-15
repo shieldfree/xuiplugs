@@ -240,6 +240,30 @@ disable_data_usage_display() {
 }
 
 
+#  创建subconverter 的 Docker 容器
+build_subconvsrv_container() {
+    if docker ps -a --format '{{.Names}}' | grep -q 'subconvsrv'; then
+        read -p "订阅转换服务器(Subconverter)已经创建过了,是否删除重建? (y/n): " choice
+        if [ "$choice" = "y" ]; then
+            # 停止并删除容器
+            docker stop subconvsrv1
+            docker rm subconvsrv1
+            LOGI "  订阅转换服务器(Subconverter)已经删除完毕 !!"
+            LOGI "  The subconvsrv container has been stopped and deleted !!"
+
+        else
+            echo "Exiting script."
+            exit 1
+        fi
+    fi
+    
+    read -p "请输入映射25500端口的本地端口号: " p25500
+
+    docker run -d --restart=always --name subconvsrv1 -p ${p25500}:25500 tindy2013/subconverter:latest
+    echo "${green}http${red}s${green}://LOCALHOST:${p25500}/sub?target=clash&url=https%3A%2F%2F${plain}"
+}
+
+
 show_usage() {
     echo "  数据流量显示插件使用方法: "
 
@@ -261,7 +285,7 @@ show_usage() {
 
 show_menu() {
     echo -e "
-  ${green}x-ui 数据流量显示插件${plain}
+  ${green}X-UI 助手${plain}
   
   ${green}安装成功后会在remark显示使用流量${plain}
   ${green}(客户端显示: 须以订阅方式添加节点)${plain}
@@ -270,20 +294,20 @@ show_menu() {
   
     ${green}0.${plain} ${red}退出脚本 (Exit)${plain} 
  —————————————————————————————————————————————————————————————————
-    ${green} 1.${plain} 搭建/删除订阅服务器(Build/Remove subscription server)
-    ${green} 2.${plain} 启用/删除定时切换节点端口(Enable/Disable inbound port changer)
+    ${green} 1.${plain} 搭建/删除订阅服务器(Build/Remove Subscription Server)
+    ${green} 2.${plain} 启用/删除定时切换节点端口(Enable/Disable Inbound Port Changer)
     ${green} 3.${plain} 启用/删除客户端用量显示(Enable/Disable Client Usage Display)
-    ${green} 4.${plain} 服务器信息管理(X-UI server management)
-    ${green} 5.${plain} 订阅节点信息管理(Manage subscription links)
-    ${green} 6.${plain} 批量添加节点(Create multiple inbounds)
-    ${green} 7.${plain} 设置文件编辑
-    ${green} 8.${plain} 服务器文件编辑
-    ${green} 9.${plain} 
-    ${green}10.${plain} 
+    ${green} 4.${plain} 服务器管理(X-UI Server Management)
+    ${green} 5.${plain} 订阅链接管理(Manage Subscription Links)
+    ${green} 6.${plain} 批量添加节点(Create Multiple Inbounds)
+    ${green} 7.${plain} 安装NPM代理服务器(Install NginX Proxy Manager)
+    ${green} 8.${plain} 创建订阅转换服务器（Build Subconverter Server)
+    ${green} 9.${plain} 设置文件编辑
+    ${green}10.${plain} 服务器文件编辑
  —————————————————————————————————————————————————————————————————
  "
-    echo "  Please input a number [0-9]  "
-    echo && read -p "  请输入选择 [0-9]  :" num
+    echo "  Please input a number [0-10]  "
+    echo && read -p "  请输入选择 [0-10]  :" num
 
     case "${num}" in
     0)
@@ -329,25 +353,25 @@ show_menu() {
         show_menu 
         ;;
     7)
-        # 节点信息管理
-        vi /usr/local/x-ui/plugs/config/subscription.ini
+        # 安装NPM 代理服务器
+        docker run -d --restart=always --name npmsrv215 -p 80:80 -p 443:443 -p 81:81  -v ./data:/data -v ./letsencrypt:/etc/letsencrypt cylim76/npm:latest
         sleep 2
         show_menu 
         ;;
     8)
-        # 节点信息管理
-        vi /usr/local/x-ui/plugs/config/xuiplugconf.ini
+        build_subconvsrv_container
         sleep 2
         show_menu 
         ;;
     9)
-        
+        # 节点管理
+        vi /usr/local/x-ui/plugs/config/subscription.ini
         sleep 2
         show_menu 
         ;;
     10)
-        # 其他参数设置(Other parameter setting)
-        echo "还没写..."
+        # xui服务器管理
+        vi /usr/local/x-ui/plugs/config/xuiplugconf.ini
         sleep 2
         show_menu 
         ;;
