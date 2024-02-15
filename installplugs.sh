@@ -298,7 +298,7 @@ show_menu() {
     ${green} 3.${plain} 启用/删除客户端${green}用量${plain}显示(Enable/Disable Client Usage Display)
     ${green} 4.${plain} 服务器管理(X-UI Server Management)
     ${green} 5.${plain} 订阅链接管理(Manage Subscription Links)
-    ${green} 6.${plain} 批量添加节点(Create Multiple Inbounds)
+    ${green} 6.${plain} ${green}批量添加${plain}节点(Create Multiple Inbounds)
     ${green} 7.${plain} 安装${red}NPM${plain}代理服务器(Install NginX Proxy Manager)
     ${green} 8.${plain} 创建订阅转换服务器（Build ${red}Subconverter${plain} Server)
     ${green} 9.${plain} inbound_config文件编辑
