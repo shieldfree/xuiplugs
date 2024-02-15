@@ -47,13 +47,31 @@ before_show_menu() {
     show_menu
 }
 
+
+# crontab -l | grep -q 'make_sublinks.py'  # 通过crontab 命令判断
+check_subscription_links() {
+    if docker ps -a --format '{{.Names}}' | grep -q 'xuisubsrv'; then
+        LOGI "  是否删除订阅服务器 ? "
+        read -p "Do you want to remove the subscription server? (y/n): " choice
+        if [ "$choice" = "yes" ]; then
+            disable_subscription_links
+        fi
+    else
+        LOGI "  是否搭建订阅服务器 ? "
+        read -p "Do you want to build a subscription server? (y/n): " choice
+        if [ "$choice" = "y" ]; then
+            enable_subscription_links
+        fi
+    fi
+}
+
 enable_subscription_links() {
 
     echo -e "${yellow}请确认开始搭建订阅服务器: ${plain}"
     read -p "输入y继续,其他退出[y/n]": config_confirm
     if [[ x"${config_confirm}" == x"y" || x"${config_confirm}" == x"Y" ]]; then
         clear
-        LOGI "  开始搭建订阅网站服务器..."
+        LOGI "  开始搭建订阅服务器..."
         check_install && python3 /usr/local/x-ui/plugs/subserver.py
 
         python3 /usr/local/x-ui/plugs/make_sublinks.py 
@@ -73,34 +91,48 @@ enable_subscription_links() {
 
 disable_subscription_links() {
     clear
-    LOGI "  正在卸载 订阅源生成 插件..."
-    LOGI "  Unnstalling..."
-    sleep 2
+    echo -e "${yellow}请确认开始删除订阅服务器: ${plain}"
+    read -p "输入y继续,其他退出[y/n]": config_confirm
+    if [[ x"${config_confirm}" == x"y" || x"${config_confirm}" == x"Y" ]]; then
+        clear
+        LOGI "  开始删除订阅服务器..."
+        
 
     # if [[ -f /etc/x-ui/x-ui.db ]]; then
     #     python3 /usr/local/x-ui/plugs/xuiplug_show_usage_uninstall.py
     # fi
     #rm  -rf /usr/local/x-ui/plugs/xuiplug_show_usage*
-
+    
+    docker stop  `docker ps -a | grep xuisubsrv | awk '{print $1}'`
+    docker rm  `docker ps -a | grep xuisubsrv | awk '{print $1}'`
+        
     crontab -l | grep -v "make_sublinks" | crontab -
-    if [[ $? -ne 0 ]]; then
-        LOGI "  卸载 订阅源生成 插件失败.."
+
+        if [[ $? -ne 0 ]]; then
+            LOGI "  卸载 订阅源生成 插件失败.."
+        else
+            LOGI "  卸载 订阅源生成 插件成功 !!"
+            LOGI "  Successfully removed !!"
+        fi
+    
     else
-        LOGI "  卸载 订阅源生成 插件成功 !!"
-        LOGI "  Successfully removed !!"
+    echo -e "${red}已取消操作...${plain}"
     fi
+
+    sleep 1
+
 }
 
 check_port_changer() {
     if crontab -l | grep -q 'port_changer.py'; then
-        LOGI "  port_changer正在运行是否关闭 ? "
-        read -p "${green} port_changer is already running. Do you want to remove it? (y/n): ${plain}" choice
+        LOGI "  是否停止 定时更改端口 ? "
+        read -p "port_changer is already running. Do you want to remove it? (y/n): " choice
         if [ "$choice" = "y" ]; then
             disable_port_changer
         fi
     else
-        LOGI " 是否运行 port_changer ? "
-        read -p "${green} Do you want to Enable port_changer ? (y/n): ${plain}" choice
+        LOGI " 是否启用 定时更改端口 ? "
+        read -p " Do you want to Enable port_changer ? (y/n): " choice
         if [ "$choice" = "y" ]; then
             enable_port_changer
         fi
@@ -144,6 +176,23 @@ disable_port_changer() {
     else
         LOGI "  卸载 port_changer 插件成功 !!"
         LOGI "  Successfully removed !!"
+    fi
+    sleep 1
+}
+
+check_port_changer() {
+    if crontab -l | grep -q 'port_changer.py'; then
+        LOGI "  是否停止 定时更改端口 ? "
+        read -p "port_changer is already running. Do you want to remove it? (y/n): " choice
+        if [ "$choice" = "y" ]; then
+            disable_port_changer
+        fi
+    else
+        LOGI " 是否启用 定时更改端口 ? "
+        read -p " Do you want to Enable port_changer ? (y/n): " choice
+        if [ "$choice" = "y" ]; then
+            enable_port_changer
+        fi
     fi
 }
 
@@ -217,10 +266,10 @@ show_menu() {
   
     ${green}0.${plain} ${red}退出脚本 (Exit)${plain} 
  —————————————————————————————————————————————————————————————————
-    ${green} 1.${plain} 搭建订阅服务器(Build subscription server)
-    ${green} 2.${plain} 删除订阅服务器(Delete subscription server)
-    ${green} 3.${plain} 安装端口++插件(Install port changer)
-    ${green} 4.${plain} 卸载端口++插件(Remove port changer)
+    ${green} 1.${plain} 搭建/删除订阅服务器(Build/Remove subscription server)
+    ${green} 2.${plain} 运行/卸载端口定时切换插件(Install/Remove port changer)
+    ${green} 3.${plain} 
+    ${green} 4.${plain}  
     ${green} 5.${plain} 安装客户端显示用量(Show Usage data)
     ${green} 6.${plain} 卸载客户端显示用量(Remove Usage data)
     ${green} 7.${plain} 订阅节点信息管理(Manage subscription links)
@@ -237,15 +286,17 @@ show_menu() {
         exit 0
         ;;
     1)
-        enable_subscription_links
+        check_install && check_subscription_links
+        #enable_subscription_links
         show_menu 
         ;;
     2)
-        docker stop  `docker ps -a | grep xuisubsrv | awk '{print $1}'`
-        docker rm  `docker ps -a | grep xuisubsrv | awk '{print $1}'`
-        disable_subscription_links
+        check_install && check_port_changer
+        #docker stop  `docker ps -a | grep xuisubsrv | awk '{print $1}'`
+        #docker rm  `docker ps -a | grep xuisubsrv | awk '{print $1}'`
+        #disable_subscription_links
         
-        sleep 1
+        #sleep 1
         show_menu 
         ;;
     3)
@@ -254,7 +305,7 @@ show_menu() {
         show_menu 
         ;;
     4)
-        check_install && disable_port_changer
+        #check_install && disable_port_changer
         sleep 1
         show_menu 
         ;;
