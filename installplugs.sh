@@ -286,7 +286,7 @@ show_usage() {
 
 show_menu() {
     echo -e "
-  ${green}X-UI 助手${plain}
+  ${green}           X-UI 助手${plain}
   
   ${green}创建订阅服务器，自动切换节点端口，显示用量${plain}
   ${green}管理服务器和节点，安装NPM代理服务器，clash订阅转换 ${plain}
