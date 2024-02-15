@@ -180,23 +180,24 @@ disable_port_changer() {
     sleep 1
 }
 
-check_port_changer() {
-    if crontab -l | grep -q 'port_changer.py'; then
-        LOGI "  是否停止 定时更改端口 ? "
-        read -p "port_changer is already running. Do you want to remove it? (y/n): " choice
+check_data_usage_display() {
+    if crontab -l | grep -q 'xuiplug_show_usage.py'; then
+        LOGI "  是否关闭 节点用量显示 ? "
+        read -p "Do you want to Disable Client_data_usase_display ? (y/n): " choice
         if [ "$choice" = "y" ]; then
-            disable_port_changer
+            disable_data_usage_display
         fi
     else
-        LOGI " 是否启用 定时更改端口 ? "
-        read -p " Do you want to Enable port_changer ? (y/n): " choice
+        LOGI " 是否启用 节点用量显示 ? "
+        read -p " Do you want to Enable Client_data_usase_display ? (y/n): " choice
         if [ "$choice" = "y" ]; then
-            enable_port_changer
+            enable_data_usage_display
         fi
     fi
 }
 
-enable_data_usage() {
+
+enable_data_usage_display() {
     clear
     LOGI "  正在安装 数据流量 插件(Installing)..."
     mkdir -p /usr/local/x-ui/plugs/
@@ -214,9 +215,10 @@ enable_data_usage() {
     sleep 1
     LOGI "  安装数据流量插件成功 !!"
     LOGI "  Successfully installed !"
+    sleep 1
 }
 
-disable_data_usage() {
+disable_data_usage_display() {
     clear
     LOGI "  正在卸载 数据流量 插件(Unnstalling)..."
     LOGI "  Unnstalling..."
@@ -234,7 +236,9 @@ disable_data_usage() {
         LOGI "  卸载数据流量插件成功 !!"
         LOGI "  Successfully removed !!"
     fi
+    sleep 1
 }
+
 
 show_usage() {
     echo "  数据流量显示插件使用方法: "
@@ -267,15 +271,15 @@ show_menu() {
     ${green}0.${plain} ${red}退出脚本 (Exit)${plain} 
  —————————————————————————————————————————————————————————————————
     ${green} 1.${plain} 搭建/删除订阅服务器(Build/Remove subscription server)
-    ${green} 2.${plain} 运行/卸载端口定时切换插件(Install/Remove port changer)
-    ${green} 3.${plain} 
-    ${green} 4.${plain}  
-    ${green} 5.${plain} 安装客户端显示用量(Show Usage data)
-    ${green} 6.${plain} 卸载客户端显示用量(Remove Usage data)
-    ${green} 7.${plain} 订阅节点信息管理(Manage subscription links)
-    ${green} 8.${plain} 服务器信息管理(X-UI server manage)
-    ${green} 9.${plain} 批量添加节点(Add multiple inbounds)
-    ${green}10.${plain} 其他参数设置(Other parameter setting)
+    ${green} 2.${plain} 启用/删除定时切换节点端口(Enable/Disable inbound port changer)
+    ${green} 3.${plain} 启用/删除客户端用量显示(Enable/Disable Client Usage Display)
+    ${green} 4.${plain} 服务器信息管理(X-UI server management)
+    ${green} 5.${plain} 订阅节点信息管理(Manage subscription links)
+    ${green} 6.${plain} 批量添加节点(Create multiple inbounds)
+    ${green} 7.${plain} 设置文件编辑
+    ${green} 8.${plain} 服务器文件编辑
+    ${green} 9.${plain} 
+    ${green}10.${plain} 
  —————————————————————————————————————————————————————————————————
  "
     echo "  Please input a number [0-9]  "
@@ -286,11 +290,13 @@ show_menu() {
         exit 0
         ;;
     1)
+        # 搭建/删除订阅服务器(Build/Remove subscription server)
         check_install && check_subscription_links
         #enable_subscription_links
         show_menu 
         ;;
     2)
+        #启用/删除定时切换节点端口(Enable/Disable inbound port changer)
         check_install && check_port_changer
         #docker stop  `docker ps -a | grep xuisubsrv | awk '{print $1}'`
         #docker rm  `docker ps -a | grep xuisubsrv | awk '{print $1}'`
@@ -300,42 +306,47 @@ show_menu() {
         show_menu 
         ;;
     3)
-        check_install && check_port_changer
-        sleep 1
+        #启用/删除客户端用量显示(Enable/Disable Client Usage Display)
+        check_install && check_data_usage_display
         show_menu 
         ;;
     4)
-        #check_install && disable_port_changer
+        # 服务器信息管理(X-UI server management)
+        python3 /usr/local/x-ui/plugs/config_xuilist.py
         sleep 1
         show_menu 
         ;;
     5)
-        check_install && enable_data_usage
+        # 订阅节点信息管理(Manage subscription links)
+        python3 /usr/local/x-ui/plugs/config_sublinks.py
         sleep 1
         show_menu 
         ;;
     6)
-        disable_data_usage
+        # 批量添加节点(Create multiple inbounds)
+        python3 /usr/local/x-ui/plugs/add_mlty_inbounds.py
         sleep 2
         show_menu 
         ;;
     7)
         # 节点信息管理
-        python3 /usr/local/x-ui/plugs/config_sublinks.py
+        vi /usr/local/x-ui/plugs/config/subscription.ini
         sleep 2
         show_menu 
         ;;
     8)
-        python3 /usr/local/x-ui/plugs/config_xuilist.py
+        # 节点信息管理
+        vi /usr/local/x-ui/plugs/config/xuiplugconf.ini
         sleep 2
         show_menu 
         ;;
     9)
-        python3 /usr/local/x-ui/plugs/add_mlty_inbounds.py
+        
         sleep 2
         show_menu 
         ;;
     10)
+        # 其他参数设置(Other parameter setting)
         echo "还没写..."
         sleep 2
         show_menu 
