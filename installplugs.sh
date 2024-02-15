@@ -243,16 +243,17 @@ disable_data_usage_display() {
 #  创建subconverter 的 Docker 容器
 build_subconvsrv_container() {
     if docker ps -a --format '{{.Names}}' | grep -q 'subconvsrv'; then
-        read -p "订阅转换服务器(Subconverter)已经创建过了,是否删除重建? (y/n): " choice
+        LOGE "  订阅转换服务器(Subconverter)已经创建过了,是否删除重建?"
+        read -p "请确认 (y/n): " choice
         if [ "$choice" = "y" ]; then
             # 停止并删除容器
             docker stop subconvsrv1
             docker rm subconvsrv1
-            LOGI "  订阅转换服务器(Subconverter)已经删除完毕 !!"
-            LOGI "  The subconvsrv container has been stopped and deleted !!"
+            LOGE "  订阅转换服务器(Subconverter)已经删除完毕 !!"
+            LOGE "  The subconvsrv container has been stopped and deleted !!"
 
         else
-            echo "Exiting script."
+            echo "取消创建操作."
             exit 1
         fi
     fi
@@ -287,10 +288,8 @@ show_menu() {
     echo -e "
   ${green}X-UI 助手${plain}
   
-  ${green}安装成功后会在remark显示使用流量${plain}
-  ${green}(客户端显示: 须以订阅方式添加节点)${plain}
-  ${green}(Add inbounds via subscription )${plain}
-  ${green}(instead of directly to client)${plain}
+  ${green}创建订阅服务器，自动切换节点端口，显示用量${plain}
+  ${green}管理服务器和节点，安装NPM代理服务器，clash订阅转换 ${plain}
   
     ${green}0.${plain} ${red}退出脚本 (Exit)${plain} 
  —————————————————————————————————————————————————————————————————
