@@ -66,7 +66,7 @@ bash <(curl -Ls https://github.com/shieldfree/scriptforxui/raw/main/scriptforxui
 
 
 ##
-## 1.搭建订阅服务器
+1. ## 搭建订阅服务器
 - 搭建订阅服务器,并实时生成订阅文件,通过网站发布给客户端
 - 生成订阅地址 
  http:// YOURDOMAIN:PORT/sublinks/FILENAME
