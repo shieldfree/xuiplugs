@@ -57,8 +57,8 @@ bash <(curl -Ls https://github.com/shieldfree/scriptforxui/raw/main/scriptforxui
 </details>  
 
 ## 菜单选项 
-- [1. 搭建订阅服务器](#1.搭建订阅服务器)  
-- [2. 删除订阅服务器](#2.删除订阅服务器)  
+- [1. 搭建订阅服务器](#搭建订阅服务器)  
+- [2. 删除订阅服务器](#删除订阅服务器)  
 
 
 <details>
@@ -76,7 +76,7 @@ bash <(curl -Ls https://github.com/shieldfree/scriptforxui/raw/main/scriptforxui
  - 网站服务 ssl 证书配置
  - 端口号改为随机生成
 
-## 2.删除订阅服务器
+## 1.删除订阅服务器
 - 关闭并删除订阅网站服务器
 
 ## 安装 定时自动更改端口插件
