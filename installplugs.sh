@@ -253,8 +253,8 @@ build_subconvsrv_container() {
             LOGE "  The subconvsrv container has been stopped and deleted !!"
 
         else
-            echo "取消创建操作."
-            exit 1
+            echo -e "${red}取消创建操作.${plain}"
+            #exit 1
         fi
     fi
     
@@ -293,16 +293,16 @@ show_menu() {
   
     ${green}0.${plain} ${red}退出脚本 (Exit)${plain} 
  —————————————————————————————————————————————————————————————————
-    ${green} 1.${plain} 搭建/删除订阅服务器(Build/Remove Subscription Server)
-    ${green} 2.${plain} 启用/删除定时切换节点端口(Enable/Disable Inbound Port Changer)
-    ${green} 3.${plain} 启用/删除客户端用量显示(Enable/Disable Client Usage Display)
+    ${green} 1.${plain} 搭建/删除${green}订阅服务器${plain}(Build/Remove Subscription Server)
+    ${green} 2.${plain} 启用/删除定时${green}切换节点端口${plain}(Enable/Disable Inbound Port Changer)
+    ${green} 3.${plain} 启用/删除客户端${green}用量${plain}显示(Enable/Disable Client Usage Display)
     ${green} 4.${plain} 服务器管理(X-UI Server Management)
     ${green} 5.${plain} 订阅链接管理(Manage Subscription Links)
     ${green} 6.${plain} 批量添加节点(Create Multiple Inbounds)
-    ${green} 7.${plain} 安装NPM代理服务器(Install NginX Proxy Manager)
-    ${green} 8.${plain} 创建订阅转换服务器（Build Subconverter Server)
-    ${green} 9.${plain} 设置文件编辑
-    ${green}10.${plain} 服务器文件编辑
+    ${green} 7.${plain} 安装${red}NPM${plain}代理服务器(Install NginX Proxy Manager)
+    ${green} 8.${plain} 创建订阅转换服务器（Build ${red}Subconverter${plain} Server)
+    ${green} 9.${plain} inbound_config文件编辑
+    ${green}10.${plain} X-UI服务器信息编辑
  —————————————————————————————————————————————————————————————————
  "
     echo "  Please input a number [0-10]  "
