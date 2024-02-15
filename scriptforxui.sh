@@ -1,7 +1,7 @@
 ##!/usr/bin/env bash
 
-red='\033[0;31m'
-green='\033[0;32m'
+red='\033[1;31m'
+green='\033[1;32m'
 yellow='\033[0;33m'
 plain='\033[0m'
 
@@ -109,7 +109,7 @@ rm -rf scriptforxui
 
 if [[ -f /usr/local/x-ui/xuiplugconf.ini ]]; then
     mv /usr/local/x-ui/xuiplugconf.ini /usr/local/x-ui/plugs/config/xuiplugconf.ini
-    cp  /usr/local/x-ui/subscription.ini /usr/local/x-ui/plugs/config/subscription.ini 
+    mv  /usr/local/x-ui/subscription.ini /usr/local/x-ui/plugs/config/subscription.ini 
     LOGI "  设置文件已从备份还原。。" 
 fi
 
