@@ -260,7 +260,7 @@ build_subconvsrv_container() {
     read -p "请输入映射25500端口的本地端口号: " p25500
 
     docker run -d --restart=always --name subconvsrv1 -p ${p25500}:25500 tindy2013/subconverter:latest
-    echo "${green}http${red}s${green}://LOCALHOST:${p25500}/sub?target=clash&url=https%3A%2F%2F${plain}"
+    echo -e "${green}http${red}s${green}://LOCALHOST:${p25500}/sub?target=clash&url=https%3A%2F%2F${plain}"
 }
 
 
@@ -377,8 +377,8 @@ show_menu() {
         ;;
     *)
         clear
-        LOGE "  请输入正确的数字 [0-9] : "
-        LOGE "  Please input correct number [0-9]  :"
+        LOGE "  请输入正确的数字 [0-10] : "
+        LOGE "  Please input correct number [0-10]  :"
         sleep 1
         show_menu 
         ;;
