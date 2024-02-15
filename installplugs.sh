@@ -91,6 +91,19 @@ disable_subscription_links() {
     fi
 }
 
+check_port_changer() {
+    if crontab -l | grep -q 'port_changer.py'; then
+        read -p "port_changer is already scheduled to run. Do you want to remove it? (y/n): " choice
+        if [ "$choice" = "y" ]; then
+            disable_port_changer
+        fi
+    else
+        read -p "port_changer is not scheduled to run. Do you want to install it? (y/n): " choice
+        if [ "$choice" = "y" ]; then
+            enable_port_changer
+        fi
+    fi
+}
 
 enable_port_changer() {
     clear
@@ -234,7 +247,7 @@ show_menu() {
         show_menu 
         ;;
     3)
-        check_install && enable_port_changer
+        check_install && check_port_changer
         sleep 1
         show_menu 
         ;;
