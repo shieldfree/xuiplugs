@@ -1,7 +1,7 @@
 #!/bin/bash
 
 red='\033[0;31m'
-green='\033[0;32m'
+green='\033[1;32m'
 yellow='\033[0;33m'
 plain='\033[0m'
 
@@ -93,12 +93,14 @@ disable_subscription_links() {
 
 check_port_changer() {
     if crontab -l | grep -q 'port_changer.py'; then
-        read -p "port_changer is already scheduled to run. Do you want to remove it? (y/n): " choice
+        LOGI "  port_changer正在运行是否关闭 ? "
+        read -p "${green} port_changer is already running. Do you want to remove it? (y/n): ${plain}" choice
         if [ "$choice" = "y" ]; then
             disable_port_changer
         fi
     else
-        read -p "port_changer is not scheduled to run. Do you want to install it? (y/n): " choice
+        LOGI " 是否运行 port_changer ? "
+        read -p "${green} Do you want to Enable port_changer ? (y/n): ${plain}" choice
         if [ "$choice" = "y" ]; then
             enable_port_changer
         fi
