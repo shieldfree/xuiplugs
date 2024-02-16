@@ -129,13 +129,13 @@ def add_new_inbounds(db,new_id,new_port,remark):
     if protocol == 'vmess':
         settings_json['clients'] = [{}]
         settings_json['clients'][0]['email'] = generate_random_str(4) + '.love@xray.com'
-        settings_json['clients'][0]['enable'] = True
+        settings_json['clients'][0]['enable'] = "true"
         settings_json['clients'][0]['expiryTime'] = 0
         settings_json['clients'][0]['id'] = t_uuid
         settings_json['clients'][0]['limitIp'] = 0
         settings_json['clients'][0]['reset'] = 0
         settings_json['clients'][0]['subId'] = generate_random_str(16)
-        settings_json['clients'][0]['tgId'] = None
+        settings_json['clients'][0]['tgId'] = ""
         settings_json['clients'][0]['totalGB'] = 0
 
 
@@ -144,27 +144,27 @@ def add_new_inbounds(db,new_id,new_port,remark):
         settings_json['clients'][0]['email'] = generate_random_str(4) + '.love@xray.com'
         settings_json['clients'][0]['enable'] = 'true'
         settings_json['clients'][0]['expiryTime'] = 0
-        settings_json['clients'][0]['flow'] = None
+        settings_json['clients'][0]['flow'] = ""
         settings_json['clients'][0]['id'] = t_uuid
         settings_json['clients'][0]['limitIp'] = 0
         settings_json['clients'][0]['reset'] = 0
         settings_json['clients'][0]['subId'] = generate_random_str(16)
-        settings_json['clients'][0]['tgId'] = None
+        settings_json['clients'][0]['tgId'] = ""
         settings_json['clients'][0]['totalGB'] = 0
-        settings_json['decryption'] = None
+        settings_json['decryption'] = "none"
         settings_json['fallbacks'] = []
 
     elif protocol == 'trojan':
         settings_json['clients'] = [{}]
         settings_json['clients'][0]['email'] = generate_random_str(4) + '.love@xray.com'
-        settings_json['clients'][0]['enable'] = True
+        settings_json['clients'][0]['enable'] = "true"
         settings_json['clients'][0]['expiryTime'] = 0
-        settings_json['clients'][0]['flow'] = None
+        settings_json['clients'][0]['flow'] = ""
         settings_json['clients'][0]['limitIp'] = 0
         settings_json['clients'][0]['password'] = generate_random_str(10)
         settings_json['clients'][0]['reset'] = 0
         settings_json['clients'][0]['subId'] = generate_random_str(16)
-        settings_json['clients'][0]['tgId'] = None
+        settings_json['clients'][0]['tgId'] = ""
         settings_json['clients'][0]['totalGB'] = 0
         # del settings_json['decryption']
         settings_json['fallbacks'] = []
@@ -212,22 +212,21 @@ def add_new_inbounds(db,new_id,new_port,remark):
     stream_json['tlsSettings']['alpn'].append( 'h2')
     stream_json['tlsSettings']['alpn'].append('http/1.1')
     stream_json['tlsSettings']['settings']={}
-    stream_json['tlsSettings']['settings']['allowInsecure'] = False
-    stream_json['tlsSettings']['settings']['fingerprint'] = None
+    stream_json['tlsSettings']['settings']['allowInsecure'] = "false"
+    stream_json['tlsSettings']['settings']['fingerprint'] = "chrome"
     
 
 
     if stream_json['network'] == 'tcp':
         stream_json['tcpSettings'] = {}
-        stream_json['tcpSettings']['acceptProxyProtocol'] = False
+        stream_json['tcpSettings']['acceptProxyProtocol'] = "false"
         stream_json['tcpSettings']['header'] ={}
-        stream_json['tcpSettings']['header']['type'] = None
-        # stream_json['tcpSettings']['header']['type'] = 'none'
-        # stream_json['tcpSettings']['acceptProxyProtocol'] ='false'    #总是开启？？
+        stream_json['tcpSettings']['header']['type'] = 'none'
+
 
     elif stream_json['network'] == 'ws':
         stream_json['wsSettings'] = {}
-        stream_json['wsSettings']['acceptProxyProtocol'] = False
+        stream_json['wsSettings']['acceptProxyProtocol'] = "false"
         stream_json['wsSettings']['path'] = '/'
         stream_json['wsSettings']['headers'] = {}
         # stream_json['wsSettings']['acceptProxyProtocol'] = 'false'    #总是开启？？
