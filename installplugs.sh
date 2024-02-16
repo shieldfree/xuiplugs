@@ -28,21 +28,29 @@ check_status() {
 
 check_xui_ver() {
     # 检查文件是否存在
-    if [ ! -f "$1" ]; then
-        echo "File $1 does not exist."
+    if [ ! -f "/usr/local/x-ui/x-ui.sh" ]; then
+        echo "请先安装X-UI"
         exit 1
     fi
     
     # 检查文件中是否包含特定字符串，不区分大小写
-    if grep -qi "MHSanaei/3x-ui" "$1"; then
+    if grep -qi "MHSanaei/3x-ui" "/usr/local/x-ui/x-ui.sh"; then
         echo "3"  # 如果包含，返回版本号为3
     else
         echo "1"  # 如果不包含，返回版本号为1
     fi
 }
 
-version=$(check_xui_ver "/usr/local/x-ui/x-ui.sh")
-echo "XUI version: $version"
+
+
+: <<EOF  版本信息调用方法
+    if [ "$check_xui_ver" = "3" ] ; then
+        echo "3"  # 如果包含，返回版本号为3
+    elif [ "$check_xui_ver" = "1" ] ; then
+        echo "1"  # 如果不包含，返回版本号为1
+    fi
+EOF
+    
 
 check_install() {
     check_status
