@@ -107,7 +107,7 @@ def add_new_inbounds(db,new_id,new_port,remark):
     listen = ''
     port = new_port
     protocol = random.choice(['vmess', 'vless', 'trojan'])
-    protocol = random.choice(['trojan'])    # for debugging
+    # protocol = random.choice(['trojan'])    # for debugging
     
     # settings sample of vless protocol
     settings_str  = {}
@@ -196,7 +196,7 @@ def add_new_inbounds(db,new_id,new_port,remark):
     # stream_json = json.loads(stream_str)
     stream_json = {}
     stream_json['network'] = random.choice(['tcp', 'ws'])  # tcp, ws
-    stream_json['network'] = random.choice(['tcp'])  # for debugging
+    #stream_json['network'] = random.choice(['tcp'])  # for debugging
     stream_json['security'] = 'tls'
     stream_json['externalProxy'] = []
     stream_json['tlsSettings'] = {}
@@ -285,7 +285,7 @@ import time # for test
 if __name__ == '__main__':
 
     dbfile =  '/etc/x-ui/x-ui.db'
-    dbfile =  './x-ui.db'  # for debugging
+    #dbfile =  './x-ui.db'  # for debugging
     id_list = get_inbounds_fields_list(dbfile,'id')
     port_list = get_inbounds_fields_list(dbfile,'port')
     print('\n\n\n==== 注意： 添加完毕后 需要点击 x-ui面板的 重置流量按钮刷新节点信息 !!! ======\n====   并在系统状态页面重启一次xray!!! ====\n\n\n')
@@ -321,7 +321,6 @@ if __name__ == '__main__':
         print(new_id,new_port)
         
         add_new_inbounds(dbfile,new_id,new_port, remark)
-
 
 
         id_list.append(new_id)
