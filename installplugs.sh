@@ -26,6 +26,24 @@ check_status() {
     fi
 }
 
+check_xui_ver() {
+    # 检查文件是否存在
+    if [ ! -f "$1" ]; then
+        echo "File $1 does not exist."
+        exit 1
+    fi
+    
+    # 检查文件中是否包含特定字符串，不区分大小写
+    if grep -qi "MHSanaei/3x-ui" "$1"; then
+        echo "3"  # 如果包含，返回版本号为3
+    else
+        echo "1"  # 如果不包含，返回版本号为1
+    fi
+}
+
+version=$(check_xui_ver "/usr/local/x-ui/x-ui.sh")
+echo "XUI version: $version"
+
 check_install() {
     check_status
     if [[ $? == 2 ]]; then
