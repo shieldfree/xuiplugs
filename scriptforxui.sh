@@ -100,8 +100,8 @@ fi
 # mkdir -p /usr/local/x-ui/plugs/
 rm -rf  ./scriptforxui
 git clone https://github.com/shieldfree/scriptforxui
-cp ./scriptforxui/installplugs.sh  ./installplugs.sh
-chmod +x ./installplugs.sh
+cp ./scriptforxui/xuiplugs.sh  ./xuiplugs.sh
+chmod +x ./xuiplugs.sh
 
 mkdir -p /usr/local/x-ui/plugs/
 mv ./scriptforxui/*  /usr/local/x-ui/plugs/
@@ -117,5 +117,5 @@ fi
 # wget -N --no-check-certificate -O  /usr/local/x-ui/plugs/xuiplug_show_usage.py https://github.com/shieldfree/Scriptforxui/raw/main/xuiplug_show_usage.py
 # wget -N --no-check-certificate -O  /usr/local/x-ui/plugs/xuiplug_show_usage_uninstall.py https://github.com/shieldfree/Scriptforxui/raw/main/xuiplug_show_usage_uninstall.py
 
-bash /usr/local/x-ui/plugs/installplugs.sh
+bash /usr/local/x-ui/plugs/xuiplugs.sh
 
