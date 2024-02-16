@@ -129,7 +129,7 @@ def add_new_inbounds(db,new_id,new_port,remark):
     if protocol == 'vmess':
         settings_json['clients'] = [{}]
         settings_json['clients'][0]['email'] = generate_random_str(4) + '.love@xray.com'
-        settings_json['clients'][0]['enable'] = "true"
+        settings_json['clients'][0]['enable'] = true
         settings_json['clients'][0]['expiryTime'] = 0
         settings_json['clients'][0]['id'] = t_uuid
         settings_json['clients'][0]['limitIp'] = 0
@@ -142,7 +142,7 @@ def add_new_inbounds(db,new_id,new_port,remark):
     elif protocol ==  'vless':
         settings_json['clients'] = [{}]
         settings_json['clients'][0]['email'] = generate_random_str(4) + '.love@xray.com'
-        settings_json['clients'][0]['enable'] = 'true'
+        settings_json['clients'][0]['enable'] = true
         settings_json['clients'][0]['expiryTime'] = 0
         settings_json['clients'][0]['flow'] = ""
         settings_json['clients'][0]['id'] = t_uuid
@@ -157,7 +157,7 @@ def add_new_inbounds(db,new_id,new_port,remark):
     elif protocol == 'trojan':
         settings_json['clients'] = [{}]
         settings_json['clients'][0]['email'] = generate_random_str(4) + '.love@xray.com'
-        settings_json['clients'][0]['enable'] = "true"
+        settings_json['clients'][0]['enable'] = true
         settings_json['clients'][0]['expiryTime'] = 0
         settings_json['clients'][0]['flow'] = ""
         settings_json['clients'][0]['limitIp'] = 0
@@ -203,6 +203,7 @@ def add_new_inbounds(db,new_id,new_port,remark):
     stream_json['tlsSettings']['serverName'] = domain
     stream_json['tlsSettings']['minVersion'] = '1.2'
     stream_json['tlsSettings']['maxVersion'] = '1.3'
+    stream_json['tlsSettings']['cipherSuites'] = ''
     stream_json['tlsSettings']['rejectUnknownSni'] = False
     stream_json['tlsSettings']['certificates'] = [{}]
     stream_json['tlsSettings']['certificates'][0]['certificateFile'] = '/root/cert/fullchain.cer'
