@@ -26,35 +26,7 @@ check_status() {
     fi
 }
 
-check_xui_ver() {
-    # 检查文件是否存在
-    if [ ! -f "/usr/local/x-ui/x-ui.sh" ]; then
-        echo "请先安装X-UI"
-        exit 1
-    fi
-    
-    # 检查文件中是否包含特定字符串，不区分大小写
-    if grep -qi "MHSanaei/3x-ui" "/usr/local/x-ui/x-ui.sh"; then
-        echo "3"  # 如果包含，返回版本号为3
-    elif grep -qi "FranzKafkaYu/x-ui" "/usr/local/x-ui/x-ui.sh"; then
-        echo "1"  # 如果不包含，返回版本号为1
-    else
-        echo "0"  # 如果不包含，返回版本号为0
-    fi
-}
 
-
-
-: <<EOF  版本信息调用方法
-    if [ "$check_xui_ver" = "3" ] ; then
-        echo "3"  # 如果包含，返回版本号为3
-    elif [ "$check_xui_ver" = "1" ] ; then
-        echo "1"  # 如果不包含，返回版本号为1
-    elif [ "$check_xui_ver" = "0" ] ; then
-        echo "0"  # 如果不包含，返回版本号为0
-    fi
-EOF
-    
 
 
 check_install() {
@@ -296,18 +268,39 @@ build_subconvsrv_container() {
 }
 
 
+check_xui_ver() {
+    # 检查文件是否存在
+    if [ ! -f "/usr/local/x-ui/x-ui.sh" ]; then
+        echo "请先安装X-UI"
+        exit 1
+    fi
+    
+    # 检查文件中是否包含特定字符串，不区分大小写
+    if grep -qi "MHSanaei/3x-ui" "/usr/local/x-ui/x-ui.sh"; then
+        echo "3"  # 如果包含，返回版本号为3
+    elif grep -qi "FranzKafkaYu/x-ui" "/usr/local/x-ui/x-ui.sh"; then
+        echo "1"  # 如果不包含，返回版本号为1
+    else
+        echo "0"  # 如果不包含，返回版本号为0
+    fi
+}
+
+
+
+
 
 create_inbounds_batch() {
 # 批量创建节点
-    if [ "$check_xui_ver" = "3" ] ; then
+    version=$(check_xui_ver)
+    if [ "$version" = "3" ] ; then
         echo -e "当前X-UI 版本为: ${green}MHsanaei/3x-ui${plain} "  
         python3 /usr/local/x-ui/plugs/create_inbounds_batch3.py
         
-    elif [ "$check_xui_ver" = "1" ] ; then
+    elif [ "$version" = "1" ] ; then
         echo -e "当前X-UI 版本为: ${green}FranzKafkaYu/x-ui${plain} "  
         python3 /usr/local/x-ui/plugs/create_inbounds_batch1.py
         
-    else
+    elif [ "$version" = "0" ] ; then
         echo -e "${red}无法识别版本!!${plain}"
         python3 /usr/local/x-ui/plugs/create_inbounds_batch1.py
     fi
