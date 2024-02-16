@@ -373,7 +373,7 @@ show_menu() {
         ;;
     6)
         # 批量添加节点(Create multiple inbounds)
-        python3 /usr/local/x-ui/plugs/add_mlty_inbounds.py
+        python3 /usr/local/x-ui/plugs/create_inbounds_batch1.py
         sleep 2
         show_menu 
         ;;
