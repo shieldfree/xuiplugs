@@ -36,8 +36,10 @@ check_xui_ver() {
     # 检查文件中是否包含特定字符串，不区分大小写
     if grep -qi "MHSanaei/3x-ui" "/usr/local/x-ui/x-ui.sh"; then
         echo "3"  # 如果包含，返回版本号为3
-    else
+    elif grep -qi "FranzKafkaYu/x-ui" "/usr/local/x-ui/x-ui.sh"; then
         echo "1"  # 如果不包含，返回版本号为1
+    else
+        echo "0"  # 如果不包含，返回版本号为0
     fi
 }
 
@@ -48,9 +50,12 @@ check_xui_ver() {
         echo "3"  # 如果包含，返回版本号为3
     elif [ "$check_xui_ver" = "1" ] ; then
         echo "1"  # 如果不包含，返回版本号为1
+    elif [ "$check_xui_ver" = "0" ] ; then
+        echo "0"  # 如果不包含，返回版本号为0
     fi
 EOF
     
+
 
 check_install() {
     check_status
@@ -291,6 +296,25 @@ build_subconvsrv_container() {
 }
 
 
+
+create_inbounds_batch() {
+# 批量创建节点
+    if [ "$check_xui_ver" = "3" ] ; then
+        echo -e "当前X-UI 版本为: ${green}MHsanaei/3x-ui${plain} "  
+        python3 /usr/local/x-ui/plugs/create_inbounds_batch3.py
+        
+    elif [ "$check_xui_ver" = "1" ] ; then
+        echo -e "当前X-UI 版本为: ${green}FranzKafkaYu/x-ui${plain} "  
+        python3 /usr/local/x-ui/plugs/create_inbounds_batch1.py
+        
+    else
+        echo -e "${red}无法识别版本!!${plain}"
+        python3 /usr/local/x-ui/plugs/create_inbounds_batch1.py
+    fi
+}
+
+
+
 show_usage() {
     echo "  数据流量显示插件使用方法: "
 
@@ -373,7 +397,8 @@ show_menu() {
         ;;
     6)
         # 批量添加节点(Create multiple inbounds)
-        python3 /usr/local/x-ui/plugs/create_inbounds_batch1.py
+        #python3 /usr/local/x-ui/plugs/create_inbounds_batch1.py
+        create_inbounds_batch
         sleep 2
         show_menu 
         ;;
