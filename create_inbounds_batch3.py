@@ -195,8 +195,8 @@ def add_new_inbounds(db,new_id,new_port,remark):
     '''
     # stream_json = json.loads(stream_str)
     stream_json = {}
-    stream_json['network'] = random.choice(['tcp', 'ws'])  # tcp, ws
-    #stream_json['network'] = random.choice(['tcp'])  # for debugging
+    #stream_json['network'] = random.choice(['tcp', 'ws'])  # tcp, ws
+    stream_json['network'] = random.choice(['tcp'])  # for debugging
     stream_json['security'] = 'tls'
     stream_json['externalProxy'] = []
     stream_json['tlsSettings'] = {}
@@ -213,21 +213,21 @@ def add_new_inbounds(db,new_id,new_port,remark):
     stream_json['tlsSettings']['alpn'].append( 'h2')
     stream_json['tlsSettings']['alpn'].append('http/1.1')
     stream_json['tlsSettings']['settings']={}
-    stream_json['tlsSettings']['settings']['allowInsecure'] = "false"
+    stream_json['tlsSettings']['settings']['allowInsecure'] = False
     stream_json['tlsSettings']['settings']['fingerprint'] = "chrome"
     
 
 
     if stream_json['network'] == 'tcp':
         stream_json['tcpSettings'] = {}
-        stream_json['tcpSettings']['acceptProxyProtocol'] = "false"
+        stream_json['tcpSettings']['acceptProxyProtocol'] = False
         stream_json['tcpSettings']['header'] ={}
         stream_json['tcpSettings']['header']['type'] = 'none'
 
 
     elif stream_json['network'] == 'ws':
         stream_json['wsSettings'] = {}
-        stream_json['wsSettings']['acceptProxyProtocol'] = "false"
+        stream_json['wsSettings']['acceptProxyProtocol'] = False
         stream_json['wsSettings']['path'] = '/'
         stream_json['wsSettings']['headers'] = {}
         # stream_json['wsSettings']['acceptProxyProtocol'] = 'false'    #总是开启？？
