@@ -44,6 +44,26 @@ check_install() {
     fi
 }
 
+check_xui_ver() {
+    # 检查文件是否存在
+    if [ ! -f "/usr/local/x-ui/x-ui.sh" ]; then
+        echo "请先安装X-UI"
+        exit 1
+    fi
+    
+    # 检查文件中是否包含特定字符串，不区分大小写
+    if grep -qi "MHSanaei/3x-ui" "/usr/local/x-ui/x-ui.sh"; then
+        echo "3"  # 如果包含，返回版本号为3
+    elif grep -qi "FranzKafkaYu/x-ui" "/usr/local/x-ui/x-ui.sh"; then
+        echo "1"  # 如果不包含，返回版本号为1
+    else
+        echo "0"  # 如果不包含，返回版本号为0
+    fi
+}
+
+
+
+
 before_show_menu() {
     echo && echo -n -e "  ${yellow}Press ENTER Key to return  ${plain}"
     echo && echo -n -e "  ${yellow}按回车返回主菜单: ${plain}" && read temp
@@ -52,7 +72,7 @@ before_show_menu() {
 
 
 # crontab -l | grep -q 'make_sublinks.py'  # 通过crontab 命令判断
-check_subscription_links() {
+check_subscription_server() {
     if docker ps -a --format '{{.Names}}' | grep -q 'xuisubsrv'; then
         LOGI "  是否删除订阅服务器 ? "
         read -p "Do you want to remove the subscription server? (y/n): " choice
@@ -70,7 +90,7 @@ check_subscription_links() {
 
 
 make_sublinks() {
-# 选择订阅生成的文件
+# 选择 创建订阅文件的python脚本的文件
 
     version=$(check_xui_ver)
     if [ "$version" = "3" ] ; then
@@ -86,8 +106,8 @@ make_sublinks() {
 
 enable_subscription_links() {
 
-    echo -e "${yellow}请确认开始搭建订阅服务器: ${plain}"
-    read -p "输入y继续,其他退出[y/n]": config_confirm
+    #echo -e "${yellow}请确认开始搭建订阅服务器: ${plain}"
+    #read -p "输入y继续,其他退出[y/n]": config_confirm
     py_make_sublinks=$(make_sublinks)
     if [[ x"${config_confirm}" == x"y" || x"${config_confirm}" == x"Y" ]]; then
         clear
@@ -112,7 +132,7 @@ enable_subscription_links() {
 
 disable_subscription_links() {
     clear
-    echo -e "${yellow}请确认开始删除订阅服务器: ${plain}"
+    echo -e "${red}请确认开始删除订阅服务器: ${plain}"
     read -p "输入y继续,其他退出[y/n]": config_confirm
     if [[ x"${config_confirm}" == x"y" || x"${config_confirm}" == x"Y" ]]; then
         clear
@@ -286,24 +306,6 @@ build_subconvsrv_container() {
 }
 
 
-check_xui_ver() {
-    # 检查文件是否存在
-    if [ ! -f "/usr/local/x-ui/x-ui.sh" ]; then
-        echo "请先安装X-UI"
-        exit 1
-    fi
-    
-    # 检查文件中是否包含特定字符串，不区分大小写
-    if grep -qi "MHSanaei/3x-ui" "/usr/local/x-ui/x-ui.sh"; then
-        echo "3"  # 如果包含，返回版本号为3
-    elif grep -qi "FranzKafkaYu/x-ui" "/usr/local/x-ui/x-ui.sh"; then
-        echo "1"  # 如果不包含，返回版本号为1
-    else
-        echo "0"  # 如果不包含，返回版本号为0
-    fi
-}
-
-
 
 
 
@@ -375,7 +377,7 @@ show_menu() {
         ;;
     1)
         # 搭建/删除订阅服务器(Build/Remove subscription server)
-        check_install && check_subscription_links
+        check_install && check_subscription_server
         #enable_subscription_links
         show_menu 
         ;;
