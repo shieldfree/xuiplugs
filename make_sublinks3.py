@@ -77,129 +77,11 @@ def make_id_list(db):
     conn.close()
     return ids_list
 
-def get_inbound_link1(db,id):
-    
-    sql = 'select id,user_id,up,down,total,remark,enable,expiry_time,autoreset,ip_alert\
-        ,listen,port,protocol,settings,stream_settings,tag,sniffing,ip_limit from inbounds where id ={};'.format(id)
-    # db_inquiry_for_test(sql)
-    # conn.row_factory = sqlite3.Row
-    conn = sqlite3.connect(db)
-    c = conn.cursor()
-    slqresult = c.execute(sql).fetchall()
-    inboundinfo = list(slqresult[0])
-    conn.close()
 
-    protocol = inboundinfo[12]
-    v = 2
-    ps = inboundinfo[5]
-
-    add = inboundinfo[14].split('"serverName": "')[1].split('"')[0]
-    if add =='': 
-        print(f'{id}# id的入口: serverName 信息空缺,生成链接失败!! ')
-        return
-    
-
-def get_inbound_link(db,id):
-    # 3x-ui 的数据库专用
-    #  autoreset ,ip_limit,ip_alert 没有了
-    sql = 'select id,user_id,up,down,total,remark,enable,expiry_time,listen,port,protocol,settings\
-        ,stream_settings,tag,sniffing from inbounds where id ={};'.format(id)
-    # db_inquiry_for_test(sql)
-    # conn.row_factory = sqlite3.Row
-    conn = sqlite3.connect(db)
-    c = conn.cursor()
-    slqresult = c.execute(sql).fetchall()
-    inboundinfo = list(slqresult[0])
-    conn.close()
-
-    protocol = inboundinfo[12]
-    v = 2
-    ps = inboundinfo[5]
-
-    add = inboundinfo[14].split('"serverName": "')[1].split('"')[0]
-    if add =='': 
-        print(f'{id}# id的入口: serverName 信息空缺,生成链接失败!! ')
-        return
-
-    port = inboundinfo[11]
-
-    # print(inboundinfo[14])
-    if protocol == 'trojan':  userid =  inboundinfo[13].split('"password": "')[1].split('"')[0]
-    else :  userid = inboundinfo[13].split('"id": "')[1].split('"')[0]
-
-    if protocol == 'vmess':
-        alterid = inboundinfo[13].split('"alterId": ')[1].split(',')[0].strip()
-    else : alterid = 0
-
-    network = inboundinfo[14].split('"network": "')[-1].split('"')[0]
-    type1 = 'None'
-    host = inboundinfo[14].split('"host": "')[-1].split('"')[0]
-    if len(host) <= 5 : host = ''
-
-    if network == 'ws':
-        path = inboundinfo[14].split('"path": "')[1].split('"')[0]
-    else:  path = '/' 
-        
-    tls =  inboundinfo[14].split('"security": "')[1].split('"')[0]
-    sniffing = ""
-    alpn =  inboundinfo[14].split('"alpn": ')[1].split(']')[0].replace('\n','').replace('[','').replace(' ','').replace('"','')
-    
-
-    
-
-    if protocol == 'vmess':
-        link_text = '{'+ f'"v": "2",  "ps": "{ps}",  "add": "{add}",  "port": "{port}",  "id": "{userid}","aid": "{alterid}",  "net": "{network}",  "type": "{type1}",  "host": "{host}",  "path": "{path}",  "tls": "{tls}", "sni": "{sniffing}",   "alpn": "{alpn}"' +'}'
-        encoded_link_text = link_text.encode("utf-8")
-        sublink = 'vmess://' + str(base64.b64encode(encoded_link_text)).split("'")[1]
-        vmessjson = {   "v": "2",
-                    "ps": "",
-                    "add": "",
-                    "port": 0,
-                    "id": "",
-                    "aid": 0,
-                    "net": "",
-                    "type": "",
-                    "host": "",
-                    "path": "/",
-                    "tls": "tls"
-                    }
-        vmessjson['ps'] = ps
-        vmessjson['add'] = add
-        vmessjson['port'] = port
-        vmessjson['id'] = userid
-        vmessjson['aid'] = alterid
-        vmessjson['net'] = network
-        vmessjson['type'] = type1
-        vmessjson['host'] = host
-        vmessjson['path'] = path
-        vmessjson['tls'] = tls
-        
-
-
-        encoded_vmessjson = 'vmess://' +str(base64.b64encode(json.dumps(vmessjson).encode("utf-8"))).split("'")[1]
-        sublink = encoded_vmessjson
-        # print(vmessjson,encoded_vmessjson)
-
-        
-    elif protocol == 'vless' :
-        sublink = 'vless://' + f'{userid}@{add}:{port}?type={network}&headerType=none&host={add}&security={tls}&sni={add}&flow=#{ps}'
-    # elif protocol == 'vless' and network =='tcp':
-    #     sublink = 'vless://' + f'{userid}@{add}:{port}?type={network}&headerType=none&host={host}&security={tls}&path={path}&sni={add}&flow=#{ps}'
-
-    elif protocol == 'trojan' :
-        sublink = 'trojan://' + f'{userid}@{add}:{port}?type={network}&security={tls}&path={path}&headerType=none#{ps}'
-    # elif protocol == 'trojan' and network =='ws':
-    #     sublink = 'trojan://' + f'{userid}@{add}:{port}?type={network}&security={tls}&path={path}&headerType=none#{ps}'
-    else:
-        print(" unsupported protocol")
-    # print("type: ",protocol, v,ps,add, port,alterid,network,type1,host,path,tls,sniffing,alpn ) #,userid
-    # print('\n', ps, '\n', sublink)
-
-    return sublink
 
 def get_inbound_link_by_json(db,id):
-    # another way to get inbounds setting and link
-    sql = 'select id,user_id,up,down,total,remark,enable,expiry_time,autoreset,ip_alert,ip_limit,listen,port\
+    # ,autorese,ip_alert,ip_limit
+    sql = 'select id,user_id,up,down,total,remark,enable,expiry_timet,listen,port\
         ,protocol,settings,stream_settings,tag,sniffing from inbounds where id ={};'.format(id)
     conn = sqlite3.connect(db)
     c = conn.cursor()
@@ -208,8 +90,7 @@ def get_inbound_link_by_json(db,id):
     conn.close()
     # print (inboundinfo)
     # return inboundinfo
-
-    # inboundinfo = get_inbound_info_by_json(dbfile,1)
+    
     id =  inboundinfo[0]
     user_id =inboundinfo[1]
     up = inboundinfo[2]
@@ -218,12 +99,12 @@ def get_inbound_link_by_json(db,id):
     remark = inboundinfo[5]
     enable =inboundinfo[6]
     expiry_time = inboundinfo[7]
-    autoreset = inboundinfo[8]
-    ip_alert = inboundinfo[9]
-    ip_limit = inboundinfo[10]
-    listen = inboundinfo[11]
-    port = inboundinfo[12]
-    protocol = inboundinfo[13]
+    # autoreset = inboundinfo[8]
+    # ip_alert = inboundinfo[9]
+    # ip_limit = inboundinfo[10]
+    listen = inboundinfo[8]
+    port = inboundinfo[9]
+    protocol = inboundinfo[10]
     ''' settings
     {
     "clients": [
@@ -236,7 +117,7 @@ def get_inbound_link_by_json(db,id):
     "decryption": "none",
     "fallbacks": []
     }'''
-    settings = inboundinfo[14]
+    settings = inboundinfo[11]
     settings_json = json.loads(settings)
     if protocol =='trojan': clients_id = settings_json["clients"][0]["password"]
     else: clients_id = settings_json["clients"][0]["id"]
@@ -278,7 +159,7 @@ def get_inbound_link_by_json(db,id):
         },
         "acceptProxyProtocol": false
     }'''
-    stream_settings = inboundinfo[15]
+    stream_settings = inboundinfo[12]
     stream_settings_json = json.loads(stream_settings)
     network = stream_settings_json["network"] # network_type
     security = stream_settings_json["security"]
@@ -307,8 +188,8 @@ def get_inbound_link_by_json(db,id):
         
 
 
-    tag = inboundinfo[16]
-    sniffing = inboundinfo[17]
+    tag = inboundinfo[13]
+    sniffing = inboundinfo[14]
     sniffing_json = json.loads(sniffing)
     enabled = sniffing_json["enabled"]
     destOverride = sniffing_json["destOverride"]
