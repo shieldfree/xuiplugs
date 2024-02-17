@@ -68,21 +68,19 @@ check_subscription_links() {
     fi
 }
 
-py_make_sublinks=""
+
 make_sublinks() {
-# 批量创建节点
+# 选择订阅生成的文件
+
     version=$(check_xui_ver)
     if [ "$version" = "3" ] ; then
-        py_make_sublinks="/usr/local/x-ui/plugs/make_sublinks3.py" 
-
-
-    elif [ "$version" = "1" ] ; then
-        py_make_sublinks="/usr/local/x-ui/plugs/make_sublinks1.py" 
-
-
-    elif [ "$version" = "0" ] ; then
-        py_make_sublinks="/usr/local/x-ui/plugs/make_sublinks1.py" 
+        echo "/usr/local/x-ui/plugs/make_sublinks3.py" 
         
+    elif [ "$version" = "1" ] ; then
+        echo "/usr/local/x-ui/plugs/make_sublinks1.py"  
+        
+    elif [ "$version" = "0" ] ; then
+        echo "/usr/local/x-ui/plugs/make_sublinks1.py"
     fi
 }
 
@@ -90,7 +88,7 @@ enable_subscription_links() {
 
     echo -e "${yellow}请确认开始搭建订阅服务器: ${plain}"
     read -p "输入y继续,其他退出[y/n]": config_confirm
-    make_sublinks
+    py_make_sublinks=$(make_sublinks)
     if [[ x"${config_confirm}" == x"y" || x"${config_confirm}" == x"Y" ]]; then
         clear
         LOGI "  开始搭建订阅服务器..."
