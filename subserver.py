@@ -32,10 +32,10 @@ if subserver_domain =='app.myserver.com':
     msg = '是否现在设置订阅服务器的域名和端口(y/n) :'
     confirmyn = input(msg)
     if confirmyn == 'y' :
-        result = subprocess.run(['python3', 'config_xuilist.py', 'server_mng_menu'], capture_output=True, text=True)
+         subprocess.run(['python3', 'config_xuilist.py', 'server_mng_menu'], capture_output=True, text=True)
         
     else:
-        sys.exit(1)
+        sys.exit(0)
 if config.get('XUISERVER1','domain') == 'app.myserver.com':
     print('请先添加xui服务器的信息,以读取入站信息\n 进入菜单:<4. 订阅/X-UI服务器管理(Subscription/X-UI Server Management)> ==> <2. 添加(Add)>')
     
@@ -46,7 +46,7 @@ if config.get('XUISERVER1','domain') == 'app.myserver.com':
         result = subprocess.run(['python3', 'config_xuilist.py', 'server_mng_menu'], capture_output=True, text=True)
 
     else:
-        sys.exit(2)
+        sys.exit(0)
         
 
 if os.path.isdir('/root/'):
