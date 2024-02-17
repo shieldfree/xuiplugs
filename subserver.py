@@ -28,20 +28,20 @@ os.system(f'cat {configfile}')
 if subserver_domain =='app.myserver.com':
     print('订阅服务器域名是默认值,请先设置订阅服务器的域名!!\n 进入菜单:<4. 订阅/X-UI服务器管理(Subscription/X-UI Server Management)> ==> <5.域名端口设置(domain)>')
     
-    msg = '是否现在设置订阅服务器的域名和端口(y/n) :'
-    confirmyn = input(msg)
-    if confirmyn == 'y' :
-        confxuisrv.server_mng_menu()
-    else:
-        exit()
+    #msg = '是否现在设置订阅服务器的域名和端口(y/n) :'
+    #confirmyn = input(msg)
+    #if confirmyn == 'y' :
+    #    confxuisrv.server_mng_menu()
+    #else:
+    exit()
 if config.get('XUISERVER1','domain') == 'app.myserver.com':
     print('请先添加xui服务器的信息,以读取入站信息\n 进入菜单:<4. 订阅/X-UI服务器管理(Subscription/X-UI Server Management)> ==> <2. 添加(Add)>')
-    msg = '是否现在添加x-ui 服务器(y/n) :'
-    confirmyn = input(msg)
-    if confirmyn == 'y' :
-        confxuisrv.server_mng_menu()
-    else:
-        exit()
+    #msg = '是否现在添加x-ui 服务器(y/n) :'
+    #confirmyn = input(msg)
+    #if confirmyn == 'y' :
+    #    confxuisrv.server_mng_menu()
+    #else:
+    exit()
 
 if os.path.isdir('/root/'):
     print(f'-- making folder to {htmlroot} --')
