@@ -109,7 +109,8 @@ enable_subscription_links() {
     #echo -e "${yellow}请确认开始搭建订阅服务器: ${plain}"
     #read -p "输入y继续,其他退出[y/n]": config_confirm
     py_make_sublinks=$(make_sublinks)
-    if [[ x"${config_confirm}" == x"y" || x"${config_confirm}" == x"Y" ]]; then
+    #if [[ x"${config_confirm}" == x"y" || x"${config_confirm}" == x"Y" ]]; then
+    
         clear
         LOGI "  开始搭建订阅服务器..."
         check_install && python3 /usr/local/x-ui/plugs/subserver.py
@@ -123,9 +124,10 @@ enable_subscription_links() {
         rm /tmp/crontabTask.tmp
         
         read -p "  ↑ 订阅链接.  按回车继续  :" num
-    else
-    echo -e "${red}已取消搭建订阅服务器...${plain}"
-    fi
+        
+    #else
+    #echo -e "${red}已取消搭建订阅服务器...${plain}"
+    #fi
 
 
 }
