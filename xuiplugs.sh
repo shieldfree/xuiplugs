@@ -68,22 +68,42 @@ check_subscription_links() {
     fi
 }
 
+py_make_sublinks=""
+make_sublinks() {
+# 批量创建节点
+    version=$(check_xui_ver)
+    if [ "$version" = "3" ] ; then
+        py_make_sublinks="/usr/local/x-ui/plugs/make_sublinks3.py" 
+
+
+    elif [ "$version" = "1" ] ; then
+        py_make_sublinks="/usr/local/x-ui/plugs/make_sublinks1.py" 
+
+
+    elif [ "$version" = "0" ] ; then
+        py_make_sublinks="/usr/local/x-ui/plugs/make_sublinks1.py" 
+        
+    fi
+}
+
 enable_subscription_links() {
 
     echo -e "${yellow}请确认开始搭建订阅服务器: ${plain}"
     read -p "输入y继续,其他退出[y/n]": config_confirm
+    make_sublinks
     if [[ x"${config_confirm}" == x"y" || x"${config_confirm}" == x"Y" ]]; then
         clear
         LOGI "  开始搭建订阅服务器..."
         check_install && python3 /usr/local/x-ui/plugs/subserver.py
 
-        python3 /usr/local/x-ui/plugs/make_sublinks.py 
+        python3 "$py_make_sublinks" 
 
         crontab -l | grep -v "make_sublinks" | crontab -
         crontab -l >/tmp/crontabTask.tmp
-        echo "*/8 * * * * python3 /usr/local/x-ui/plugs/make_sublinks.py " >>/tmp/crontabTask.tmp
+        echo -e "*/8 * * * * python3 \"$py_make_sublinks\" " >>/tmp/crontabTask.tmp
         crontab /tmp/crontabTask.tmp
         rm /tmp/crontabTask.tmp
+        
         read -p "  ↑ 订阅链接.  按回车继续  :" num
     else
     echo -e "${red}已取消搭建订阅服务器...${plain}"
