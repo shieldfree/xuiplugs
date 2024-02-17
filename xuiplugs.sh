@@ -76,7 +76,7 @@ check_subscription_server() {
     if docker ps -a --format '{{.Names}}' | grep -q 'xuisubsrv'; then
         LOGI "  是否删除订阅服务器 ? "
         read -p "Do you want to remove the subscription server? (y/n): " choice
-        if [ "$choice" = "yes" ]; then
+        if [ "$choice" = "y" ]; then
             disable_subscription_links
         fi
     else
