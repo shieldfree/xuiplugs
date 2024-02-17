@@ -181,7 +181,7 @@ def get_inbound_link_by_json(db,id):
         ocspStapling = stream_settings_json["tlsSettings"]["certificates"][0]["ocspStapling"]
 
         alpn = ','.join(stream_settings_json["tlsSettings"]["alpn"])  
-        print(alpn)
+        #print(alpn)
         allowInsecure = stream_settings_json["tlsSettings"]["settings"]["allowInsecure"]
         fingerprint = stream_settings_json["tlsSettings"]["settings"]["fingerprint"]
     path = '/' # set default 
