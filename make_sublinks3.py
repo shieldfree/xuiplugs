@@ -226,7 +226,7 @@ def get_inbound_link_by_json(db,id):
         vmess_link_json['path'] = path
         vmess_link_json['host'] = serverName
         vmess_link_json['sni'] = serverName
-        vmess_link_json['alpn'] = alpn
+        vmess_link_json['alpn'] = '' #alpn
         vmess_link = json.dumps(vmess_link_json)
 
         encoded_link_text = vmess_link.encode("utf-8")
@@ -236,12 +236,12 @@ def get_inbound_link_by_json(db,id):
     elif protocol == 'vless' :
         sublink = 'trojan://' + f'{clients_id}@{serverName}:{port}?type={network}&headerType=none&host={serverName}&security={security}&path={path}&sni={serverName}&flow=#{remark}'
         # 3x-ui
-        sublink =  'vless://' + f'{clients_id}@{serverName}:{port}?type={network}&security={security}&fp={fingerprint}&alpn={alpn}&headerType={header_type}&sni={serverName}&host={serverName}&path={path}#{remark}'
+        sublink =  'vless://' + f'{clients_id}@{serverName}:{port}?type={network}&security={security}&fp={fingerprint}&alpn=&headerType={header_type}&sni={serverName}&host={serverName}&path={path}#{remark}'  #{alpn}
         # sublink = 'vless://' + quote(sublink)
     elif protocol == 'trojan' :
         sublink = 'trojan://' + f'{clients_id}@{serverName}:{port}?type={network}&security={security}&path={path}&headerType=none#{remark}'
         # 3x-ui
-        sublink = 'trojan://' + f'{clients_id}@{serverName}:{port}?type={network}&security={security}&fp=&alpn={alpn}&path={path}&sni={serverName}#{remark}'
+        sublink = 'trojan://' + f'{clients_id}@{serverName}:{port}?type={network}&security={security}&fp=&alpn=&path={path}&sni={serverName}#{remark}' #{alpn}
         # sublink = 'trojan://' +quote(sublink)
 
     else:
