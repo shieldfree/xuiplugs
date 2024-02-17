@@ -180,7 +180,7 @@ def get_inbound_link_by_json(db,id):
         keyFile = stream_settings_json["tlsSettings"]["certificates"][0]["keyFile"]
         ocspStapling = stream_settings_json["tlsSettings"]["certificates"][0]["ocspStapling"]
 
-        alpn = stream_settings_json["tlsSettings"]["alpn"]  # alpn 的[] 要不要去掉??
+        alpn = ','.join(stream_settings_json["tlsSettings"]["alpn"])  
         print(alpn)
         allowInsecure = stream_settings_json["tlsSettings"]["settings"]["allowInsecure"]
         fingerprint = stream_settings_json["tlsSettings"]["settings"]["fingerprint"]
