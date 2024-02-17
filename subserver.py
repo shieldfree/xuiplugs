@@ -26,10 +26,10 @@ os.system(f'cat {configfile}')
 
 
 if subserver_domain =='app.myserver.com':
-    print('订阅服务器域名是默认值,请先设置订阅服务器的域名!!\n 进入菜单:<8. 服务器信息管理> ==> <5.域名端口设置(domain)>')
+    print('订阅服务器域名是默认值,请先设置订阅服务器的域名!!\n 进入菜单:<4. 订阅/X-UI服务器管理(Subscription/X-UI Server Management)> ==> <5.域名端口设置(domain)>')
     exit()
 if config.get('XUISERVER1','domain') == 'app.myserver.com':
-    print('请先添加xui服务器的信息,以读取入站信息\n 进入菜单:<8. 服务器信息管理> ==> <2. 添加(Add)>')
+    print('请先添加xui服务器的信息,以读取入站信息\n 进入菜单:<4. 订阅/X-UI服务器管理(Subscription/X-UI Server Management)> ==> <2. 添加(Add)>')
     exit()
 
 if os.path.isdir('/root/'):
