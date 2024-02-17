@@ -21,7 +21,7 @@ htmlroot = config.get(subserver_sec,'station_root')
 serverport = config.get(subserver_sec,'serverport')
 engin_name = 'xuisubsrv' + config.get(subserver_sec,'engin_name') 
 subserver_domain = config.get(subserver_sec,'subserver_domain')
-print(subserver_domain, engin_name)
+os.system(f'configfile:')
 os.system(f'cat {configfile}')
 
 
