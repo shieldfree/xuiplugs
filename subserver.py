@@ -32,15 +32,14 @@ if subserver_domain =='app.myserver.com':
     confirmyn = input(msg)
     if confirmyn == 'y' :
         confxuisrv.server_mng_menu()
-    exit()
+        exit()
 if config.get('XUISERVER1','domain') == 'app.myserver.com':
     print('请先添加xui服务器的信息,以读取入站信息\n 进入菜单:<4. 订阅/X-UI服务器管理(Subscription/X-UI Server Management)> ==> <2. 添加(Add)>')
     msg = '是否现在添加x-ui 服务器(y/n) :'
     confirmyn = input(msg)
     if confirmyn == 'y' :
         confxuisrv.server_mng_menu()
-
-    exit()
+        exit()
 
 if os.path.isdir('/root/'):
     print(f'-- making folder to {htmlroot} --')
