@@ -360,7 +360,7 @@ show_menu() {
     ${green} 1.${plain} 搭建/删除${green}订阅服务器${plain}(Build/Remove Subscription Server)
     ${green} 2.${plain} 启用/删除定时${green}切换节点端口${plain}(Enable/Disable Inbound Port Changer)
     ${green} 3.${plain} 启用/删除客户端${green}用量显示${plain}(Enable/Disable Client Usage Display)
-    ${green} 4.${plain} 服务器管理(X-UI Server Management)
+    ${green} 4.${plain} 订阅/X-UI服务器管理(Subscription/X-UI Server Management)
     ${green} 5.${plain} 订阅链接管理(Manage Subscription Links)
     ${green} 6.${plain} ${green}批量添加${plain}节点(Create Multiple Inbounds)
     ${green} 7.${plain} 安装${red}NPM${plain}代理服务器(Install NginX Proxy Manager)
