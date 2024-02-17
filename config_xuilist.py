@@ -335,7 +335,7 @@ def server_mng_menu():
 
             ===订阅服务器==
 
-            5. 域名端口设置(domain)
+            5. 订阅服务器域名端口设置(Sub Server Domain/Port)
             ===============
             9. 返回(Exit)
         
