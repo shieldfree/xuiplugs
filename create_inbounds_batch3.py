@@ -195,8 +195,8 @@ def add_new_inbounds(db,new_id,new_port,remark):
     '''
     # stream_json = json.loads(stream_str)
     stream_json = {}
-    #stream_json['network'] = random.choice(['tcp', 'ws'])  # tcp, ws
-    stream_json['network'] = random.choice(['tcp'])  # for debugging
+    stream_json['network'] = random.choice(['tcp', 'ws'])  # tcp, ws
+    #stream_json['network'] = random.choice(['tcp'])  # for debugging
     stream_json['security'] = 'tls'
     stream_json['externalProxy'] = []
     stream_json['tlsSettings'] = {}
@@ -215,6 +215,7 @@ def add_new_inbounds(db,new_id,new_port,remark):
     stream_json['tlsSettings']['settings']={}
     stream_json['tlsSettings']['settings']['allowInsecure'] = False
     stream_json['tlsSettings']['settings']['fingerprint'] = "chrome"
+    stream_json['tlsSettings']['settings']['fingerprint'] = random.choice(['chrome','firefox', 'safari', 'ios', 'android', 'edge', 'random', 'randomized'])
     
 
 
