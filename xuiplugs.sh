@@ -113,12 +113,12 @@ enable_subscription_links() {
         clear
         LOGI "  开始搭建订阅服务器..."
         check_install && python3 /usr/local/x-ui/plugs/subserver.py
-        if [ $? -eq 0 ]; then
+        if [ $? -eq 1 ]; then
             echo -e "${red}没有订阅服务器域名,未搭建订阅服务器! ${plain}"
             return
         fi
         python3 "$py_make_sublinks" 
-        if [ $? -eq 0 ]; then
+        if [ $? -eq 2 ]; then
             echo -e "${red}没有X-UI服务器信息,未搭建订阅服务器! ${plain}" 
             return
         fi
