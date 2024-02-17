@@ -32,7 +32,7 @@ if subserver_domain =='app.myserver.com':
     msg = '是否现在设置订阅服务器的域名和端口(y/n) :'
     confirmyn = input(msg)
     if confirmyn == 'y' :
-        config_xuilist.server_mng_menu()
+        confxuisrv.server_mng_menu()
         sys.exit(1)
     else:
         sys.exit(1)
@@ -43,7 +43,7 @@ if config.get('XUISERVER1','domain') == 'app.myserver.com':
     confirmyn = input(msg)
     
     if confirmyn == 'y' :
-        config_xuilist.server_mng_menu()
+        confxuisrv.server_mng_menu()
         sys.exit(2)
     else:
         sys.exit(2)
