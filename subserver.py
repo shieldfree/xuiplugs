@@ -32,7 +32,7 @@ if subserver_domain =='app.myserver.com':
     msg = '是否现在设置订阅服务器的域名和端口(y/n) :'
     confirmyn = input(msg)
     if confirmyn == 'y' :
-         subprocess.run(['python3', 'config_xuilist.py', 'server_mng_menu'], capture_output=True, text=True)
+         config_xuilist.server_mng_menu()
         
     else:
         sys.exit(0)
@@ -43,7 +43,7 @@ if config.get('XUISERVER1','domain') == 'app.myserver.com':
     confirmyn = input(msg)
     
     if confirmyn == 'y' :
-        result = subprocess.run(['python3', 'config_xuilist.py', 'server_mng_menu'], capture_output=True, text=True)
+        config_xuilist.server_mng_menu()
 
     else:
         sys.exit(0)
