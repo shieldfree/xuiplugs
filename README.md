@@ -131,7 +131,7 @@ bash <(curl -Ls https://github.com/shieldfree/scriptforxui/raw/main/scriptforxui
  
 
 ```
-bash <(curl -Ls https://github.com/shieldfree/scriptforxui/raw/main/scriptforxui.sh)
+bash <(curl -Ls https://github.com/shieldfree/xuiplugs/raw/main/scriptforxui.sh)
 ```    
 
 
