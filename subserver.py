@@ -5,7 +5,7 @@ import configparser
 import platform
 import config_xuilist as confxuisrv
 import sys
-
+import subprocess
 
 linuxplatf = platform.version()
 
@@ -32,7 +32,7 @@ if subserver_domain =='app.myserver.com':
     msg = '是否现在设置订阅服务器的域名和端口(y/n) :'
     confirmyn = input(msg)
     if confirmyn == 'y' :
-        confxuisrv.server_mng_menu()
+        subprocess.run(['python', 'config_xuilist.py', 'server_mng_menu'], capture_output=True, text=True)
     else:
         sys.exit(1)
 if config.get('XUISERVER1','domain') == 'app.myserver.com':
@@ -40,7 +40,7 @@ if config.get('XUISERVER1','domain') == 'app.myserver.com':
     msg = '是否现在添加x-ui 服务器(y/n) :'
     confirmyn = input(msg)
     if confirmyn == 'y' :
-        confxuisrv.server_mng_menu()
+        subprocess.run(['python', 'config_xuilist.py', 'server_mng_menu'], capture_output=True, text=True)
     else:
         sys.exit(2)
 
