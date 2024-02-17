@@ -12,6 +12,7 @@ import platform
 import configparser
 import config_xuilist as confxuisrv
 import config_sublinks as confsublink
+from urllib.parse import quote
 # import time
 
 xui_srv_configfile = confxuisrv.xui_srv_configfile
@@ -81,7 +82,7 @@ def make_id_list(db):
 
 def get_inbound_link_by_json(db,id):
     # ,autorese,ip_alert,ip_limit
-    sql = 'select id,user_id,up,down,total,remark,enable,expiry_time,listen,port\
+    sql = 'select id,user_id,up,down,total,remark,enable, expiry_time, listen,port\
         ,protocol,settings,stream_settings,tag,sniffing from inbounds where id ={};'.format(id)
     conn = sqlite3.connect(db)
     c = conn.cursor()
@@ -90,7 +91,7 @@ def get_inbound_link_by_json(db,id):
     conn.close()
     # print (inboundinfo)
     # return inboundinfo
-    
+
     id =  inboundinfo[0]
     user_id =inboundinfo[1]
     up = inboundinfo[2]
@@ -129,7 +130,7 @@ def get_inbound_link_by_json(db,id):
         decryption = settings_json["decryption"]
         fallbacks = settings_json["fallbacks"]
     elif protocol == 'vmess': 
-        clients_alterId = settings_json["clients"][0]["alterId"]
+        # clients_alterId = settings_json["clients"][0]["alterId"]
         disableInsecureEncryption = settings_json["disableInsecureEncryption"]
 
     ''' stream_settings
@@ -163,28 +164,38 @@ def get_inbound_link_by_json(db,id):
     stream_settings_json = json.loads(stream_settings)
     network = stream_settings_json["network"] # network_type
     security = stream_settings_json["security"]
-    tlsSettings = stream_settings_json["tlsSettings"]
-    serverName = stream_settings_json["tlsSettings"]["serverName"]
-    minVersion = stream_settings_json["tlsSettings"]["minVersion"]
-    maxVersion = stream_settings_json["tlsSettings"]["maxVersion"]
-    cipherSuites = stream_settings_json["tlsSettings"]["cipherSuites"]
-    certificates = stream_settings_json["tlsSettings"]["certificates"]
-    certificateFile = stream_settings_json["tlsSettings"]["certificates"][0]["certificateFile"]
-    keyFile = stream_settings_json["tlsSettings"]["certificates"][0]["keyFile"]
-    alpn = stream_settings_json["tlsSettings"]["alpn"]
+
+    if security == 'tls':
+        # tls settings
+        tlsSettings = stream_settings_json["tlsSettings"]
+        serverName = stream_settings_json["tlsSettings"]["serverName"]
+        minVersion = stream_settings_json["tlsSettings"]["minVersion"]
+        maxVersion = stream_settings_json["tlsSettings"]["maxVersion"]
+        cipherSuites = stream_settings_json["tlsSettings"]["cipherSuites"]
+        rejectUnknownSni = stream_settings_json["tlsSettings"]["rejectUnknownSni"]
+        # certificates = stream_settings_json["tlsSettings"]["certificates"]
+        certificateFile = stream_settings_json["tlsSettings"]["certificates"][0]["certificateFile"]
+        # keyFile = stream_settings_json["tlsSettings"]["certificates"][0]["keyFile"]
+        keyFile = stream_settings_json["tlsSettings"]["certificates"][0]["keyFile"]
+        ocspStapling = stream_settings_json["tlsSettings"]["certificates"][0]["ocspStapling"]
+
+        alpn = stream_settings_json["tlsSettings"]["alpn"]  # alpn 的[] 要不要去掉??
+        print(alpn)
+        allowInsecure = stream_settings_json["tlsSettings"]["settings"]["allowInsecure"]
+        fingerprint = stream_settings_json["tlsSettings"]["settings"]["fingerprint"]
     path = '/' # set default 
     header_type = 'None' # set default 
     if network == 'tcp':
-        tcpSettings = stream_settings_json["tcpSettings"]
-        header = stream_settings_json["tcpSettings"]["header"]
-        header_type = stream_settings_json["tcpSettings"]["header"]["type"]
+        # tcpSettings = stream_settings_json["tcpSettings"]
         acceptProxyProtocol = stream_settings_json["tcpSettings"]["acceptProxyProtocol"]
+        # header = stream_settings_json["tcpSettings"]["header"]
+        header_type = stream_settings_json["tcpSettings"]["header"]["type"]
         
     elif network == 'ws':
-        wsSettings = stream_settings_json["wsSettings"]
+        # wsSettings = stream_settings_json["wsSettings"]
+        acceptProxyProtocol =  stream_settings_json["wsSettings"]["acceptProxyProtocol"]
         path = stream_settings_json["wsSettings"]["path"]
         headers = stream_settings_json["wsSettings"]["headers"]    
-        acceptProxyProtocol =  stream_settings_json["wsSettings"]["acceptProxyProtocol"]
         
 
 
@@ -199,17 +210,38 @@ def get_inbound_link_by_json(db,id):
 
 
     if protocol == 'vmess':
-        link_text = '{'+ f'"v": "2",  "ps": "{remark}",  "add": "{serverName}",  "port": "{port}",  "id": "{clients_id}", \
-                "aid": "{clients_alterId}",  "net": "{network}",  "type": "{header_type}",  "host": "{serverName}",  "path": "{path}",  "tls": "{security}"' +'}'
-        encoded_link_text = link_text.encode("utf-8")
+        vmess_link = '{'+ f'"v": "2",  "ps": "{remark}",  "add": "{serverName}",  "port": "{port}",  "id": "{clients_id}", \
+                "net": "{network}",  "type": "{header_type}",  "tls": "{security}",  "path": "{path}",  "host": "{serverName}",\
+                "sni": "{serverName}",  "alpn": "{alpn}"' +'}'
+        vmess_link_json = {}
+        vmess_link_json['v'] = "2"
+        vmess_link_json['ps'] = remark
+        vmess_link_json['add'] = serverName
+        vmess_link_json['port'] = port
+        vmess_link_json['id'] = clients_id
+        vmess_link_json['net'] = network
+        vmess_link_json['type'] = header_type
+        vmess_link_json['tls'] = security
+        vmess_link_json['path'] = path
+        vmess_link_json['host'] = serverName
+        vmess_link_json['sni'] = serverName
+        vmess_link_json['alpn'] = alpn
+        vmess_link = json.dumps(vmess_link_json)
+
+        encoded_link_text = vmess_link.encode("utf-8")
         sublink = 'vmess://' + str(base64.b64encode(encoded_link_text)).split("'")[1]
         # print(sublink)
         
     elif protocol == 'vless' :
-        sublink = 'vless://' + f'{clients_id}@{serverName}:{port}?type={network}&headerType=none&host={serverName}&security={security}&path={path}&sni={serverName}&flow=#{remark}'
-
+        sublink =  f'{clients_id}@{serverName}:{port}?type={network}&headerType=none&host={serverName}&security={security}&path={path}&sni={serverName}&flow=#{remark}'
+        # 3x-ui
+        sublink =   f'{clients_id}@{serverName}:{port}?type={network}&security={security}&fp={fingerprint}&alpn={alpn}&headerType={header_type}&sni={serverName}&host={serverName}&path={path}#{remark}'
+        sublink = 'vless://' + quote(sublink)
     elif protocol == 'trojan' :
-        sublink = 'trojan://' + f'{clients_id}@{serverName}:{port}?type={network}&security={security}&path={path}&headerType=none#{remark}'
+        sublink =  f'{clients_id}@{serverName}:{port}?type={network}&security={security}&path={path}&headerType=none#{remark}'
+        # 3x-ui
+        sublink =  f'{clients_id}@{serverName}:{port}?type={network}&security={security}&fp=&alpn={alpn}&path={path}&sni={serverName}#{remark}'
+        sublink = 'trojan://' +quote(sublink)
 
     else:
         print(" unsupported protocol")
