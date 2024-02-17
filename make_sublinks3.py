@@ -131,7 +131,8 @@ def get_inbound_link_by_json(db,id):
         fallbacks = settings_json["fallbacks"]
     elif protocol == 'vmess': 
         # clients_alterId = settings_json["clients"][0]["alterId"]
-        disableInsecureEncryption = settings_json["disableInsecureEncryption"]
+        # disableInsecureEncryption = settings_json["disableInsecureEncryption"]
+        pass
 
     ''' stream_settings
     {
