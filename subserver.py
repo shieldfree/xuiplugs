@@ -21,6 +21,8 @@ htmlroot = config.get(subserver_sec,'station_root')
 serverport = config.get(subserver_sec,'serverport')
 engin_name = 'xuisubsrv' + config.get(subserver_sec,'engin_name') 
 subserver_domain = config.get(subserver_sec,'subserver_domain')
+print(subserver_domain, engin_name)
+
 if subserver_domain =='app.myserver.com':
     print('订阅服务器域名是默认值,请先设置订阅服务器的域名!!\n 进入菜单:<8. 服务器信息管理> ==> <5.域名端口设置(domain)>')
     exit()
