@@ -81,7 +81,7 @@ def make_id_list(db):
 
 def get_inbound_link_by_json(db,id):
     # ,autorese,ip_alert,ip_limit
-    sql = 'select id,user_id,up,down,total,remark,enable,expiry_timet,listen,port\
+    sql = 'select id,user_id,up,down,total,remark,enable,expiry_time,listen,port\
         ,protocol,settings,stream_settings,tag,sniffing from inbounds where id ={};'.format(id)
     conn = sqlite3.connect(db)
     c = conn.cursor()
