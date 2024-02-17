@@ -121,6 +121,10 @@ enable_subscription_links() {
             echo -e "${red}没有X-UI服务器信息,未搭建订阅服务器! ${plain}" 
             return
         fi
+        if [ $? -ne 0 ]; then
+            #echo -e "${red}没有X-UI服务器信息,未搭建订阅服务器! ${plain}" 
+            return
+        fi
         python3 "$py_make_sublinks" 
 
         
