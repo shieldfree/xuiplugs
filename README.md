@@ -7,7 +7,7 @@
 
  - 用一键安装命令进行安装
 ```
-bash <(curl -Ls https://github.com/shieldfree/scriptforxui/raw/main/scriptforxui.sh)
+bash <(curl -Ls https://github.com/shieldfree/xuiplugs/raw/main/installxuiplugs.sh)
 
 ```
 运行界面如下
@@ -131,7 +131,7 @@ bash <(curl -Ls https://github.com/shieldfree/scriptforxui/raw/main/scriptforxui
  
 
 ```
-bash <(curl -Ls https://github.com/shieldfree/xuiplugs/raw/main/scriptforxui.sh)
+bash <(curl -Ls https://github.com/shieldfree/xuiplugs/raw/main/installxuiplugs.sh)
 ```    
 
 
