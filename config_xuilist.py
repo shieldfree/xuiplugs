@@ -4,6 +4,7 @@ import time
 import os
 import main
 import re
+import sys
 
 xui_srv_configfile ='/usr/local/x-ui/plugs/config/xuiplugconf.ini'
 if not os.path.exists(xui_srv_configfile):
@@ -370,7 +371,7 @@ def server_mng_menu():
             sub_server_mng()
 
         elif option_no == '9':
-            exit()
+            sys.exit(0)
         # time.sleep(1)
 
 
