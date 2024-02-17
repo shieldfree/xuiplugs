@@ -234,15 +234,15 @@ def get_inbound_link_by_json(db,id):
         # print(sublink)
         
     elif protocol == 'vless' :
-        sublink =  f'{clients_id}@{serverName}:{port}?type={network}&headerType=none&host={serverName}&security={security}&path={path}&sni={serverName}&flow=#{remark}'
+        sublink = 'trojan://' + f'{clients_id}@{serverName}:{port}?type={network}&headerType=none&host={serverName}&security={security}&path={path}&sni={serverName}&flow=#{remark}'
         # 3x-ui
-        sublink =   f'{clients_id}@{serverName}:{port}?type={network}&security={security}&fp={fingerprint}&alpn={alpn}&headerType={header_type}&sni={serverName}&host={serverName}&path={path}#{remark}'
-        sublink = 'vless://' + quote(sublink)
+        sublink =  'vless://' + f'{clients_id}@{serverName}:{port}?type={network}&security={security}&fp={fingerprint}&alpn={alpn}&headerType={header_type}&sni={serverName}&host={serverName}&path={path}#{remark}'
+        # sublink = 'vless://' + quote(sublink)
     elif protocol == 'trojan' :
-        sublink =  f'{clients_id}@{serverName}:{port}?type={network}&security={security}&path={path}&headerType=none#{remark}'
+        sublink = 'trojan://' + f'{clients_id}@{serverName}:{port}?type={network}&security={security}&path={path}&headerType=none#{remark}'
         # 3x-ui
-        sublink =  f'{clients_id}@{serverName}:{port}?type={network}&security={security}&fp=&alpn={alpn}&path={path}&sni={serverName}#{remark}'
-        sublink = 'trojan://' +quote(sublink)
+        sublink = 'trojan://' + f'{clients_id}@{serverName}:{port}?type={network}&security={security}&fp=&alpn={alpn}&path={path}&sni={serverName}#{remark}'
+        # sublink = 'trojan://' +quote(sublink)
 
     else:
         print(" unsupported protocol")
