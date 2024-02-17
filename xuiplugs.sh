@@ -28,7 +28,6 @@ check_status() {
 
 
 
-
 check_install() {
     check_status
     if [[ $? == 2 ]]; then
@@ -63,6 +62,21 @@ check_xui_ver() {
 
 
 
+make_sublinks() {
+# 选择 创建订阅文件的python脚本的文件
+
+    version=$(check_xui_ver)
+    if [ "$version" = "3" ] ; then
+        echo "/usr/local/x-ui/plugs/make_sublinks3.py" 
+        
+    elif [ "$version" = "1" ] ; then
+        echo "/usr/local/x-ui/plugs/make_sublinks1.py"  
+        
+    elif [ "$version" = "0" ] ; then
+        echo "/usr/local/x-ui/plugs/make_sublinks1.py"
+    fi
+}
+
 
 before_show_menu() {
     echo && echo -n -e "  ${yellow}Press ENTER Key to return  ${plain}"
@@ -72,7 +86,7 @@ before_show_menu() {
 
 
 # crontab -l | grep -q 'make_sublinks.py'  # 通过crontab 命令判断
-check_subscription_server() {
+build_remove_subscription_server() {
     if docker ps -a --format '{{.Names}}' | grep -q 'xuisubsrv'; then
         LOGI "  是否删除订阅服务器 ? "
         read -p "Do you want to remove the subscription server? (y/n): " choice
@@ -88,21 +102,6 @@ check_subscription_server() {
     fi
 }
 
-
-make_sublinks() {
-# 选择 创建订阅文件的python脚本的文件
-
-    version=$(check_xui_ver)
-    if [ "$version" = "3" ] ; then
-        echo "/usr/local/x-ui/plugs/make_sublinks3.py" 
-        
-    elif [ "$version" = "1" ] ; then
-        echo "/usr/local/x-ui/plugs/make_sublinks1.py"  
-        
-    elif [ "$version" = "0" ] ; then
-        echo "/usr/local/x-ui/plugs/make_sublinks1.py"
-    fi
-}
 
 enable_subscription_links() {
 
@@ -138,7 +137,7 @@ disable_subscription_links() {
     read -p "输入y继续,其他退出[y/n]": config_confirm
     if [[ x"${config_confirm}" == x"y" || x"${config_confirm}" == x"Y" ]]; then
         clear
-        LOGI "  开始删除订阅服务器..."
+        LOGE "  开始删除订阅服务器..."
         
 
     # if [[ -f /etc/x-ui/x-ui.db ]]; then
@@ -152,7 +151,7 @@ disable_subscription_links() {
     crontab -l | grep -v "make_sublinks" | crontab -
 
         if [[ $? -ne 0 ]]; then
-            LOGI "  卸载 订阅源生成 插件失败.."
+            LOGE "  卸载 订阅源生成 插件失败.."
         else
             LOGI "  卸载 订阅源生成 插件成功 !!"
             LOGI "  Successfully removed !!"
@@ -166,7 +165,7 @@ disable_subscription_links() {
 
 }
 
-check_port_changer() {
+enable_disable_port_changer() {
     if crontab -l | grep -q 'port_changer.py'; then
         LOGI "  是否停止 定时更改端口 ? "
         read -p "port_changer is already running. Do you want to remove it? (y/n): " choice
@@ -215,7 +214,7 @@ disable_port_changer() {
 
     crontab -l | grep -v "port_changer" | crontab -
     if [[ $? -ne 0 ]]; then
-        LOGI "  卸载 port_changer 插件失败.."
+        LOGE "  卸载 port_changer 插件失败.."
     else
         LOGI "  卸载 port_changer 插件成功 !!"
         LOGI "  Successfully removed !!"
@@ -223,7 +222,8 @@ disable_port_changer() {
     sleep 1
 }
 
-check_data_usage_display() {
+
+enable_disable_data_usage_display() {
     if crontab -l | grep -q 'xuiplug_show_usage.py'; then
         LOGI "  是否关闭 节点用量显示 ? "
         read -p "Do you want to Disable Client_data_usase_display ? (y/n): " choice
@@ -283,6 +283,26 @@ disable_data_usage_display() {
 }
 
 
+
+
+create_inbounds_batch() {
+# 批量创建节点
+    version=$(check_xui_ver)
+    if [ "$version" = "3" ] ; then
+        echo -e "当前X-UI 版本为: ${green}MHsanaei/3x-ui${plain} "  
+        python3 /usr/local/x-ui/plugs/create_inbounds_batch3.py
+        
+    elif [ "$version" = "1" ] ; then
+        echo -e "当前X-UI 版本为: ${green}FranzKafkaYu/x-ui${plain} "  
+        python3 /usr/local/x-ui/plugs/create_inbounds_batch1.py
+        
+    elif [ "$version" = "0" ] ; then
+        echo -e "${red}无法识别版本!!${plain}"
+        python3 /usr/local/x-ui/plugs/create_inbounds_batch1.py
+    fi
+}
+
+
 #  创建subconverter 的 Docker 容器
 build_subconvsrv_container() {
     if docker ps -a --format '{{.Names}}' | grep -q 'subconvsrv'; then
@@ -301,31 +321,10 @@ build_subconvsrv_container() {
         fi
     fi
     
-    read -p "请输入映射25500端口的本地端口号: " p25500
+    read -p "请输入用于订阅服务的本地端口号: " p25500
 
     docker run -d --restart=always --name subconvsrv1 -p ${p25500}:25500 tindy2013/subconverter:latest
     echo -e "${green}http${red}s${green}://LOCALHOST:${p25500}/sub?target=clash&url=https%3A%2F%2F${plain}"
-}
-
-
-
-
-
-create_inbounds_batch() {
-# 批量创建节点
-    version=$(check_xui_ver)
-    if [ "$version" = "3" ] ; then
-        echo -e "当前X-UI 版本为: ${green}MHsanaei/3x-ui${plain} "  
-        python3 /usr/local/x-ui/plugs/create_inbounds_batch3.py
-        
-    elif [ "$version" = "1" ] ; then
-        echo -e "当前X-UI 版本为: ${green}FranzKafkaYu/x-ui${plain} "  
-        python3 /usr/local/x-ui/plugs/create_inbounds_batch1.py
-        
-    elif [ "$version" = "0" ] ; then
-        echo -e "${red}无法识别版本!!${plain}"
-        python3 /usr/local/x-ui/plugs/create_inbounds_batch1.py
-    fi
 }
 
 
@@ -379,23 +378,19 @@ show_menu() {
         ;;
     1)
         # 搭建/删除订阅服务器(Build/Remove subscription server)
-        check_install && check_subscription_server
+        check_install && build_remove_subscription_server
         #enable_subscription_links
         show_menu 
         ;;
     2)
         #启用/删除定时切换节点端口(Enable/Disable inbound port changer)
-        check_install && check_port_changer
-        #docker stop  `docker ps -a | grep xuisubsrv | awk '{print $1}'`
-        #docker rm  `docker ps -a | grep xuisubsrv | awk '{print $1}'`
-        #disable_subscription_links
-        
-        #sleep 1
+        check_install && enable_disable_port_changer
+
         show_menu 
         ;;
     3)
         #启用/删除客户端用量显示(Enable/Disable Client Usage Display)
-        check_install && check_data_usage_display
+        check_install && enable_disable_data_usage_display
         show_menu 
         ;;
     4)
@@ -451,6 +446,7 @@ show_menu() {
 }
 
 
+# 运行脚本的时候直接带 命令参数的代码
 if [[ $# > 0 ]]; then
     case $1 in
     "install")
