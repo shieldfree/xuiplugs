@@ -117,11 +117,12 @@ enable_subscription_links() {
             echo -e "${red}没有订阅服务器域名,未搭建订阅服务器! ${plain}"
             return
         fi
-        python3 "$py_make_sublinks" 
         if [ $? -eq 2 ]; then
             echo -e "${red}没有X-UI服务器信息,未搭建订阅服务器! ${plain}" 
             return
         fi
+        python3 "$py_make_sublinks" 
+
         
         crontab -l | grep -v "make_sublinks" | crontab -
         crontab -l >/tmp/crontabTask.tmp
