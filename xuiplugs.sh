@@ -351,14 +351,14 @@ build_npmsvr_container() {
 
         else
             echo -e "${red}取消创建操作.${plain}"
-            #exit 1
+            exit 1
         fi
     fi
     
 
     docker run -d --restart=always --name npmsvr215 -p 80:80 -p 443:443 -p 81:81  -v ./data:/data -v ./letsencrypt:/etc/letsencrypt cylim76/npm:latest
 
-    echo -e "${green}http://LOCALHOST:81${plain}"
+    echo -e "${green}后台登录网址： http://LOCALHOST:81${plain}"
     echo -e "${green}默认用户名(Username):admin@example.com${plain}"
     echo -e "${green}默认密码(Password):changeme${plain}"
     echo -e "${red} *** 登录后请务必修改默认用户名/密码 !!! *** ${plain}"
