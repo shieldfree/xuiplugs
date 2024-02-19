@@ -315,13 +315,13 @@ create_inbounds_batch() {
 
 #  创建subconverter 的 Docker 容器
 build_subconvsvr_container() {
-    if docker ps -a --format '{{.Names}}' | grep -q 'subconvsrv223'; then
+    if docker ps -a --format '{{.Names}}' | grep -q 'subconvsvr223'; then
         LOGE "  订阅转换服务器(Subconverter)已经创建过了,是否删除重建?"
         read -p "请确认 (y/n): " choice
         if [ "$choice" = "y" ]; then
             # 停止并删除容器
-            docker ps -a | grep 'subconvsrv223' | awk '{print $1}' | xargs docker stop
-            docker ps -a | grep 'subconvsrv223' | awk '{print $1}' | xargs docker rm
+            docker ps -a | grep 'subconvsvr223' | awk '{print $1}' | xargs docker stop
+            docker ps -a | grep 'subconvsvr223' | awk '{print $1}' | xargs docker rm
             LOGE "  订阅转换服务器(Subconverter)已经删除完毕 !!"
             LOGE "  The subconvsrv container has been stopped and deleted !!"
 
@@ -333,7 +333,7 @@ build_subconvsvr_container() {
     
     read -p "请输入用于订阅服务的本地端口号: " p25500
 
-    docker run -d --restart=always --name subconvsrv223 -p ${p25500}:25500 tindy2013/subconverter:latest
+    docker run -d --restart=always --name subconvsvr223 -p ${p25500}:25500 tindy2013/subconverter:latest
     echo -e "${green}http${red}s${green}://LOCALHOST:${p25500}/sub?target=clash&url=https%3A%2F%2F${plain}"
 }
 
