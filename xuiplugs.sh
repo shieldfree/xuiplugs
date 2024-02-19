@@ -334,6 +334,9 @@ build_subconvsvr_container() {
     read -p "请输入用于订阅服务的本地端口号: " p25500
 
     docker run -d --restart=always --name subconvsvr223 -p ${p25500}:25500 tindy2013/subconverter:latest
+
+
+    
     echo -e "${green}http${red}s${green}://LOCALHOST:${p25500}/sub?target=clash&url=https%3A%2F%2F${plain}"
 }
 
@@ -359,7 +362,9 @@ build_npmsvr_container() {
     
 
     docker run -d --restart=always --name npmsvr215 -p 80:80 -p 443:443 -p 81:81  -v ./data:/data -v ./letsencrypt:/etc/letsencrypt cylim76/npm:latest
-
+    #official full version
+    #docker run -d --restart=always --name npmsvr215 -p 80:80 -p 443:443 -p 81:81  -v ./data:/data -v ./letsencrypt:/etc/letsencrypt jc21/nginx-proxy-manager
+    
     echo -e "${green}后台登录网址： http://LOCALHOST:81${plain}"
     echo -e "${green}默认用户名(Username):admin@example.com${plain}"
     echo -e "${green}默认密码(Password):changeme${plain}"
