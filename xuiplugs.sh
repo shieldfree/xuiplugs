@@ -352,7 +352,8 @@ build_npmsvr_container() {
         else
             echo -e "${red}取消创建操作.${plain}"
             #exit 1
-            show_menu
+            return
+            #show_menu
         fi
     fi
     
