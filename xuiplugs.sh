@@ -314,14 +314,14 @@ create_inbounds_batch() {
 
 
 #  创建subconverter 的 Docker 容器
-build_subconvsrv_container() {
-    if docker ps -a --format '{{.Names}}' | grep -q 'subconvsrv'; then
+build_subconvsvr_container() {
+    if docker ps -a --format '{{.Names}}' | grep -q 'subconvsrv223'; then
         LOGE "  订阅转换服务器(Subconverter)已经创建过了,是否删除重建?"
         read -p "请确认 (y/n): " choice
         if [ "$choice" = "y" ]; then
             # 停止并删除容器
-            docker stop subconvsrv1
-            docker rm subconvsrv1
+            docker ps -a | grep 'subconvsrv223' | awk '{print $1}' | xargs docker stop
+            docker ps -a | grep 'subconvsrv223' | awk '{print $1}' | xargs docker rm
             LOGE "  订阅转换服务器(Subconverter)已经删除完毕 !!"
             LOGE "  The subconvsrv container has been stopped and deleted !!"
 
@@ -338,6 +338,31 @@ build_subconvsrv_container() {
 }
 
 
+build_npmsvr_container() {
+    if docker ps -a --format '{{.Names}}' | grep -q 'npmsvr215'; then
+        LOGE "  代理服务器(npmsvr)已经创建过了,是否删除重建?"
+        read -p "请确认 (y/n): " choice
+        if [ "$choice" = "y" ]; then
+            # 停止并删除容器
+            docker ps -a | grep 'npmsvr215' | awk '{print $1}' | xargs docker stop
+            docker ps -a | grep 'npmsvr215' | awk '{print $1}' | xargs docker rm
+            LOGE "  代理服务器(NPM)已经删除完毕 !!"
+            LOGE "  The Nginx Proxy Manager has been stopped and deleted !!"
+
+        else
+            echo -e "${red}取消创建操作.${plain}"
+            #exit 1
+        fi
+    fi
+    
+
+    docker run -d --restart=always --name npmsvr215 -p 80:80 -p 443:443 -p 81:81  -v ./data:/data -v ./letsencrypt:/etc/letsencrypt cylim76/npm:latest
+
+    echo -e "${green}http://LOCALHOST:81${plain}"
+    echo -e "${green}默认用户名(Username):admin@example.com${plain}"
+    echo -e "${green}默认密码(Password):changeme${plain}"
+    echo -e "${red} *** 登录后请无比修改用户名/密码 !!! *** ${plain}"
+}
 
 show_usage() {
     echo "  数据流量显示插件使用方法: "
@@ -424,12 +449,12 @@ show_menu() {
         ;;
     7)
         # 安装NPM 代理服务器
-        docker run -d --restart=always --name npmsrv215 -p 80:80 -p 443:443 -p 81:81  -v ./data:/data -v ./letsencrypt:/etc/letsencrypt cylim76/npm:latest
+        build_npmsvr_container
         sleep 2
         show_menu 
         ;;
     8)
-        build_subconvsrv_container
+        build_subconvsvr_container
         sleep 2
         show_menu 
         ;;
