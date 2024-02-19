@@ -361,7 +361,7 @@ build_npmsvr_container() {
     echo -e "${green}http://LOCALHOST:81${plain}"
     echo -e "${green}默认用户名(Username):admin@example.com${plain}"
     echo -e "${green}默认密码(Password):changeme${plain}"
-    echo -e "${red} *** 登录后请无比修改用户名/密码 !!! *** ${plain}"
+    echo -e "${red} *** 登录后请务必修改默认用户名/密码 !!! *** ${plain}"
 }
 
 show_usage() {
@@ -398,8 +398,8 @@ show_menu() {
     ${green} 4.${plain} 订阅/X-UI服务器管理(Subscription/X-UI Server Management)
     ${green} 5.${plain} 订阅链接管理(Manage Subscription Links)
     ${green} 6.${plain} ${green}批量添加${plain}节点(Create Multiple Inbounds)
-    ${green} 7.${plain} 安装${red}NPM${plain}代理服务器(Install NginX Proxy Manager)
-    ${green} 8.${plain} 创建订阅转换服务器（Build ${red}Subconverter${plain} Server)
+    ${green} 7.${plain} 创建${red}NPM${plain}代理服务器(Build ${red}NginX Proxy Manager${plain})
+    ${green} 8.${plain} 创建${red}订阅转换${plain}服务器（Build ${red}Subconverter${plain} Server)
     ${green} 9.${plain} inbound_config文件编辑
     ${green}10.${plain} X-UI服务器信息编辑
  —————————————————————————————————————————————————————————————————
