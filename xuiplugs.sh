@@ -333,7 +333,7 @@ build_subconvsvr_container() {
     
     read -p "请输入用于订阅服务的本地端口号: " p25500
 
-    docker run -d --restart=always --name subconvsrv1 -p ${p25500}:25500 tindy2013/subconverter:latest
+    docker run -d --restart=always --name subconvsrv223 -p ${p25500}:25500 tindy2013/subconverter:latest
     echo -e "${green}http${red}s${green}://LOCALHOST:${p25500}/sub?target=clash&url=https%3A%2F%2F${plain}"
 }
 
