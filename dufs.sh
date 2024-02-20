@@ -18,7 +18,10 @@ sed -i '/dufs220/d' /tmp/crontab_tmp
 crontab /tmp/crontab_tmp
 rm /tmp/crontab_tmp
 
-docker stop dufs220
+if docker ps -a --format '{{.Names}}' | grep -q "dufs200"; then
+    docker stop dufs220
+fi
+
 
 
 # 提取参数
@@ -37,3 +40,9 @@ docker run -d -v "$(pwd)/$folder:/data" -p 5000:5000 --rm --name dufs220 -it sig
 # 添加命令到 crontab
 (crontab -l ; echo "$target_time_str docker stop dufs220") | crontab -
 echo "Scheduled to remove container dufs220  at $(date -d "@$target_time")"
+
+public_ip=$(curl ifconfig.me)
+echo "You can share the files via link below within "
+echo "https://$public_ip:5000"
+echo "Username/Password: lg123"
+
