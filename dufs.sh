@@ -21,7 +21,7 @@ sed -i '/dufs220/d' /tmp/crontab_tmp
 crontab /tmp/crontab_tmp
 rm /tmp/crontab_tmp
 
-if docker ps -a --format '{{.Names}}' | grep -q "dufs200"; then
+if docker ps -a --format '{{.Names}}' | grep -q "dufs220"; then
     docker stop dufs220
     sleep 2
 fi
