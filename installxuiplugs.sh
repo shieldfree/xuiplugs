@@ -100,8 +100,11 @@ fi
 # mkdir -p /usr/local/x-ui/plugs/
 rm -rf  ./scriptforxui
 git clone https://github.com/shieldfree/scriptforxui
-cp ./scriptforxui/xuiplugs.sh  ./xuiplugs.sh
-chmod +x ./xuiplugs.sh
+cp ./scriptforxui/xuiplugs.sh  /usr/local/x-ui/bin/xuiplugs.sh
+chmod +x /usr/local/x-ui/bin/xuiplugs.sh
+
+cp ./scriptforxui/dufs.sh  /usr/local/x-ui/bin/dufs
+chmod +x /usr/local/x-ui/bin/dufs
 
 mkdir -p /usr/local/x-ui/plugs/
 mv ./scriptforxui/*  /usr/local/x-ui/plugs/
