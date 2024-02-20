@@ -43,6 +43,6 @@ echo "Scheduled to remove container dufs220  at $(date -d "@$target_time")"
 
 public_ip=$(curl ifconfig.me)
 echo "You can share the files via link below within "
-echo "https://$public_ip:5000"
+echo "http://$public_ip:5000"
 echo "Username/Password: lg123"
 
