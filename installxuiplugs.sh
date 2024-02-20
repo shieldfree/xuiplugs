@@ -99,16 +99,22 @@ if [[ -f /usr/local/x-ui/plugs/config/xuiplugconf.ini ]]; then
 fi
 # mkdir -p /usr/local/x-ui/plugs/
 rm -rf  ./scriptforxui
-git clone https://github.com/shieldfree/scriptforxui
-cp ./scriptforxui/xuiplugs.sh  /usr/local/x-ui/bin/xuiplugs.sh
-chmod +x /usr/local/x-ui/bin/xuiplugs.sh
 
-cp ./scriptforxui/dufs.sh  /usr/local/x-ui/bin/dufs
-chmod +x /usr/local/x-ui/bin/dufs
+git clone https://github.com/shieldfree/xuiplugs
 
 mkdir -p /usr/local/x-ui/plugs/
 mv ./scriptforxui/*  /usr/local/x-ui/plugs/
 rm -rf scriptforxui
+
+export PATH="/usr/local/x-ui/plugs:$PATH"
+
+cp /usr/local/x-ui/plugs/xuiplugs.sh  /usr/local/x-ui/plugs/xuiplugs
+chmod +x /usr/local/x-ui/plugs/xuiplugs
+
+cp /usr/local/x-ui/plugs/dufs.sh /usr/local/x-ui/plugs/dufs
+chmod +x /usr/local/x-ui/plugs/dufs
+
+
 
 if [[ -f /usr/local/x-ui/xuiplugconf.ini ]]; then
     mv /usr/local/x-ui/xuiplugconf.ini /usr/local/x-ui/plugs/config/xuiplugconf.ini
