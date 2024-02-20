@@ -23,6 +23,7 @@ rm /tmp/crontab_tmp
 
 if docker ps -a --format '{{.Names}}' | grep -q "dufs200"; then
     docker stop dufs220
+    sleep 2
 fi
 
 
