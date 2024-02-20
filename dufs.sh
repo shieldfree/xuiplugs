@@ -1,7 +1,10 @@
-
-
-
 #!/bin/bash
+
+red='\033[1;31m'
+green='\033[1;32m'
+yellow='\033[0;33m'
+plain='\033[0m'
+
 
 
 
@@ -41,8 +44,10 @@ docker run -d -v "$(pwd)/$folder:/data" -p 5000:5000 --rm --name dufs220 -it sig
 (crontab -l ; echo "$target_time_str docker stop dufs220") | crontab -
 echo "Scheduled to remove container dufs220  at $(date -d "@$target_time")"
 
+
+
 public_ip=$(curl ifconfig.me)
-echo "You can share the files via link below within "
-echo "http://$public_ip:5000"
-echo "Username/Password: lg123"
+echo -e "${green}You can share the files via link below within ${plain}"
+echo "${green}http://$public_ip:5000${plain}"
+echo "${red}Username/Password: lg123${plain}"
 
