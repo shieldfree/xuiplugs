@@ -106,7 +106,7 @@ mkdir -p /usr/local/x-ui/plugs/
 mv ./xuiplugs/*  /usr/local/x-ui/plugs/
 rm -rf xuiplugs
 
-export PATH="/usr/local/x-ui/plugs:$PATH"
+#export PATH="/usr/local/x-ui/plugs:$PATH"
 
 cp /usr/local/x-ui/plugs/xuiplugs.sh  /usr/local/bin/xuiplugs
 chmod +x /usr/local/bin/xuiplugs
