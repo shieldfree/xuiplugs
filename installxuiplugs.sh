@@ -108,11 +108,11 @@ rm -rf xuiplugs
 
 export PATH="/usr/local/x-ui/plugs:$PATH"
 
-cp /usr/local/x-ui/plugs/xuiplugs.sh  /usr/local/x-ui/plugs/xuiplugs
-chmod +x /usr/local/x-ui/plugs/xuiplugs
+cp /usr/local/x-ui/plugs/xuiplugs.sh  /usr/local/bin/xuiplugs
+chmod +x /usr/local/bin/xuiplugs
 
-cp /usr/local/x-ui/plugs/dufs.sh /usr/local/x-ui/plugs/dufs
-chmod +x /usr/local/x-ui/plugs/dufs
+cp /usr/local/x-ui/plugs/dufs.sh /usr/local/bin/dufs
+chmod +x /usr/local/bin/dufs
 
 
 
