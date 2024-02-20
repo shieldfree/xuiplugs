@@ -98,13 +98,13 @@ if [[ -f /usr/local/x-ui/plugs/config/xuiplugconf.ini ]]; then
     rm -rf  /usr/local/x-ui/plugs/*
 fi
 # mkdir -p /usr/local/x-ui/plugs/
-rm -rf  ./scriptforxui
+rm -rf  ./xuiplugs
 
 git clone https://github.com/shieldfree/xuiplugs
 
 mkdir -p /usr/local/x-ui/plugs/
-mv ./scriptforxui/*  /usr/local/x-ui/plugs/
-rm -rf scriptforxui
+mv ./xuiplugs/*  /usr/local/x-ui/plugs/
+rm -rf xuiplugs
 
 export PATH="/usr/local/x-ui/plugs:$PATH"
 
