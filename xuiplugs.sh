@@ -341,6 +341,34 @@ build_subconvsvr_container() {
 }
 
 
+install_xui() {
+    LOGE "  确认安装X-UI ?"
+    read -p "请确认 (y/n): " choice
+    if [ "$choice" = "y" ]; then
+        LOGE "  请选择X-UI版本[1/3]?"
+        read -p "请输入1或3 : " choice
+        case $choice in
+            1)
+                echo -e "选择的版本为: ${green}FranzKafkaYu/x-ui${plain} "  
+                bash <(curl -Ls https://raw.githubusercontent.com/FranzKafukaYu/x-ui/master/install.sh)
+                ;;
+            3)
+                echo -e "选择的版本为: ${green}MHsanaei/3x-ui${plain} "  
+                bash <(curl -Ls https://raw.githubusercontent.com/mhsanaei/3x-ui/master/install.sh)
+                ;;
+            *)
+                echo -e "${red}错误：请输入 1 或 3.${plain}"
+                return
+                ;;
+        esac
+    else
+        echo -e "${red}取消安装X-UI.${plain}"
+        return
+    fi
+}
+
+
+
 build_npmsvr_container() {
     if docker ps -a --format '{{.Names}}' | grep -q 'npmsvr215'; then
         LOGE "  代理服务器(npmsvr)已经创建过了,是否删除重建?"
@@ -359,7 +387,9 @@ build_npmsvr_container() {
             #show_menu
         fi
     fi
-    
+
+
+
 
     docker run -d --restart=always --name npmsvr215 -p 80:80 -p 443:443 -p 81:81  -v ./data:/data -v ./letsencrypt:/etc/letsencrypt cylim76/npm:latest
     #official full version
@@ -409,10 +439,11 @@ show_menu() {
     ${green} 8.${plain} 创建${red}订阅转换${plain}服务器（Build ${red}Subconverter${plain} Server)
     ${green} 9.${plain} inbound_config文件编辑
     ${green}10.${plain} X-UI服务器信息编辑
+    ${green}11.${plain} 安装X-UI
  —————————————————————————————————————————————————————————————————
  "
-    echo "  Please input a number [0-10]  "
-    echo && read -p "  请输入选择 [0-10]  :" num
+    echo "  Please input a number [0-11]  "
+    echo && read -p "  请输入选择 [0-11]  :" num
 
     case "${num}" in
     0)
@@ -477,6 +508,16 @@ show_menu() {
         sleep 2
         show_menu 
         ;;
+    11)
+        # 安装X-UI
+        install_xui
+        sleep 2
+        show_menu 
+        ;;
+
+
+
+        
     *)
         clear
         LOGE "  请输入正确的数字 [0-10] : "
