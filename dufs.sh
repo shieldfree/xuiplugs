@@ -49,6 +49,7 @@ echo "Scheduled to remove container dufs220  at $(date -d "@$target_time")"
 
 public_ip=$(curl ifconfig.me)
 echo -e "${green}You can share the files via link below within ${red}$minutes ${green}minute(s)${plain}"
-echo -e "${green}http://$public_ip:5000${plain}"
+#echo -e "${green}http://$public_ip:5000${plain}"
+echo -e "${green}https://cloud.tacdc.top{plain}"
 echo -e "${red}Username/Password: lg123${plain}"
 
