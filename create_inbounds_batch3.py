@@ -206,8 +206,8 @@ def add_new_inbounds(db,new_id,new_port,remark):
     stream_json['tlsSettings']['cipherSuites'] = ''
     stream_json['tlsSettings']['rejectUnknownSni'] = False
     stream_json['tlsSettings']['certificates'] = [{}]
-    stream_json['tlsSettings']['certificates'][0]['certificateFile'] = '/root/cert/fullchain.cer'
-    stream_json['tlsSettings']['certificates'][0]['keyFile'] = f'/root/cert/{domain}.key'
+    stream_json['tlsSettings']['certificates'][0]['certificateFile'] = '/root/cert/{domain}/fullchain.pem'
+    stream_json['tlsSettings']['certificates'][0]['keyFile'] = f'/root/cert/{domain}/privkey.pem'
     stream_json['tlsSettings']['certificates'][0]['ocspStapling'] = 3600
     stream_json['tlsSettings']['alpn'] = []
     stream_json['tlsSettings']['alpn'].append( 'h2')
@@ -333,6 +333,7 @@ if __name__ == '__main__':
     # gen_new_port_num()
     # print(port_list)
     # print('end')
+
 
 
 
