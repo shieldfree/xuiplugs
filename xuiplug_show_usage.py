@@ -14,7 +14,7 @@ import configparser
 from datetime import datetime
 import requests
 
-CONFIG_FILE = "./config/xuiplugconf.ini"
+CONFIG_FILE = "/usr/local/x-ui/plugs/config/xuiplugconf.ini"
 
 # ===== 读取配置 =====
 cfg = configparser.ConfigParser()
