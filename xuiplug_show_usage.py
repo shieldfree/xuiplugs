@@ -13,6 +13,7 @@ import json
 import configparser
 from datetime import datetime
 import requests
+import argparse
 
 CONFIG_FILE = "/usr/local/x-ui/plugs/config/xuiplugconf.ini"
 
@@ -79,11 +80,33 @@ def send_telegram(token, chat_id, text):
         return False
 
 # ===== 主逻辑 =====
+# 带测试参数的运行
+# python3 xuiplug_show_usage.py --test-telegram
+
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("db_path", nargs="?", default=None)
+    parser.add_argument("--test-telegram", action="store_true")
+    args = parser.parse_args()
+
+    test_mode = args.test_telegram
+
+        # ===== Telegram 测试模式 =====
+    if test_mode:
+        token, chat = get_telegram_config(cursor)
+
+        message = f"✅ Telegram 测试成功\n时间: {datetime.now()}\n节点数量: {len(inbounds)}"
+
+        if send_telegram(token, chat, message):
+            print("Test Telegram sent")
+        else:
+            print("Test Telegram failed")
+        return
+        
     if not ENABLED:
         return
 
-    db_path = sys.argv[1] if len(sys.argv) > 1 else DEFAULT_DB
+    db_path = args.db_path if args.db_path else DEFAULT_DB
     if not os.path.exists(db_path):
         print(f"DB not found: {db_path}")
         return
