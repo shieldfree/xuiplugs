@@ -92,17 +92,7 @@ def main():
 
     test_mode = args.test_telegram
 
-        # ===== Telegram 测试模式 =====
-    if test_mode:
-        token, chat = get_telegram_config(cursor)
 
-        message = f"✅ Telegram 测试成功\n时间: {datetime.now()}\n节点数量: {len(inbounds)}"
-
-        if send_telegram(token, chat, message):
-            print("Test Telegram sent")
-        else:
-            print("Test Telegram failed")
-        return
         
     if not ENABLED:
         return
@@ -118,6 +108,18 @@ def main():
     inbounds = cursor.execute(
         "SELECT id, remark, up, down, total FROM inbounds"
     ).fetchall()
+
+        # ===== Telegram 测试模式 =====
+    if test_mode:
+        token, chat = get_telegram_config(cursor)
+
+        message = f"✅ Telegram 测试成功\n时间: {datetime.now()}\n节点数量: {len(inbounds)}"
+
+        if send_telegram(token, chat, message):
+            print("Test Telegram sent")
+        else:
+            print("Test Telegram failed")
+        return
 
     summary_lines = []
     updated = 0
