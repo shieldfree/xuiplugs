@@ -114,6 +114,9 @@ def main():
         token, chat = get_telegram_config(cursor)
 
         message = f"✅ Telegram 测试成功\n时间: {datetime.now()}\n节点数量: {len(inbounds)}"
+# 拼接所有 inbound 的 remark
+        message_lines = [f"{r[1]}" for r in inbounds]  # r[1] 是 remark
+        message = TG_TITLE + "\n\n" + "\n".join(message_lines)
 
         if send_telegram(token, chat, message):
             print("Test Telegram sent")
