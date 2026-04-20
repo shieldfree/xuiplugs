@@ -112,9 +112,9 @@ def main():
             remain_mb = max(total_mb - used_mb, 0)
             remain = format_size(remain_mb)
 
-            new_remark = f"{base}_◔{used}◕{remain}"
+            new_remark = f"{base}_{timestamp}_◔{used}◕{remain}"
         else:
-            new_remark = f"{base}_◔{used}"
+            new_remark = f"{base}_{timestamp}_◔{used}"
 
         summary_lines.append(new_remark)
 
