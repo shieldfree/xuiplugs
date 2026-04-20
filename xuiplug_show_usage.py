@@ -15,7 +15,8 @@ from datetime import datetime
 import requests
 import argparse
 
-CONFIG_FILE = "/usr/local/x-ui/plugs/config/xuiplugconf.ini"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+CONFIG_FILE = os.path.join(BASE_DIR, "config/xuiplugconf.ini")
 
 # ===== 读取配置 =====
 cfg = configparser.ConfigParser()
