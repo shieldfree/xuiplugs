@@ -90,13 +90,27 @@ install_base() {
 
 
 install_base
+#!/bin/bash
 
-if [[ -f /usr/local/x-ui/plugs/config/xuiplugconf.ini ]]; then
-    LOGI "  正在备份设置文件。。" 
-    cp /usr/local/x-ui/plugs/config/xuiplugconf.ini  /usr/local/x-ui/xuiplugconf.ini
-    cp /usr/local/x-ui/plugs/config/subscription.ini  /usr/local/x-ui/subscription.ini
-    rm -rf  /usr/local/x-ui/plugs/*
+# 提示用户是否执行备份还原操作
+read -p "是否执行设置文件备份还原操作？[Y/n] " yn
+yn=${yn:-Y}  # 默认 Y
+
+if [[ "$yn" =~ ^[Yy]$ ]]; then
+    LOGI "  正在备份设置文件。。"
+    cp /usr/local/x-ui/plugs/config/xuiplugconf.ini /usr/local/x-ui/xuiplugconf.ini
+    cp /usr/local/x-ui/plugs/config/subscription.ini /usr/local/x-ui/subscription.ini
+    rm -rf /usr/local/x-ui/plugs/*
+else
+    LOGI "  已选择不执行备份还原操作，跳过。。"
 fi
+
+#if [[ -f /usr/local/x-ui/plugs/config/xuiplugconf.ini ]]; then
+#    LOGI "  正在备份设置文件。。" 
+#    cp /usr/local/x-ui/plugs/config/xuiplugconf.ini  /usr/local/x-ui/xuiplugconf.ini
+#    cp /usr/local/x-ui/plugs/config/subscription.ini  /usr/local/x-ui/subscription.ini
+#    rm -rf  /usr/local/x-ui/plugs/*
+#fi
 # mkdir -p /usr/local/x-ui/plugs/
 rm -rf  ./xuiplugs
 
@@ -107,6 +121,7 @@ mv ./xuiplugs/*  /usr/local/x-ui/plugs/
 rm -rf xuiplugs
 
 #export PATH="/usr/local/x-ui/plugs:$PATH"
+export PATH=$PATH:/usr/local/x-ui/plugs
 
 cp /usr/local/x-ui/plugs/xuiplugs.sh  /usr/local/bin/xuiplugs
 chmod +x /usr/local/bin/xuiplugs
