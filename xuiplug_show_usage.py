@@ -104,6 +104,8 @@ def main():
         used = format_size(used_mb)
 
         base = remark.split("_◔")[0]
+        base = base.split("_")[0]  # 防止旧时间残留
+        timestamp = datetime.now().strftime("%d%H%M")
 
         if total != 0:
             total_mb = total / 1024 / 1024
